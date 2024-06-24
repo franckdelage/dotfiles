@@ -1,0 +1,12 @@
+# /Users/franckdelage/.config/tmuxinator/dotfiles.yml
+
+name: dotfiles
+root: ~/dotfiles
+
+windows:
+  - main:
+      panes:
+        - vim
+  - whatever:
+      panes:
+        - clear
