@@ -1,0 +1,21 @@
+# /Users/franckdelage/.config/tmuxinator/timercor.yml
+
+name: aviato-workspace
+root: ~/code/telespazio/timer_cor_client
+
+windows:
+  - main:
+      panes:
+        - vim
+  - test:
+      panes:
+        - clear
+  - server:
+      panes:
+        - clear && yarn ng serve
+  - e2e:
+      panes:
+        - clear
+  - whatever:
+      panes:
+        - clear

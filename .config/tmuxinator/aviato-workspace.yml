@@ -1,0 +1,24 @@
+# /Users/franckdelage/.config/tmuxinator/aviato-workspace.yml
+
+name: aviato-workspace
+root: ~/Developer/aviato-workspace
+
+windows:
+  - main:
+      panes:
+        - vim
+  - test:
+      panes:
+        - clear
+  - servers:
+      layout: 9834,318x83,0,0{235x83,0,0,23,82x83,236,0[82x43,236,0,26,82x39,236,44,27]}
+      panes:
+        - clear && yarn nx run touchpoint-web:serve
+        - clear && yarn nx run gql:serve:ute3
+        - clear && yarn nx run server-web:serve:ute3
+  - e2e:
+      panes:
+        - clear
+  - whatever:
+      panes:
+        - clear

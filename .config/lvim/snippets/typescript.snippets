@@ -1,0 +1,109 @@
+snippet im "Typescript import statement"
+  import { ${2:thing} } from '${1:file}';$0
+
+snippet imb "Typescript import block statement" b
+	import {
+		${2:things}
+	} from '${1:file}';$0
+
+snippet imas "Typescript import as statement" b
+	import ${2:thing} as ${3:name} from '${1:file}';$0
+
+snippet prop "Typescript class property" b
+	${1:name}: ${2:type}${3: = ${4:value}};$0
+
+snippet input "Typescript component input" b
+	@Input() ${1:name}: ${2:type}$3;$0
+
+snippet output "Typescript component output" b
+	@Output() ${1:name} = new EventEmitter<${2:type}>();$0
+
+snippet it "Typescript spec it example" b
+	it('${1:description}', () => {
+		$0
+	});
+
+snippet ita "Typescript spec it async example" b
+	it('${1:description}', async () => {
+		$0
+	});
+
+snippet itf "Typescript spec it fakeAsync example" b
+	it('${1:description}', fakeAsync(() => {
+		$0
+	}));
+
+snippet itin "Typescript spec it with inject example" b
+	it('${1:description}',
+		inject([${2:injections}],
+			(${3:params}) => {
+				$0
+	}));
+
+snippet desc "Typescript spec describe statement" br
+	${1:describe}('${2:description}', () => {
+		${3:${VISUAL}}
+	});$0
+
+snippet expect "Typescript spec expect statement" b
+	expect(${1:this}).${2:matcher};$0
+
+snippet model "Typescript model class"
+	class ${1:Model} {
+		${2:properties}
+
+		constructor(obj?: any) {
+			$0
+		}
+	}
+
+snippet modc "Typescript model constructor" b
+	this.${1:prop} = obj && obj.$1 || ${2:null};$0
+
+snippet fixc "Typescript fixture function property" b
+	${1:prop}: obj && obj.$1 || ${2:chance.}$0
+
+snippet if "create if or wrap in if condition"
+	if (${1:condition}) {
+		${2:${VISUAL:actions}}
+	}$0
+
+snippet ifi "create oneline if or wrap in oneline if condition"
+	if (${1:condition}) { ${2:${VISUAL:actions}} }$0
+
+snippet log "Use logger service" b
+	this.logger.${1:red}('${2:text}', ${3:object});$0
+
+snippet bef "Cypress before" b
+	${1:before}${2:Each}(() => {
+		${3:${VISUAL:actions}}
+	});$0
+
+snippet cywi "Cypress within statement" b
+	cy.${1:get}('${2:element}').within((${3:arg}) => {
+		${4:${VISUAL:actions}}
+	});$0
+
+snippet cyinfix "Cypress act in a fixture" b
+	cy.get('@${1:fixtureAlias}').then((${2:$1}) => {
+		const ${3: constName}: ${4:modelName} = ($1 as unknown as $4[])[${5:index}];
+		${6:${VISUAL:actions}}$0
+	});
+
+snippet tsdis "tslint disable" b
+	/* tslint:${1:disable}${2:-next-line}:${3:max-line-length} */$0
+
+snippet clo "Console log"
+	console.log('${1:text}', ${2:what});$0
+
+snippet unsub "Unsubscription to observable" b
+	if (${1:subscription}) { $1.unsubscribe(); }
+
+snippet doc "Adds JS Doc" b
+	/**
+	 * ${1:@ignore}$0
+	 *
+	 */
+
+snippet esd "Eslint disable" b
+	// eslint-disable${1:-next-line} ${2: rule}$0

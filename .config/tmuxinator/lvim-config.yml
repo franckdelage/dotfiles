@@ -1,0 +1,12 @@
+# /Users/franckdelage/.config/tmuxinator/lvim-config.yml
+
+name: lvim-config
+root: ~/Drive/DevTools/neovim/lunarvim
+
+windows:
+  - main:
+      panes:
+        - vim
+  - whatever:
+      panes:
+        - clear

@@ -1,0 +1,9 @@
+# /Users/franckdelage/.config/tmuxinator/nvim-config.yml
+
+name: nvim-config
+root: ~/.config/nvim-modern
+
+windows:
+  - main:
+      panes:
+        - vim
