@@ -48,7 +48,7 @@ windows:
   - main:
       layout: even-horizontal
       panes:
-        - ranger
+        - yazi
         - clear
   - bpytop:
       panes: 
