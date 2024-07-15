@@ -297,7 +297,7 @@ require 'lspconfig'.graphql.setup {
 
 require("dap").configurations["typescript"] = {
   {
-    type = "pwa-chrome",
+    type = "chrome",
     name = "Attach - Remote Debugging",
     request = "attach",
     program = "${file}",
@@ -308,7 +308,7 @@ require("dap").configurations["typescript"] = {
     webRoot = "${workspaceFolder}",
   },
   {
-    type = "pwa-chrome",
+    type = "chrome",
     name = "Launch Chrome",
     request = "launch",
     url = "https://localhost.airfrance.fr/en",
@@ -528,13 +528,13 @@ lvim.plugins = {
       end,
     },
     config = function()
-      require("dap-vscode-js").setup({
+      require("harpoon").setup({
         global_settings = {
           save_on_toggle = false,
           save_on_change = true,
           enter_on_sendcmd = false,
           excluded_filetypes = { "harpoon" },
-          mark_branch = true,
+          mark_branch = false,
         },
       })
     end,
@@ -807,5 +807,24 @@ lvim.plugins = {
     ft = { "markdown" },
     build = function() vim.fn["mkdp#util#install"]() end,
   },
+
+  -- lazy.nvim:
+  {
+    "smoka7/multicursors.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      'nvimtools/hydra.nvim',
+    },
+    opts = {},
+    cmd = { 'MCstart', 'MCvisual', 'MCclear', 'MCpattern', 'MCvisualPattern', 'MCunderCursor' },
+    keys = {
+      {
+        mode = { 'v', 'n' },
+        '<Leader>m',
+        '<cmd>MCstart<cr>',
+        desc = 'Create a selection for selected text or word under the cursor',
+      },
+    },
+  }
 
 }
