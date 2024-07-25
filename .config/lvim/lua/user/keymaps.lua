@@ -11,8 +11,8 @@ M.config = function ()
   lvim.lsp.buffer_mappings.normal_mode["gl"] = { "<cmd>Lspsaga diagnostic_jump_next<cr>", "Next diagnostic" }
   lvim.lsp.buffer_mappings.normal_mode["gL"] = { "<cmd>Lspsaga diagnostic_jump_prev<cr>", "Next diagnostic" }
 
-  lvim.lsp.buffer_mappings.normal_mode["gj"] = { function() require("flash").jump() end, "Flash" }
-  lvim.lsp.buffer_mappings.normal_mode["<leader>,"] = { function() require("flash").jump() end, "Flash" }
+  lvim.lsp.buffer_mappings.normal_mode["gj"] = { function() require("lua.user.plugins_config.flash").jump() end, "Flash" }
+  lvim.lsp.buffer_mappings.normal_mode["<leader>,"] = { function() require("lua.user.plugins_config.flash").jump() end, "Flash" }
 
   vim.keymap.set("n", "-", "<cmd>Oil<cr>", { desc = "Open parent directory" })
 
@@ -97,10 +97,10 @@ M.config = function ()
 
   lvim.builtin.which_key.mappings["a"] = {
     name = "Flash and Aerial",
-    s = { function() require("flash").jump() end, "Flash jump" },
-    t = { function() require("flash").treesitter() end, "Flash Treesitter" },
-    r = { function() require("flash").treesitter_search() end, "Flash Treesitter Search" },
-    e = { function() require("flash").treesitter_search() end, "Flash Remote" },
+    s = { function() require("lua.user.plugins_config.flash").jump() end, "Flash jump" },
+    t = { function() require("lua.user.plugins_config.flash").treesitter() end, "Flash Treesitter" },
+    r = { function() require("lua.user.plugins_config.flash").treesitter_search() end, "Flash Treesitter Search" },
+    e = { function() require("lua.user.plugins_config.flash").treesitter_search() end, "Flash Remote" },
     a = { "<cmd>AerialToggle<cr>", "Aerial Toggle" },
   }
 
