@@ -20,6 +20,10 @@ M.config = function ()
     "<cmd>Git<cr>", "Fugitive"
   }
 
+  lvim.builtin.which_key.mappings["gb"] = {
+    "<cmd>Git blame<cr>", "Blame all file"
+  }
+
   -- LSP
   lvim.builtin.which_key.mappings["lm"] = {
     "<cmd>TSToolsAddMissingImports<cr>", "Missing Imports"
