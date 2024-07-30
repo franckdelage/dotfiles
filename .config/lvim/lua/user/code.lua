@@ -5,7 +5,7 @@ M.config = function ()
   linters.setup {
     {
       name = "eslint_d",
-      filetypes = { "typescript", "javascript", "html" }
+      filetypes = { "typescript", "javascript", "html", "htmlangular" }
     },
     { name = "stylelint" },
   }
@@ -14,7 +14,7 @@ M.config = function ()
   code_actions.setup {
     {
       name = "eslint_d",
-      filetypes = { "typescript", "javascript", "html" }
+      filetypes = { "typescript", "javascript", "html", "htmlangular" }
     },
   }
 

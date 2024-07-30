@@ -4,6 +4,12 @@ M.config = function ()
   vim.g['test#javascript#runner'] = 'nx'
   vim.g['test#strategy'] = 'floaterm'
 
+  vim.filetype.add({
+    pattern = {
+      [".*%.component%.html"] = "html",
+    },
+  })
+
   require("lvim.lsp.manager").setup("angularls")
   local util = require('lspconfig.util')
 
