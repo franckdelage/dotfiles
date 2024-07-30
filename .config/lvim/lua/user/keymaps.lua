@@ -101,10 +101,10 @@ M.config = function ()
 
   lvim.builtin.which_key.mappings["a"] = {
     name = "Flash and Aerial",
-    s = { function() require("lua.user.plugins_config.flash").jump() end, "Flash jump" },
-    t = { function() require("lua.user.plugins_config.flash").treesitter() end, "Flash Treesitter" },
-    r = { function() require("lua.user.plugins_config.flash").treesitter_search() end, "Flash Treesitter Search" },
-    e = { function() require("lua.user.plugins_config.flash").treesitter_search() end, "Flash Remote" },
+    s = { function() require("flash").jump() end, "Flash jump" },
+    t = { function() require("flash").treesitter() end, "Flash Treesitter" },
+    r = { function() require("flash").treesitter_search() end, "Flash Treesitter Search" },
+    e = { function() require("flash").remote() end, "Flash Remote" },
     a = { "<cmd>AerialToggle<cr>", "Aerial Toggle" },
   }
 
