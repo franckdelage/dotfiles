@@ -20,7 +20,7 @@ M.config = function ()
     "<cmd>Git<cr>", "Fugitive"
   }
 
-  lvim.builtin.which_key.mappings["gb"] = {
+  lvim.builtin.which_key.mappings["ga"] = {
     "<cmd>Git blame<cr>", "Blame all file"
   }
 
