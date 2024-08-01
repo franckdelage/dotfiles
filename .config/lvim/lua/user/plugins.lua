@@ -17,6 +17,7 @@ M.config = function ()
     "MattesGroeger/vim-bookmarks",
     "arcticicestudio/nord-vim",
     "junegunn/fzf",
+    "fladson/vim-kitty",
 
     {
       "tpope/vim-fugitive",

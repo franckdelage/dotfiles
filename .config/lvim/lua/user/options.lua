@@ -23,6 +23,8 @@ M.config = function ()
   lvim.builtin.nvimtree.setup.view.width = 50
 
   lvim.builtin.indentlines.options.show_current_context = false
+
+  lvim.transparent_window = true
 end
 
 return M

@@ -8,12 +8,25 @@ local config = wezterm.config_builder()
 config.font = wezterm.font("JetBrainsMono Nerd Font Mono")
 config.font_size = 13
 
-config.enable_tab_bar = false
+config.hide_tab_bar_if_only_one_tab = true
 
 config.window_decorations = "RESIZE"
 
--- For example, changing the color scheme:
-config.color_scheme = 'Catppuccin Frappe'
+config.window_background_opacity = 0.96
+-- config.macos_window_background_blur = 10
+
+local my_catppucin = wezterm.color.get_builtin_schemes()['Catppuccin Frappe']
+my_catppucin.cursor_bg = 'magenta'
+my_catppucin.cursor_border = 'magenta'
+my_catppucin.cursor_fg = 'white'
+my_catppucin.selection_fg = 'mediumorchid'
+
+config.color_schemes = {
+  ['My Catppuccin'] = my_catppucin,
+}
+config.color_scheme = 'My Catppuccin'
+
+config.default_cursor_style = 'BlinkingBlock'
 
 -- and finally, return the configuration to wezterm
 return config

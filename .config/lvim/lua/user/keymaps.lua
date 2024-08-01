@@ -24,6 +24,10 @@ M.config = function ()
     "<cmd>Git blame<cr>", "Blame all file"
   }
 
+  lvim.builtin.which_key.mappings["Lw"] = {
+    "<cmd>tabe ~/dotfiles/.wezterm.lua<cr>", "Wezterm Config"
+  }
+
   -- LSP
   lvim.builtin.which_key.mappings["lm"] = {
     "<cmd>TSToolsAddMissingImports<cr>", "Missing Imports"
