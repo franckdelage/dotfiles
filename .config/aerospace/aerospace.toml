@@ -125,7 +125,7 @@ ctrl-alt-shift-t = 'workspace T'
 ctrl-alt-shift-v = 'workspace V'
 ctrl-alt-shift-w = 'workspace W'
 ctrl-alt-shift-z = 'workspace Z'
-alt-space = 'workspace Z'
+alt-space = 'workspace W'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 alt-shift-1 = 'move-node-to-workspace 1'
@@ -151,6 +151,9 @@ alt-tab = 'workspace-back-and-forth'
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
 alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
+cmd-h = [] # Disable "hide application"
+cmd-alt-h = [] # Disable "hide others"
+
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
 # semicolon is m on azerty
 alt-shift-semicolon = 'mode service'
@@ -169,12 +172,18 @@ f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling
 # alt-shift-k = ['join-with up', 'mode main']
 # alt-shift-l = ['join-with right', 'mode main']
 
+[key-mapping.key-notation-to-key-code]
+z = 'w'
+w = 'z'
+
 [workspace-to-monitor-force-assignment]
-Z = 'secondary'
+W = 'secondary'
+D = 'secondary'
+B = 'secondary'
 
 [[on-window-detected]]
 if.app-id = 'com.github.wez.wezterm'
-run = 'move-node-to-workspace Z'
+run = 'move-node-to-workspace W'
 
 [[on-window-detected]]
 if.app-id = 'com.google.Chrome'
@@ -191,3 +200,7 @@ run = 'move-node-to-workspace T'
 [[on-window-detected]]
 if.app-id = 'com.microsoft.Outlook'
 run = 'move-node-to-workspace O'
+
+[[on-window-detected]]
+if.app-id = 'com.usebruno.app'
+run = 'move-node-to-workspace B'
