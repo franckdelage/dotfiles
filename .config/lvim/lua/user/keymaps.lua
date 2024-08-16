@@ -97,10 +97,9 @@ M.config = function ()
     C = { "<cmd>Telescope commands<cr>", "Commands" },
     l = { "<cmd>Telescope resume<cr>", "Resume last search" },
     s = { "<cmd>Telescope possession list<cr>", "Sessions" },
-    p = {
-      "<cmd>lua require('telescope.builtin').colorscheme({enable_preview = true})<cr>",
-      "Colorscheme with Preview",
-    },
+    q = { "<cmd>Telescope quickfix<cr>", "QuickFix" },
+    Q = { "<cmd>Telescope quickfixhistory<cr>", "QuickFix History" },
+    p = { "<cmd>lua require('telescope.builtin').colorscheme({enable_preview = true})<cr>", "Colorscheme with Preview" },
   }
 
   lvim.builtin.which_key.mappings["a"] = {

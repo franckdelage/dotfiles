@@ -33,7 +33,7 @@ alias gqlstart='HTTPS_PROXY=http://localhost:8080 NODE_TLS_REJECT_UNAUTHORIZED=0
 alias serverstart='yarn nx run touchpoint-web:server:ute3'
 
 alias gqlstartute2='HTTPS_PROXY=http://localhost:8080 NODE_TLS_REJECT_UNAUTHORIZED=0 FEATURE_ENV=localhost yarn nx run gql:serve:ute2'
-alias serverstartute2='yarn nx run server-web:serve:ute2'
+alias serverstartute2='yarn nx run touchpoint-web:server:ute2'
 
 alias introspect='(cd apps/gql && yarn graphql:introspect)'
 

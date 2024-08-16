@@ -1,6 +1,10 @@
 local M = {}
 
 M.config = function ()
+  require("notify").setup({
+    background_colour = "#363a4e",
+  })
+
   require("noice").setup({
     lsp = {
       -- override markdown rendering so that **cmp** and other plugins use **Treesitter**

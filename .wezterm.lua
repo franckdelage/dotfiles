@@ -12,14 +12,13 @@ config.hide_tab_bar_if_only_one_tab = true
 
 config.window_decorations = "RESIZE"
 
-config.window_background_opacity = 0.96
+config.window_background_opacity = 0.83
 -- config.macos_window_background_blur = 10
 
 local my_catppucin = wezterm.color.get_builtin_schemes()['Catppuccin Frappe']
 my_catppucin.cursor_bg = 'magenta'
 my_catppucin.cursor_border = 'magenta'
 my_catppucin.cursor_fg = 'white'
-my_catppucin.selection_fg = 'mediumorchid'
 
 config.color_schemes = {
   ['My Catppuccin'] = my_catppucin,
