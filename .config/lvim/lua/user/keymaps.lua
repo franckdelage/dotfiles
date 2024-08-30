@@ -29,14 +29,36 @@ M.config = function ()
   }
 
   -- LSP
-  lvim.builtin.which_key.mappings["lm"] = {
-    "<cmd>TSToolsAddMissingImports<cr>", "Missing Imports"
-  }
-  lvim.builtin.which_key.mappings["lu"] = {
-    "<cmd>Telescope lsp_references<cr>", "References"
-  }
-  lvim.builtin.which_key.mappings["lx"] = {
-    "<cmd>TSToolsRemoveUnusedImports<cr>", "Unused Imports"
+  lvim.builtin.which_key.mappings["l"] = {
+    name = "LSP",
+    a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
+    d = { "<cmd>Telescope diagnostics bufnr=0 theme=get_ivy<cr>", "Buffer Diagnostics" },
+    w = { "<cmd>Telescope diagnostics<cr>", "Diagnostics" },
+    f = { "<cmd>lua require('lvim.lsp.utils').format()<cr>", "Format" },
+    i = { "<cmd>LspInfo<cr>", "Info" },
+    I = { "<cmd>Mason<cr>", "Mason Info" },
+    j = {
+      "<cmd>lua vim.diagnostic.goto_next()<cr>",
+      "Next Diagnostic",
+    },
+    k = {
+      "<cmd>lua vim.diagnostic.goto_prev()<cr>",
+      "Prev Diagnostic",
+    },
+    l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
+    q = { "<cmd>lua vim.diagnostic.setloclist()<cr>", "Quickfix" },
+    r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
+    s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
+    S = {
+      "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
+      "Workspace Symbols",
+    },
+    e = { "<cmd>Telescope quickfix<cr>", "Telescope Quickfix" },
+    u = { "<cmd>Telescope lsp_references<cr>", "References" },
+    m = { "<cmd>TSToolsAddMissingImports<cr>", "Missing Imports" },
+    x = { "<cmd>TSToolsRemoveUnusedImports<cr>", "Unused Imports" },
+    c = { function() require("lint").try_lint() end, "Trigger Nvim linting" },
+    y = { function() require("conform").format({ lsp_fallback = true, async = false, timeout_ms = 500 }) end, "Conform" }
   }
 
   lvim.builtin.which_key.mappings["bx"] = {

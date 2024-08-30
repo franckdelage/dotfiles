@@ -266,7 +266,17 @@ M.config = function ()
           desc = 'Create a selection for selected text or word under the cursor',
         },
       },
-    }
+    },
+
+    {
+      "mfussenegger/nvim-lint",
+      event = { "BufReadPre", "BufNewFile" },
+    },
+
+    {
+      "stevearc/conform.nvim",
+      event = { "BufReadPre", "BufNewFile" },
+    },
 
   }
 end
