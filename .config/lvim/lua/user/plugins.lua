@@ -2,7 +2,7 @@ local M = {}
 
 M.config = function ()
   lvim.plugins = {
-    "nvim-treesitter/nvim-treesitter-angular",
+    -- "nvim-treesitter/nvim-treesitter-angular",
 
     "tpope/vim-projectionist",
     "tpope/vim-abolish",

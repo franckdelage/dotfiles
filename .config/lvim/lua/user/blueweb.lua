@@ -6,7 +6,7 @@ M.config = function ()
 
   vim.filetype.add({
     pattern = {
-      [".*%.component%.html"] = "html",
+      [".*%.component%.html"] = "htmlangular",
     },
   })
 
@@ -21,12 +21,15 @@ M.config = function ()
   require 'lspconfig'.angularls.setup {
     cmd = cmd,
     root_dir = util.root_pattern('angular.json', 'nx.json'),
+    filetypes = { 'typescript', 'html', 'htmlangular' },
     on_new_config = function(new_config)
-      new_config.cmd = cmd
+     new_config.cmd = cmd
     end,
   }
 
-  require("lspconfig").emmet_language_server.setup({})
+  require("lspconfig").emmet_language_server.setup({
+    filetypes = { 'html', 'htmlangular', 'css', 'scss', 'sass' },
+  })
 
   require("lvim.lsp.manager").setup("graphql-lsp")
   require 'lspconfig'.graphql.setup {

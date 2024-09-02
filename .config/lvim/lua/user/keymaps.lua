@@ -34,7 +34,8 @@ M.config = function ()
     a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
     d = { "<cmd>Telescope diagnostics bufnr=0 theme=get_ivy<cr>", "Buffer Diagnostics" },
     w = { "<cmd>Telescope diagnostics<cr>", "Diagnostics" },
-    f = { "<cmd>lua require('lvim.lsp.utils').format()<cr>", "Format" },
+    -- f = { "<cmd>lua require('lvim.lsp.utils').format()<cr>", "Format" },
+    f = { function() require("conform").format({}) end, "Format" },
     i = { "<cmd>LspInfo<cr>", "Info" },
     I = { "<cmd>Mason<cr>", "Mason Info" },
     j = {
@@ -58,7 +59,6 @@ M.config = function ()
     m = { "<cmd>TSToolsAddMissingImports<cr>", "Missing Imports" },
     x = { "<cmd>TSToolsRemoveUnusedImports<cr>", "Unused Imports" },
     c = { function() require("lint").try_lint() end, "Trigger Nvim linting" },
-    y = { function() require("conform").format({ lsp_fallback = true, async = false, timeout_ms = 500 }) end, "Conform" }
   }
 
   lvim.builtin.which_key.mappings["bx"] = {
@@ -95,6 +95,7 @@ M.config = function ()
     E = { "<cmd>Lspsaga diagnostic_jump_prev<cr>", "Diagnostic Previous" },
     t = { "<cmd>Lspsaga term_toggle<cr>", "Terminal" },
     r = { "<cmd>Lspsaga rename<cr>", "Rename symbol" },
+    f = { "<cmd>Lspsaga finder<cr>", "Finder" },
   }
 
   lvim.builtin.which_key.mappings["f"] = {
