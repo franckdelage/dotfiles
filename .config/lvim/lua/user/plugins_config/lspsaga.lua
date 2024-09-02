@@ -1,6 +1,6 @@
 local M = {}
 
-M.config = function ()
+M.config = function()
   require('lspsaga').setup({
     definition = {
       width = 0.8,
@@ -13,6 +13,15 @@ M.config = function ()
     lightbulb = {
       enable = false,
     },
+    finder = {
+      max_height = 0.7,
+      default = 'ref+imp+def',
+      keys = {
+        vsplit = 'v',
+        split = 'h',
+        shuttle = ']w'
+      }
+    }
   })
 end
 
