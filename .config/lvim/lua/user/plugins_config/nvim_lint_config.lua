@@ -10,6 +10,7 @@ M.config = function ()
     htmlangular = { "eslint_d" },
     css = { "stylelint" },
     scss = { "stylelint" },
+    json = { "jsonlint" },
   }
 
   local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
