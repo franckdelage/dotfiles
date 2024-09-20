@@ -16,6 +16,10 @@ M.config = function ()
 
   vim.keymap.set("n", "-", "<cmd>Oil<cr>", { desc = "Open parent directory" })
 
+  lvim.builtin.which_key.mappings[";"] = {
+    "<cmd>checkt<cr>", "Checktime"
+  }
+
   lvim.builtin.which_key.mappings["gf"] = {
     "<cmd>Git<cr>", "Fugitive"
   }
@@ -65,6 +69,10 @@ M.config = function ()
     "<cmd>BufferLineCloseOthers<cr>", "Close others"
   }
 
+  lvim.builtin.which_key.mappings["bp"] = {
+    "<cmd>BufferLineTogglePin<cr>", "Toggle Pin"
+  }
+
   lvim.builtin.which_key.mappings["v"] = {
     name = "Projectionist",
     t = { "<cmd>Vtemplate<cr>", "Template" },
@@ -102,13 +110,11 @@ M.config = function ()
     "<cmd>lua require('telescope').extensions.menufacture.git_files()<cr>", "Switch branch"
   }
 
+  -- Telescope
   lvim.builtin.which_key.mappings["s"] = {
     name = "Search",
-    B = { "<cmd>Telescope git_branches<cr>", "Switch branch" },
-    b = { "<cmd>Telescope scope buffers<cr>", "Buffers" },
     c = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
     f = { "<cmd>lua require('telescope').extensions.menufacture.find_files()<cr>", "Find File" },
-    g = { "<cmd>lua require('telescope').extensions.menufacture.git_files()<cr>", "Git Files" },
     z = { "<cmd>lua require('telescope').extensions.menufacture.grep_string()<cr>", "Find string under cursor" },
     h = { "<cmd>Telescope help_tags<cr>", "Find Help" },
     H = { "<cmd>Telescope highlights<cr>", "Find highlight groups" },
@@ -120,9 +126,24 @@ M.config = function ()
     C = { "<cmd>Telescope commands<cr>", "Commands" },
     l = { "<cmd>Telescope resume<cr>", "Resume last search" },
     s = { "<cmd>Telescope possession list<cr>", "Sessions" },
-    q = { "<cmd>Telescope quickfix<cr>", "QuickFix" },
-    Q = { "<cmd>Telescope quickfixhistory<cr>", "QuickFix History" },
     p = { "<cmd>lua require('telescope.builtin').colorscheme({enable_preview = true})<cr>", "Colorscheme with Preview" },
+    g = {
+      name = "Git",
+      g = { "<cmd>lua require('telescope').extensions.menufacture.git_files()<cr>", "Git Files" },
+      c = { "<cmd>Telescope git_bcommits<cr>", "Commit for buffer" },
+      b = { "<cmd>Telescope git_branches<cr>", "Switch branch" },
+    },
+    q = {
+      name = "Quickfix",
+      q = { "<cmd>Telescope quickfix<cr>", "QuickFix" },
+      h = { "<cmd>Telescope quickfixhistory<cr>", "QuickFix History" },
+    },
+    b = {
+      name = "Buffers",
+      s = { "<cmd>Telescope scope buffers<cr>", "All Buffers" },
+      b = { "<cmd>Telescope buffers<cr>", "Tab's Buffers" },
+      f = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Fuzzy find" },
+    },
   }
 
   lvim.builtin.which_key.mappings["a"] = {
