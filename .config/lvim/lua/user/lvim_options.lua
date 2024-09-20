@@ -5,10 +5,14 @@ M.config = function ()
   lvim.lsp.automatic_servers_installation = false
 
   lvim.builtin.breadcrumbs.active = false
+
   lvim.colorscheme = "catppuccin-frappe"
+
   lvim.format_on_save.enabled = false
-  lvim.builtin.telescope.theme = "ivy"
+
   lvim.builtin.treesitter.matchup.enable = true
+
+  lvim.builtin.telescope.theme = "ivy"
   ---@diagnostic disable-next-line: unused-local
   lvim.builtin.telescope.defaults.path_display = function(opts, path)
     local tail = require("telescope.utils").path_tail(path)
