@@ -8,9 +8,11 @@ M.config = function ()
     typescript = { "eslint_d" },
     html = { "eslint_d" },
     htmlangular = { "eslint_d" },
+    graphql = { "eslint_d" },
     css = { "stylelint" },
     scss = { "stylelint" },
     json = { "jsonlint" },
+    jsonc = { "jsonlint" },
   }
 
   local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })

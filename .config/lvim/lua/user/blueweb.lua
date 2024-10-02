@@ -31,10 +31,10 @@ M.config = function ()
     filetypes = { 'html', 'htmlangular', 'css', 'scss', 'sass' },
   })
 
-  require("lvim.lsp.manager").setup("graphql-lsp")
+  -- require("lvim.lsp.manager").setup("graphql-lsp")
   require 'lspconfig'.graphql.setup {
     cmd = { "graphql-lsp", "server", "-m", "stream" },
-    filetypes = { "graphql", "graphql.ts" },
+    filetypes = { "graphql", "typescript" },
     root_dir = util.root_pattern('.git', '.graphqlconfig'),
   }
 

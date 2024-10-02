@@ -12,7 +12,7 @@ config.hide_tab_bar_if_only_one_tab = true
 
 config.window_decorations = "RESIZE"
 
-config.window_background_opacity = 0.86
+config.window_background_opacity = 0.90
 -- config.macos_window_background_blur = 10
 
 local my_catppucin = wezterm.color.get_builtin_schemes()['Catppuccin Frappe']
@@ -26,6 +26,15 @@ config.color_schemes = {
 config.color_scheme = 'My Catppuccin'
 
 config.default_cursor_style = 'BlinkingBlock'
+
+config.mouse_bindings = {
+  -- Ctrl-click will open the link under the mouse cursor
+  {
+    event = { Up = { streak = 1, button = 'Left' } },
+    mods = 'CTRL',
+    action = wezterm.action.OpenLinkAtMouseCursor,
+  },
+}
 
 -- and finally, return the configuration to wezterm
 return config

@@ -11,7 +11,9 @@ M.config = function ()
       htmlangular = { "eslint_d", "prettierd" },
       css = { "prettierd" },
       scss = { "prettierd" },
+      graphql = { "prettierd" },
       json = { "jq" },
+      jsonc = { "jq" },
     }
   })
 end

@@ -9,7 +9,10 @@ M.config = function ()
   lvim.lsp.buffer_mappings.normal_mode["gy"] = { "<cmd>Lspsaga goto_type_definition<cr>", "Go to type definition" }
   lvim.lsp.buffer_mappings.normal_mode["K"] = { "<cmd>Lspsaga hover_doc<cr>", "Hover Documentation" }
   lvim.lsp.buffer_mappings.normal_mode["gl"] = { "<cmd>Lspsaga diagnostic_jump_next<cr>", "Next diagnostic" }
-  lvim.lsp.buffer_mappings.normal_mode["gL"] = { "<cmd>Lspsaga diagnostic_jump_prev<cr>", "Next diagnostic" }
+  lvim.lsp.buffer_mappings.normal_mode["gL"] = { "<cmd>Lspsaga diagnostic_jump_prev<cr>", "Previous diagnostic" }
+  lvim.lsp.buffer_mappings.normal_mode["gb"] = { "<cmd>Lspsaga show_buf_diagnostics<cr>", "Buffer diagnostics" }
+  lvim.lsp.buffer_mappings.normal_mode["gc"] = { "<cmd>Lspsaga show_cursor_diagnostics<cr>", "Cursor diagnostics" }
+  lvim.lsp.buffer_mappings.normal_mode["gw"] = { "<cmd>Lspsaga show_workspace_diagnostics<cr>", "Workspace diagnostics" }
 
   lvim.lsp.buffer_mappings.normal_mode["gj"] = { function() require("lua.user.plugins_config.flash").jump() end, "Flash" }
   lvim.lsp.buffer_mappings.normal_mode["<leader>,"] = { function() require("lua.user.plugins_config.flash").jump() end, "Flash" }
@@ -107,7 +110,7 @@ M.config = function ()
   }
 
   lvim.builtin.which_key.mappings["f"] = {
-    "<cmd>lua require('telescope').extensions.menufacture.git_files()<cr>", "Switch branch"
+    "<cmd>lua require('telescope').extensions.menufacture.git_files()<cr>", "Find Git file"
   }
 
   -- Telescope
