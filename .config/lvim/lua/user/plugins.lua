@@ -284,6 +284,18 @@ M.config = function ()
       dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },
     },
 
+    {
+      "epwalsh/obsidian.nvim",
+      version = "*",
+      event = {
+        "BufReadPre " .. vim.fn.expand "~" .. "/Drive/SecondBrain/*.md",
+        "BufNewFile " .. vim.fn.expand "~" .. "/Drive/SecondBrain/*.md",
+      },
+      dependencies = {
+        "nvim-lua/plenary.nvim",
+      },
+    },
+
   }
 end
 
