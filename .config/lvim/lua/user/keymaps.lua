@@ -184,6 +184,25 @@ M.config = function ()
     v = { "<cmd>TestVisit<cr>", "Visit" },
   }
 
+  lvim.builtin.which_key.mappings["n"] = {
+    name = "Obsidian",
+    n = { "<cmd>ObsidianNewFromTemplate<cr>", "New note" },
+    t = { "<cmd>ObsidianTags<cr>", "Tags" },
+    e = { "<cmd>ObsidianExtractNote<cr>", "Extract into note" },
+    r = { "<cmd>ObsidianRename<cr>", "Rename" },
+    q = { "<cmd>ObsidianQuickSwitch<cr>", "Switch" },
+    s = { "<cmd>ObsidianSearch<cr>", "Search" },
+    d = { "<cmd>ObsidianDailies<cr>", "Dailies" },
+    l = {
+      name = "Links",
+      {
+        l = { "<cmd>ObsidianLink<cr>", "Link to a note" },
+        b = { "<cmd>ObsidianBacklinks<cr>", "Search back links" },
+        f = { "<cmd>ObsidianFollowLink<cr>", "Follow note link" },
+      },
+    },
+  }
+
   function vim.getVisualSelection()
     vim.cmd('noau normal! "vy"')
     local text = vim.fn.getreg('v')
