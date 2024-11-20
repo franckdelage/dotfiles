@@ -35,6 +35,10 @@ M.config = function ()
     "<cmd>tabe ~/dotfiles/.wezterm.lua<cr>", "Wezterm Config"
   }
 
+  lvim.builtin.which_key.mappings["Ls"] = {
+    "<cmd>source ~/.config/lvim/lua/user/snippets/snippets.lua<cr>", "Reload snippets"
+  }
+
   -- LSP
   lvim.builtin.which_key.mappings["l"] = {
     name = "LSP",
