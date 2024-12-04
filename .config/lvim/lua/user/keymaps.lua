@@ -36,7 +36,11 @@ M.config = function ()
   }
 
   lvim.builtin.which_key.mappings["Ls"] = {
-    "<cmd>source ~/.config/lvim/lua/user/snippets/snippets.lua<cr>", "Reload snippets"
+    name = "Snippets",
+    {
+      r = { "<cmd>source ~/.config/lvim/lua/user/snippets/snippets.lua<cr>", "Reload snippets" },
+      e = { "<cmd>vs ~/dotfiles/.config/lvim/lua/user/snippets/snippets.lua<cr>", "Edit snippets" },
+    }
   }
 
   -- LSP

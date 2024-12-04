@@ -3,6 +3,7 @@ collection.clear_snippets "all"
 collection.clear_snippets "typescript"
 collection.clear_snippets "scss"
 collection.clear_snippets "htmlangular"
+collection.clear_snippets "lua"
 
 local ls = require("luasnip");
 
@@ -30,7 +31,7 @@ ls.add_snippets("all", {
 
 ls.add_snippets("typescript", {
   s(
-    { trig="it", name="Jest it test" },
+    { trig="it", name="Jest it test", desc="Can be async or not" },
     fmta(
       [[
       it('<text>',<async> () =>> {
@@ -41,7 +42,7 @@ ls.add_snippets("typescript", {
         text = i(1),
         async = c(
           2,
-          { t(" async"), t("") }
+          { t(""), t(" async") }
         ),
         content = i(3),
         finish = i(0)
@@ -72,13 +73,51 @@ ls.add_snippets("typescript", {
     fmta(
       [[
       <bef>Each(<async>() =>> {
-        <async>
-      });<finish>
+        <finish>
+      });
       ]],
       {
         bef = c(1, { t("before"), t("after") }),
         async = c(2, { t(""), t("async ") }),
-        finish = i(3)
+        finish = i(0)
+      }
+    )
+  ),
+  s(
+    { trig="expect", name="Jest Expectation" },
+    fmta(
+      [[
+      expect(<await><actual>)<negation>.to<expectation>(<expected>);<finish>
+      ]],
+      {
+        await = c(1, { t(""), t("await ") }),
+        actual = i(2),
+        negation = c(3, { t(""), t(".not") }),
+        expectation = i(4),
+        expected = i(5),
+        finish = i(0),
+      }
+    )
+  ),
+  s(
+    { trig="mockapollo", name="Mocked Query response" },
+    fmta(
+      [[
+      const <name>: ApolloQueryResult<<<type>>> = {
+        data: {
+          <query>: {
+            <content>
+          }
+        }
+      } as ApolloQueryResult<<<typerepeat>>>;<finish>
+      ]],
+      {
+        name = i(1),
+        type = i(2),
+        query = i(3),
+        content = i(4),
+        typerepeat = rep(2),
+        finish = i(0),
       }
     )
   ),
@@ -138,6 +177,36 @@ ls.add_snippets("typescript", {
       ]],
       {
         i(1, "@ignore")
+      }
+    )
+  ),
+  s(
+    { trig="gqltype", name="GraphQL Type or Input" },
+    fmta(
+      [[
+      <inputOrType> <name> {
+        <finish>
+      }
+      ]],
+      {
+        inputOrType = c(1, { t("type"), t("input") }),
+        name = i(2),
+        finish = i(0)
+      }
+    )
+  ),
+  s(
+    { trig="gqltsfile", name="Typescript GQL file boilerplate" },
+    fmta(
+      [[
+      import { gql } from 'graphql-modules';
+
+      export default gql`
+        <finish>
+      `;
+      ]],
+      {
+        finish = i(0)
       }
     )
   ),
@@ -237,6 +306,46 @@ ls.add_snippets("htmlangular", {
       {
         i(1),
         i(0)
+      }
+    )
+  ),
+  s(
+    { trig="if", name="Angular If control flow" },
+    fmta(
+      [[
+      @if (<condition>) {
+        <content><finish>
+      }
+      ]],
+      {
+        condition = i(1),
+        content = f(function(_, snip)
+          local res, env = {}, snip.env
+          for _, ele in ipairs(env.LS_SELECT_DEDENT) do table.insert(res, ele) end
+          return res
+        end, {}),
+        finish = i(3)
+      }
+    )
+  ),
+  s(
+    { trig="ifelse", name="Angular If Else control flow" },
+    fmta(
+      [[
+      @if (<condition>) {
+        <content>
+      } @else {
+        <finish>
+      }
+      ]],
+      {
+        condition = i(1),
+        content = f(function(_, snip)
+          local res, env = {}, snip.env
+          for _, ele in ipairs(env.LS_SELECT_DEDENT) do table.insert(res, ele) end
+          return res
+        end, {}),
+        finish = i(3)
       }
     )
   ),
