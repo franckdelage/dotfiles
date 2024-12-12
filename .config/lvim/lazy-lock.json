@@ -62,6 +62,7 @@
   "render-markdown.nvim": { "branch": "main", "commit": "015d3454b9a515232b4f6e7bfffdbe4a6ca7cdd8" },
   "schemastore.nvim": { "branch": "main", "commit": "9a5992a881583d886bfbb46631a09f736f0fae50" },
   "scope.nvim": { "branch": "main", "commit": "5e3f5ead970317b2f276d38dc031cb4bc5742cd4" },
+  "snacks.nvim": { "branch": "main", "commit": "64fbb157a0b7fa2279817ed16d3f530c00b8863c" },
   "structlog.nvim": { "branch": "main", "commit": "45b26a2b1036bb93c0e83f4225e85ab3cee8f476" },
   "targets.vim": { "branch": "master", "commit": "6325416da8f89992b005db3e4517aaef0242602e" },
   "telescope-fzf-native.nvim": { "branch": "main", "commit": "9ef21b2e6bb6ebeaf349a0781745549bbb870d27" },

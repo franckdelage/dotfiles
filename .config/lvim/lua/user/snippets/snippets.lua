@@ -349,6 +349,37 @@ ls.add_snippets("htmlangular", {
       }
     )
   ),
+  s(
+    { trig="forminput", name="Blueweb Angular form input" },
+    fmt(
+      [[
+      <bwc-form-input-container [isOutlined]="true">
+        <mat-form-field outline-content>
+          <input
+            matInput
+            formControlName="{}"
+            placeholder="{{{{ '{}' | transloco }}}}"
+          />
+          <mat-error>
+            <bwc-form-errors [control]="{}.get('{}')">
+              <bwc-form-error for="required">
+                {{{{ '{}' | transloco }}}}
+              </bwc-form-error>
+            </bwc-form-errors>
+          </mat-error>
+        </mat-form-field>
+      </bwc-form-input-container>{}
+      ]],
+      {
+        i(1),
+        i(2),
+        i(3),
+        rep(1),
+        i(5),
+        i(0)
+      }
+    )
+  ),
 })
 
 -- GIT
