@@ -6,6 +6,12 @@ M.config = function ()
   })
 
   require("noice").setup({
+    messages = {
+      enabled = false,
+    },
+    notify = {
+      enabled = false,
+    },
     lsp = {
       -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
       override = {

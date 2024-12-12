@@ -23,19 +23,6 @@ M.config = function ()
     "<cmd>checkt<cr>", "Checktime"
   }
 
-  lvim.builtin.which_key.mappings["gf"] = {
-    "<cmd>Git<cr>", "Fugitive"
-  }
-
-  lvim.builtin.which_key.mappings["gg"] = {}
-  lvim.builtin.which_key.mappings["gg"] = {
-    function() Snacks.lazygit() end, "Lazygit"
-  }
-
-  lvim.builtin.which_key.mappings["ga"] = {
-    "<cmd>Git blame<cr>", "Blame all file"
-  }
-
   lvim.builtin.which_key.mappings["Lw"] = {
     "<cmd>tabe ~/dotfiles/.wezterm.lua<cr>", "Wezterm Config"
   }
@@ -46,6 +33,38 @@ M.config = function ()
       r = { "<cmd>source ~/.config/lvim/lua/user/snippets/snippets.lua<cr>", "Reload snippets" },
       e = { "<cmd>vs ~/dotfiles/.config/lvim/lua/user/snippets/snippets.lua<cr>", "Edit snippets" },
     }
+  }
+
+  -- Git
+  lvim.builtin.which_key.mappings["g"] = {
+    name = "Git",
+    -- g = { "<cmd>lua require 'lvim.core.terminal'.lazygit_toggle()<cr>", "Lazygit" },
+    g = { function() Snacks.lazygit() end, "Lazygit" },
+    f = { "<cmd>Git<cr>", "Fugitive" },
+    a = { "<cmd>Git blame<cr>", "Blame all file" },
+    j = { "<cmd>lua require 'gitsigns'.nav_hunk('next', {navigation_message = false})<cr>", "Next Hunk" },
+    k = { "<cmd>lua require 'gitsigns'.nav_hunk('prev', {navigation_message = false})<cr>", "Prev Hunk" },
+    l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
+    L = { "<cmd>lua require 'gitsigns'.blame_line({full=true})<cr>", "Blame Line (full)" },
+    p = { "<cmd>lua require 'gitsigns'.preview_hunk()<cr>", "Preview Hunk" },
+    r = { "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", "Reset Hunk" },
+    R = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" },
+    s = { "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", "Stage Hunk" },
+    u = {
+      "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>",
+      "Undo Stage Hunk",
+    },
+    o = { "<cmd>Telescope git_status<cr>", "Open changed file" },
+    b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
+    c = { "<cmd>Telescope git_commits<cr>", "Checkout commit" },
+    C = {
+      "<cmd>Telescope git_bcommits<cr>",
+      "Checkout commit(for current file)",
+    },
+    d = {
+      "<cmd>Gitsigns diffthis HEAD<cr>",
+      "Git Diff",
+    },
   }
 
   -- LSP
@@ -218,13 +237,15 @@ M.config = function ()
 
   lvim.builtin.which_key.mappings["u"] = {
     name = "Snacks",
-    z = { function() Snacks.zen() end, "Zen mode" },
+    z = { function() Snacks.toggle.zen():toggle() end, "Zen mode" },
+    o = { function() Snacks.toggle.zoom():toggle() end, "Zoom" },
     n = { function() Snacks.notifier.show_history() end, "Notification history" },
-    d = { function() Snacks.dim() end, "Start Dim" },
-    D = { function() Snacks.dim.disable() end, "Stop Dim" },
+    d = { function() Snacks.toggle.dim():toggle() end, "Dim" },
     g = { function() Snacks.lazygit() end, "Lazygit" },
     s = { function() Snacks.scratch() end, "Scratch" },
     S = { function() Snacks.scratch.select() end, "Scratch select" },
+    j = { function() Snacks.words.jump(vim.v.count1) end, "Next reference" },
+    k = { function() Snacks.words.jump(-vim.v.count1) end, "Previous reference" },
   }
 
   function vim.getVisualSelection()
