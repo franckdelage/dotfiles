@@ -27,6 +27,11 @@ M.config = function ()
     "<cmd>Git<cr>", "Fugitive"
   }
 
+  lvim.builtin.which_key.mappings["gg"] = {}
+  lvim.builtin.which_key.mappings["gg"] = {
+    function() Snacks.lazygit() end, "Lazygit"
+  }
+
   lvim.builtin.which_key.mappings["ga"] = {
     "<cmd>Git blame<cr>", "Blame all file"
   }
@@ -209,6 +214,17 @@ M.config = function ()
         f = { "<cmd>ObsidianFollowLink<cr>", "Follow note link" },
       },
     },
+  }
+
+  lvim.builtin.which_key.mappings["u"] = {
+    name = "Snacks",
+    z = { function() Snacks.zen() end, "Zen mode" },
+    n = { function() Snacks.notifier.show_history() end, "Notification history" },
+    d = { function() Snacks.dim() end, "Start Dim" },
+    D = { function() Snacks.dim.disable() end, "Stop Dim" },
+    g = { function() Snacks.lazygit() end, "Lazygit" },
+    s = { function() Snacks.scratch() end, "Scratch" },
+    S = { function() Snacks.scratch.select() end, "Scratch select" },
   }
 
   function vim.getVisualSelection()
