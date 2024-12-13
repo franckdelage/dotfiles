@@ -293,10 +293,32 @@ M.config = function ()
         "nvim-lua/plenary.nvim",
       },
     },
+
     {
       "folke/snacks.nvim",
       priority = 1000,
       lazy = false,
+    },
+    
+    {
+      "rachartier/tiny-inline-diagnostic.nvim",
+      event = "VeryLazy", -- Or `LspAttach`
+      priority = 1000, -- needs to be loaded in first
+      config = function()
+        require('tiny-inline-diagnostic').setup()
+      end
+    },
+
+    {
+      "folke/lazydev.nvim",
+      ft = "lua", -- only load on lua files
+      opts = {
+        library = {
+          -- See the configuration section for more details
+          -- Load luvit types when the `vim.uv` word is found
+          { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+        },
+      },
     },
 
   }

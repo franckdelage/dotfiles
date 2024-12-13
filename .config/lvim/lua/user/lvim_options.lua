@@ -1,6 +1,8 @@
 local M = {}
 
 M.config = function ()
+  vim.diagnostic.config({ virtual_text = false, underline = true })
+
   vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "tsserver" })
   lvim.lsp.automatic_servers_installation = false
 
