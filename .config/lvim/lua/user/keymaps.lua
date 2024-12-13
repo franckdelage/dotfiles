@@ -13,11 +13,17 @@ M.config = function ()
   lvim.lsp.buffer_mappings.normal_mode["gb"] = { "<cmd>Lspsaga show_buf_diagnostics<cr>", "Buffer diagnostics" }
   lvim.lsp.buffer_mappings.normal_mode["gc"] = { "<cmd>Lspsaga show_cursor_diagnostics<cr>", "Cursor diagnostics" }
   lvim.lsp.buffer_mappings.normal_mode["gw"] = { "<cmd>Lspsaga show_workspace_diagnostics<cr>", "Workspace diagnostics" }
+  lvim.lsp.buffer_mappings.normal_mode["]]"] = { function() Snacks.words.jump(vim.v.count1) end, "Next reference" }
+  lvim.lsp.buffer_mappings.normal_mode["[["] = { function() Snacks.words.jump(-vim.v.count1) end, "Previous reference" }
 
   lvim.lsp.buffer_mappings.normal_mode["gj"] = { function() require("lua.user.plugins_config.flash").jump() end, "Flash" }
   lvim.lsp.buffer_mappings.normal_mode["<leader>,"] = { function() require("lua.user.plugins_config.flash").jump() end, "Flash" }
 
   vim.keymap.set("n", "-", "<cmd>Oil<cr>", { desc = "Open parent directory" })
+
+  lvim.builtin.which_key.mappings["c"] = {
+    function() Snacks.bufdelete() end, "Close buffer"
+  }
 
   lvim.builtin.which_key.mappings[";"] = {
     "<cmd>checkt<cr>", "Checktime"
@@ -40,31 +46,28 @@ M.config = function ()
     name = "Git",
     -- g = { "<cmd>lua require 'lvim.core.terminal'.lazygit_toggle()<cr>", "Lazygit" },
     g = { function() Snacks.lazygit() end, "Lazygit" },
+    L = { function() Snacks.lazygit.log() end, "Full log" },
+    l = { function() Snacks.lazygit.log_file() end, "Log file" },
+    B = { function() Snacks.gitbrowse() end, "Browse" },
     f = { "<cmd>Git<cr>", "Fugitive" },
     a = { "<cmd>Git blame<cr>", "Blame all file" },
     j = { "<cmd>lua require 'gitsigns'.nav_hunk('next', {navigation_message = false})<cr>", "Next Hunk" },
     k = { "<cmd>lua require 'gitsigns'.nav_hunk('prev', {navigation_message = false})<cr>", "Prev Hunk" },
-    l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
-    L = { "<cmd>lua require 'gitsigns'.blame_line({full=true})<cr>", "Blame Line (full)" },
     p = { "<cmd>lua require 'gitsigns'.preview_hunk()<cr>", "Preview Hunk" },
     r = { "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", "Reset Hunk" },
     R = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" },
     s = { "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", "Stage Hunk" },
-    u = {
-      "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>",
-      "Undo Stage Hunk",
-    },
+    u = { "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>", "Undo Stage Hunk" },
     o = { "<cmd>Telescope git_status<cr>", "Open changed file" },
-    b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
     c = { "<cmd>Telescope git_commits<cr>", "Checkout commit" },
-    C = {
-      "<cmd>Telescope git_bcommits<cr>",
-      "Checkout commit(for current file)",
-    },
-    d = {
-      "<cmd>Gitsigns diffthis HEAD<cr>",
-      "Git Diff",
-    },
+    C = { "<cmd>Telescope git_bcommits<cr>", "Checkout commit(for current file)" },
+    d = { "<cmd>Gitsigns diffthis HEAD<cr>", "Git Diff" },
+    b = {
+      name = "Blame",
+      l = { function() Snacks.git.blame_line() end, "Snacks Blame" },
+      b = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
+      B = { "<cmd>lua require 'gitsigns'.blame_line({full=true})<cr>", "Blame Line (full)" },
+    }
   }
 
   -- LSP

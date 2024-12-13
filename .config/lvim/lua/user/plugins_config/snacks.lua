@@ -4,6 +4,7 @@ M.config = function ()
   require("snacks").setup({
     animate = { enabled = true },
     bigfile = { enabled = true },
+    bufdelete = { enabled = true },
     dim = {
       scope = {
         min_size = 3,
@@ -11,6 +12,8 @@ M.config = function ()
         siblings = true,
       },
     },
+    git = { enabled = true },
+    gitbrowse = { enabled = true },
     input = { enabled = true },
     lazygit = { enabled = true },
     notifier = { enabled = true },
