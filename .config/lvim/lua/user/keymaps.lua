@@ -1,6 +1,8 @@
 local M = {}
 
 M.config = function ()
+  local Snacks = require("snacks")
+
   lvim.keys.insert_mode["jk"] = "<esc>"
   lvim.keys.normal_mode["tg"] = "gT"
 

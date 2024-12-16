@@ -31,6 +31,7 @@ alias apirequests="cd ~/Developer && mkdir -p mitm-files && cd mitm-files && mit
 alias appstart='yarn nx run touchpoint-web:serve'
 alias gqlstart='HTTPS_PROXY=http://localhost:8080 NODE_TLS_REJECT_UNAUTHORIZED=0 FEATURE_ENV=localhost yarn nx run gql:serve:ute3'
 alias serverstart='yarn nx run touchpoint-web:server:ute3'
+alias exchangestart='yarn nx run exchange:serve:ute3'
 
 alias gqlstartute2='HTTPS_PROXY=http://localhost:8080 NODE_TLS_REJECT_UNAUTHORIZED=0 FEATURE_ENV=localhost yarn nx run gql:serve:ute2'
 alias serverstartute2='yarn nx run touchpoint-web:server:ute2'
