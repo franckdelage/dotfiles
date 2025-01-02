@@ -156,13 +156,12 @@ ls.add_snippets("typescript", {
     { trig="clo", name="Console Log" },
     fmta(
       [[
-      console.<fn>('<legend>', <what>)<finish>
+      console.log('<legend>', <what>)<finish>
       ]],
       {
-        fn = c(1, { t("log"), t("debug"), t("info"), t("error"), t("table") }),
-        legend = i(2),
-        what = i(3),
-        finish = c(4, { t(";"), t("") })
+        legend = i(1),
+        what = i(2),
+        finish = c(3, { t(";"), t("") })
       }
     )
   ),
@@ -377,6 +376,18 @@ ls.add_snippets("htmlangular", {
         rep(1),
         i(5),
         i(0)
+      }
+    )
+  ),
+  s(
+    { trig="gridcol", name="Grid column class with screen size" },
+    fmt(
+      [[
+      bwc-grid__col--{}--span-{}
+      ]],
+      {
+        c(1, { t("xs"), t("md"), t("lg") }),
+        i(2)
       }
     )
   ),

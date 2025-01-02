@@ -203,12 +203,15 @@ M.config = function ()
     r = { "<cmd>lua require('spectre').open_file_search({ select_word = true })<cr>", "Search on current file" },
   }
 
+  local harpoon = require("harpoon")
   lvim.builtin.which_key.mappings["o"] = {
     name = "Harpoon",
-    m = { "<cmd>lua require('harpoon.mark').add_file()<cr>", "Toggle mark" },
-    n = { "<cmd>lua require('harpoon.ui').nav_next()<cr>", "Next mark" },
-    p = { "<cmd>lua require('harpoon.ui').nav_prev()<cr>", "Previous mark" },
-    s = { "<cmd>Telescope harpoon marks<cr>", "Search marks" },
+    a = { function() harpoon:list():add() end, "Add to list" },
+    d = { function() harpoon:list():remove() end, "Remove from list" },
+    n = { function() harpoon:list():next() end, "Next mark" },
+    p = { function() harpoon:list():prev() end, "Previous mark" },
+    m = { function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, "Toggle list" },
+    t = { "<cmd>Telescope harpoon marks<cr>", "Search marks" },
   }
 
   lvim.builtin.which_key.mappings["k"] = {

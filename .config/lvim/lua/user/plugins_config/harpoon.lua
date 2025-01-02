@@ -1,14 +1,28 @@
 local M = {}
 
 M.config = function ()
-  require("harpoon").setup({
-    global_settings = {
-      save_on_toggle = false,
-      save_on_change = true,
-      enter_on_sendcmd = false,
-      excluded_filetypes = { "harpoon" },
-      mark_branch = false,
+  local harpoon = require("harpoon")
+  harpoon:setup({
+    settings = {
+      save_on_toggle = true,
+      sync_on_ui_close = true,
     },
+  })
+
+  harpoon:extend({
+    UI_CREATE = function(cx)
+      vim.keymap.set("n", "<C-v>", function()
+        harpoon.ui:select_menu_item({ vsplit = true })
+      end, { buffer = cx.bufnr })
+
+      vim.keymap.set("n", "<C-x>", function()
+        harpoon.ui:select_menu_item({ split = true })
+      end, { buffer = cx.bufnr })
+
+      vim.keymap.set("n", "<C-t>", function()
+        harpoon.ui:select_menu_item({ tabedit = true })
+      end, { buffer = cx.bufnr })
+    end,
   })
 end
 
