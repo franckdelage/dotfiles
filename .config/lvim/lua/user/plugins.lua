@@ -319,6 +319,13 @@ M.config = function ()
       },
     },
 
+    {
+      'saghen/blink.cmp',
+      dependencies = 'rafamadriz/friendly-snippets',
+      version = '*',
+      opts_extend = { "sources.default" }
+    },
+
   }
 end
 

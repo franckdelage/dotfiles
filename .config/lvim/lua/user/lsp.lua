@@ -10,6 +10,8 @@ M.config = function ()
     },
   })
 
+  local capabilities = require("blink.cmp").get_lsp_capabilities()
+
   local lspconfig = require("lspconfig");
 
   require("lvim.lsp.manager").setup("angularls")
@@ -18,10 +20,12 @@ M.config = function ()
   lspconfig.angularls.setup {
     root_dir = util.root_pattern('angular.json', 'nx.json'),
     filetypes = { 'typescript', 'html', 'htmlangular' },
+    capabilities = capabilities,
   }
 
   lspconfig.html.setup({
     filetypes = { 'html', 'htmlangular' },
+    capabilities = capabilities,
   })
 
   lspconfig.stylelint_lsp.setup({
@@ -31,16 +35,19 @@ M.config = function ()
       },
     },
     filetypes = { 'scss', 'sass' },
+    capabilities = capabilities,
   })
 
   lspconfig.emmet_language_server.setup({
     filetypes = { 'html', 'htmlangular', 'css', 'scss', 'sass' },
+    capabilities = capabilities,
   })
 
   lspconfig.graphql.setup {
     cmd = { "graphql-lsp", "server", "-m", "stream" },
     filetypes = { "graphql", "typescript" },
     root_dir = util.root_pattern('.git', '.graphqlconfig'),
+    capabilities = capabilities,
   }
 
 end

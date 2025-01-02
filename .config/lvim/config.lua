@@ -15,6 +15,7 @@ require("user.dap").config()
 require("user.plugins").config()
 
 require("user.plugins_config.lualine").config()
+require("user.plugins_config.blink").config()
 require("user.plugins_config.nvim_lint_config").config()
 require("user.plugins_config.conform_config").config()
 require("user.plugins_config.noice").config()

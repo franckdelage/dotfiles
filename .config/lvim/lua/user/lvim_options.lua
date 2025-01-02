@@ -6,6 +6,8 @@ M.config = function ()
   vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "tsserver" })
   lvim.lsp.automatic_servers_installation = false
 
+  lvim.builtin.cmp.active = false
+
   lvim.builtin.breadcrumbs.active = false
 
   lvim.colorscheme = "catppuccin-frappe"

@@ -122,7 +122,7 @@ ls.add_snippets("typescript", {
     )
   ),
   s(
-    { trig="im", name="Import statement paf" },
+    { trig="imp", name="Import statement" },
     fmt(
       [[
       import {{ {} }} from '{}';
