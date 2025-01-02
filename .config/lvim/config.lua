@@ -10,7 +10,7 @@ require("user.settings").config()
 require("user.keymaps").config()
 require("user.lvim_options").config()
 require("user.null_ls").config()
-require("user.blueweb").config()
+require("user.lsp").config()
 require("user.dap").config()
 require("user.plugins").config()
 
