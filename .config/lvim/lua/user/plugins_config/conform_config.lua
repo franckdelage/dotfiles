@@ -14,6 +14,7 @@ M.config = function ()
       graphql = { "prettierd" },
       json = { "jq" },
       jsonc = { "jq" },
+      lua = { "stylua" }
     }
   })
 end

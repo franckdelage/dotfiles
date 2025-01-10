@@ -40,8 +40,7 @@ alias introspect='(cd apps/gql && yarn graphql:introspect)'
 
 alias nxr='clear && yarn nx run'
 
+alias com='git commit'
+
 alias -g wch='--watch'
 alias -g noCov='--coverage false'
-
-alias astrovim='(cd ~/.config && rm -f nvim && ln -s nvim-astro nvim)'
-alias spacevim='(cd ~/.config && rm -f nvim && ln -s nvim-spacevim nvim)'

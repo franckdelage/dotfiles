@@ -31,26 +31,27 @@ ls.add_snippets("all", {
 
 ls.add_snippets("typescript", {
   s(
-    { trig="it", name="Jest it test", desc="Can be async or not" },
+    { trig="itshould", name="Jest it test", desc="Can be async or not" },
     fmta(
       [[
-      it('<text>',<async> () =>> {
+      it('<should><text>',<async> () =>> {
         <content>
       });<finish>
       ]],
       {
-        text = i(1),
+        should = c(1, { t("should ", t("")) }),
+        text = i(2),
         async = c(
-          2,
+          3,
           { t(""), t(" async") }
         ),
-        content = i(3),
+        content = i(4),
         finish = i(0)
       }
     )
   ),
   s(
-    { trig="desc", name="Jest spec describe" },
+    { trig="describe", name="Jest spec describe" },
     fmta(
       [[
       describe('<text>', () =>> {
@@ -69,7 +70,7 @@ ls.add_snippets("typescript", {
     )
   ),
   s(
-    { trig="bef", name="Before or After spec" },
+    { trig="beforeafter", name="Before or After spec" },
     fmta(
       [[
       <bef>Each(<async>() =>> {
@@ -153,7 +154,7 @@ ls.add_snippets("typescript", {
     )
   ),
   s(
-    { trig="clo", name="Console Log" },
+    { trig="consolelog", name="Console Log" },
     fmta(
       [[
       console.log('<legend>', <what>)<finish>
@@ -209,6 +210,35 @@ ls.add_snippets("typescript", {
       }
     )
   ),
+  -- s(
+  --   { trig="componenttest", name="Component test boilerplate" },
+  --   fmta(
+  --     [[
+  --     import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+
+  --     describe('<component>', () => {
+  --       let spectator: Spectator<<<spectator>>>;
+
+  --       const createComponent = createComponentFactory({
+  --         component: <factory>,
+  --       });
+
+  --       beforeEach(() => {
+  --         spectator = createComponent();
+  --       });
+
+  --       it('should create', () => {
+  --         expect(spectator).toBeTruthy();
+  --       })
+  --     });
+  --     ]],
+  --     {
+  --       component = i(1),
+  --       spectator = rep(1),
+  --       factory = rep(1),
+  --     }
+  --   )
+  -- ),
 })
 
 -- LUA
