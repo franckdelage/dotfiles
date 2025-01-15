@@ -27,6 +27,14 @@ M.config = function ()
     function() Snacks.bufdelete() end, "Close buffer"
   }
 
+  lvim.builtin.which_key.mappings["W"] = {
+    "<cmd>wall<cr>", "Save all"
+  }
+
+  lvim.builtin.which_key.mappings["X"] = {
+    "<cmd>xall<cr>", "Save all and quit"
+  }
+
   lvim.builtin.which_key.mappings[";"] = {
     "<cmd>checkt<cr>", "Checktime"
   }
