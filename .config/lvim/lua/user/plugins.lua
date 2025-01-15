@@ -330,6 +330,12 @@ M.config = function()
 			version = "*",
 			opts_extend = { "sources.default" },
 		},
+
+    {
+      "ibhagwan/fzf-lua",
+      dependencies = { "nvim-tree/nvim-web-devicons" },
+    }
+
 	}
 end
 

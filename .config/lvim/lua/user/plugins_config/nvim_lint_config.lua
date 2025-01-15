@@ -4,11 +4,11 @@ M.config = function()
 	local lint = require("lint")
 
 	lint.linters_by_ft = {
-		javascript = { "eslint_d" },
-		typescript = { "eslint_d" },
-		html = { "eslint_d" },
-		htmlangular = { "eslint_d" },
-		graphql = { "eslint_d" },
+		-- javascript = { "eslint" },
+		-- typescript = { "eslint" },
+		-- html = { "eslint" },
+		-- htmlangular = { "eslint" },
+		-- graphql = { "eslint" },
 		css = { "stylelint" },
 		scss = { "stylelint" },
 		json = { "jsonlint" },

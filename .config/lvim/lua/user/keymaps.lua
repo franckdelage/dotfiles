@@ -1,6 +1,6 @@
 local M = {}
 
-M.config = function ()
+M.config = function()
   local Snacks = require("snacks")
 
   lvim.keys.insert_mode["jk"] = "<esc>"
@@ -14,33 +14,61 @@ M.config = function ()
   lvim.lsp.buffer_mappings.normal_mode["gL"] = { "<cmd>Lspsaga diagnostic_jump_prev<cr>", "Previous diagnostic" }
   lvim.lsp.buffer_mappings.normal_mode["gb"] = { "<cmd>Lspsaga show_buf_diagnostics<cr>", "Buffer diagnostics" }
   lvim.lsp.buffer_mappings.normal_mode["gc"] = { "<cmd>Lspsaga show_cursor_diagnostics<cr>", "Cursor diagnostics" }
-  lvim.lsp.buffer_mappings.normal_mode["gw"] = { "<cmd>Lspsaga show_workspace_diagnostics<cr>", "Workspace diagnostics" }
-  lvim.lsp.buffer_mappings.normal_mode["]]"] = { function() Snacks.words.jump(vim.v.count1) end, "Next reference" }
-  lvim.lsp.buffer_mappings.normal_mode["[["] = { function() Snacks.words.jump(-vim.v.count1) end, "Previous reference" }
+  lvim.lsp.buffer_mappings.normal_mode["gw"] =
+  { "<cmd>Lspsaga show_workspace_diagnostics<cr>", "Workspace diagnostics" }
+  lvim.lsp.buffer_mappings.normal_mode["]]"] = {
+    function()
+      Snacks.words.jump(vim.v.count1)
+    end,
+    "Next reference",
+  }
+  lvim.lsp.buffer_mappings.normal_mode["[["] = {
+    function()
+      Snacks.words.jump(-vim.v.count1)
+    end,
+    "Previous reference",
+  }
 
-  lvim.lsp.buffer_mappings.normal_mode["gj"] = { function() require("lua.user.plugins_config.flash").jump() end, "Flash" }
-  lvim.lsp.buffer_mappings.normal_mode["<leader>,"] = { function() require("lua.user.plugins_config.flash").jump() end, "Flash" }
+  lvim.lsp.buffer_mappings.normal_mode["gj"] = {
+    function()
+      require("lua.user.plugins_config.flash").jump()
+    end,
+    "Flash",
+  }
+  lvim.lsp.buffer_mappings.normal_mode["<leader>,"] = {
+    function()
+      require("lua.user.plugins_config.flash").jump()
+    end,
+    "Flash",
+  }
 
   vim.keymap.set("n", "-", "<cmd>Oil<cr>", { desc = "Open parent directory" })
 
   lvim.builtin.which_key.mappings["c"] = {
-    function() Snacks.bufdelete() end, "Close buffer"
+    function()
+      Snacks.bufdelete()
+    end,
+    "Close buffer",
   }
 
   lvim.builtin.which_key.mappings["W"] = {
-    "<cmd>wall<cr>", "Save all"
+    "<cmd>wall<cr>",
+    "Save all",
   }
 
   lvim.builtin.which_key.mappings["X"] = {
-    "<cmd>xall<cr>", "Save all and quit"
+    "<cmd>xall<cr>",
+    "Save all and quit",
   }
 
   lvim.builtin.which_key.mappings[";"] = {
-    "<cmd>checkt<cr>", "Checktime"
+    "<cmd>checkt<cr>",
+    "Checktime",
   }
 
   lvim.builtin.which_key.mappings["Lw"] = {
-    "<cmd>tabe ~/dotfiles/.wezterm.lua<cr>", "Wezterm Config"
+    "<cmd>tabe ~/dotfiles/.wezterm.lua<cr>",
+    "Wezterm Config",
   }
 
   lvim.builtin.which_key.mappings["Ls"] = {
@@ -48,17 +76,37 @@ M.config = function ()
     {
       r = { "<cmd>source ~/.config/lvim/lua/user/snippets/snippets.lua<cr>", "Reload snippets" },
       e = { "<cmd>vs ~/dotfiles/.config/lvim/lua/user/snippets/snippets.lua<cr>", "Edit snippets" },
-    }
+    },
   }
 
   -- Git
   lvim.builtin.which_key.mappings["g"] = {
     name = "Git",
     -- g = { "<cmd>lua require 'lvim.core.terminal'.lazygit_toggle()<cr>", "Lazygit" },
-    g = { function() Snacks.lazygit() end, "Lazygit" },
-    L = { function() Snacks.lazygit.log() end, "Full log" },
-    l = { function() Snacks.lazygit.log_file() end, "Log file" },
-    B = { function() Snacks.gitbrowse() end, "Browse" },
+    g = {
+      function()
+        Snacks.lazygit()
+      end,
+      "Lazygit",
+    },
+    L = {
+      function()
+        Snacks.lazygit.log()
+      end,
+      "Full log",
+    },
+    l = {
+      function()
+        Snacks.lazygit.log_file()
+      end,
+      "Log file",
+    },
+    B = {
+      function()
+        Snacks.gitbrowse()
+      end,
+      "Browse",
+    },
     f = { "<cmd>Git<cr>", "Fugitive" },
     a = { "<cmd>Git blame<cr>", "Blame all file" },
     j = { "<cmd>lua require 'gitsigns'.nav_hunk('next', {navigation_message = false})<cr>", "Next Hunk" },
@@ -74,10 +122,15 @@ M.config = function ()
     d = { "<cmd>Gitsigns diffthis HEAD<cr>", "Git Diff" },
     b = {
       name = "Blame",
-      l = { function() Snacks.git.blame_line() end, "Snacks Blame" },
+      l = {
+        function()
+          Snacks.git.blame_line()
+        end,
+        "Snacks Blame",
+      },
       b = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
       B = { "<cmd>lua require 'gitsigns'.blame_line({full=true})<cr>", "Blame Line (full)" },
-    }
+    },
   }
 
   -- LSP
@@ -86,8 +139,18 @@ M.config = function ()
     a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
     d = { "<cmd>Telescope diagnostics bufnr=0 theme=get_ivy<cr>", "Buffer Diagnostics" },
     w = { "<cmd>Telescope diagnostics<cr>", "Diagnostics" },
-    -- f = { "<cmd>lua require('lvim.lsp.utils').format()<cr>", "Format" },
-    f = { function() require("conform").format({}) end, "Format" },
+    f = {
+      function()
+        if vim.bo.filetype == 'typescript' then
+          vim.cmd("EslintFixAll")
+        elseif vim.bo.filetype == "scss" then
+          vim.lsp.buf.format()
+        else
+          require("conform").format({})
+        end
+      end,
+      "Format",
+    },
     i = { "<cmd>LspInfo<cr>", "Info" },
     I = { "<cmd>Mason<cr>", "Mason Info" },
     j = {
@@ -110,15 +173,22 @@ M.config = function ()
     u = { "<cmd>Telescope lsp_references<cr>", "References" },
     m = { "<cmd>TSToolsAddMissingImports<cr>", "Missing Imports" },
     x = { "<cmd>TSToolsRemoveUnusedImports<cr>", "Unused Imports" },
-    c = { function() require("lint").try_lint() end, "Trigger Nvim linting" },
+    c = {
+      function()
+        require("lint").try_lint()
+      end,
+      "Trigger Nvim linting",
+    },
   }
 
   lvim.builtin.which_key.mappings["bx"] = {
-    "<cmd>BufferLineCloseOthers<cr>", "Close others"
+    "<cmd>BufferLineCloseOthers<cr>",
+    "Close others",
   }
 
   lvim.builtin.which_key.mappings["bp"] = {
-    "<cmd>BufferLineTogglePin<cr>", "Toggle Pin"
+    "<cmd>BufferLineTogglePin<cr>",
+    "Toggle Pin",
   }
 
   lvim.builtin.which_key.mappings["v"] = {
@@ -155,7 +225,8 @@ M.config = function ()
   }
 
   lvim.builtin.which_key.mappings["f"] = {
-    "<cmd>lua require('telescope').extensions.menufacture.git_files()<cr>", "Find Git file"
+    "<cmd>lua require('telescope').extensions.menufacture.git_files()<cr>",
+    "Find Git file",
   }
 
   -- Telescope
@@ -174,7 +245,10 @@ M.config = function ()
     C = { "<cmd>Telescope commands<cr>", "Commands" },
     l = { "<cmd>Telescope resume<cr>", "Resume last search" },
     s = { "<cmd>Telescope possession list<cr>", "Sessions" },
-    p = { "<cmd>lua require('telescope.builtin').colorscheme({enable_preview = true})<cr>", "Colorscheme with Preview" },
+    p = {
+      "<cmd>lua require('telescope.builtin').colorscheme({enable_preview = true})<cr>",
+      "Colorscheme with Preview",
+    },
     g = {
       name = "Git",
       g = { "<cmd>lua require('telescope').extensions.menufacture.git_files()<cr>", "Git Files" },
@@ -196,10 +270,30 @@ M.config = function ()
 
   lvim.builtin.which_key.mappings["a"] = {
     name = "Flash and Aerial",
-    s = { function() require("flash").jump() end, "Flash jump" },
-    t = { function() require("flash").treesitter() end, "Flash Treesitter" },
-    r = { function() require("flash").treesitter_search() end, "Flash Treesitter Search" },
-    e = { function() require("flash").remote() end, "Flash Remote" },
+    s = {
+      function()
+        require("flash").jump()
+      end,
+      "Flash jump",
+    },
+    t = {
+      function()
+        require("flash").treesitter()
+      end,
+      "Flash Treesitter",
+    },
+    r = {
+      function()
+        require("flash").treesitter_search()
+      end,
+      "Flash Treesitter Search",
+    },
+    e = {
+      function()
+        require("flash").remote()
+      end,
+      "Flash Remote",
+    },
     a = { "<cmd>AerialToggle<cr>", "Aerial Toggle" },
   }
 
@@ -214,11 +308,36 @@ M.config = function ()
   local harpoon = require("harpoon")
   lvim.builtin.which_key.mappings["o"] = {
     name = "Harpoon",
-    a = { function() harpoon:list():add() end, "Add to list" },
-    d = { function() harpoon:list():remove() end, "Remove from list" },
-    n = { function() harpoon:list():next() end, "Next mark" },
-    p = { function() harpoon:list():prev() end, "Previous mark" },
-    m = { function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, "Toggle list" },
+    a = {
+      function()
+        harpoon:list():add()
+      end,
+      "Add to list",
+    },
+    d = {
+      function()
+        harpoon:list():remove()
+      end,
+      "Remove from list",
+    },
+    n = {
+      function()
+        harpoon:list():next()
+      end,
+      "Next mark",
+    },
+    p = {
+      function()
+        harpoon:list():prev()
+      end,
+      "Previous mark",
+    },
+    m = {
+      function()
+        harpoon.ui:toggle_quick_menu(harpoon:list())
+      end,
+      "Toggle list",
+    },
     t = { "<cmd>Telescope harpoon marks<cr>", "Search marks" },
   }
 
@@ -253,43 +372,87 @@ M.config = function ()
 
   lvim.builtin.which_key.mappings["u"] = {
     name = "Snacks",
-    z = { function() Snacks.toggle.zen():toggle() end, "Zen mode" },
-    o = { function() Snacks.toggle.zoom():toggle() end, "Zoom" },
-    n = { function() Snacks.notifier.show_history() end, "Notification history" },
-    d = { function() Snacks.toggle.dim():toggle() end, "Dim" },
-    g = { function() Snacks.lazygit() end, "Lazygit" },
-    s = { function() Snacks.scratch() end, "Scratch" },
-    S = { function() Snacks.scratch.select() end, "Scratch select" },
-    j = { function() Snacks.words.jump(vim.v.count1) end, "Next reference" },
-    k = { function() Snacks.words.jump(-vim.v.count1) end, "Previous reference" },
+    z = {
+      function()
+        Snacks.toggle.zen():toggle()
+      end,
+      "Zen mode",
+    },
+    o = {
+      function()
+        Snacks.toggle.zoom():toggle()
+      end,
+      "Zoom",
+    },
+    n = {
+      function()
+        Snacks.notifier.show_history()
+      end,
+      "Notification history",
+    },
+    d = {
+      function()
+        Snacks.toggle.dim():toggle()
+      end,
+      "Dim",
+    },
+    g = {
+      function()
+        Snacks.lazygit()
+      end,
+      "Lazygit",
+    },
+    s = {
+      function()
+        Snacks.scratch()
+      end,
+      "Scratch",
+    },
+    S = {
+      function()
+        Snacks.scratch.select()
+      end,
+      "Scratch select",
+    },
+    j = {
+      function()
+        Snacks.words.jump(vim.v.count1)
+      end,
+      "Next reference",
+    },
+    k = {
+      function()
+        Snacks.words.jump(-vim.v.count1)
+      end,
+      "Previous reference",
+    },
   }
 
   function vim.getVisualSelection()
     vim.cmd('noau normal! "vy"')
-    local text = vim.fn.getreg('v')
-    vim.fn.setreg('v', {})
+    local text = vim.fn.getreg("v")
+    vim.fn.setreg("v", {})
 
     text = string.gsub(text, "\n", "")
     if #text > 0 then
       return text
     else
-      return ''
+      return ""
     end
   end
 
-
   local keymap = vim.keymap.set
-  local tb = require('telescope.builtin')
+  local tb = require("telescope.builtin")
   local opts = { noremap = true, silent = true }
 
-  keymap('n', '<space>z', ':Telescope current_buffer_fuzzy_find<cr>', opts)
-  keymap('v', '<space>z', function()
+  keymap("n", "<space>z", ":Telescope current_buffer_fuzzy_find<cr>", opts)
+  keymap("v", "<space>z", function()
     local text = vim.getVisualSelection()
     tb.current_buffer_fuzzy_find({ default_text = text })
   end, opts)
 
-  keymap('n', '<space>G', ':Telescope live_grep<cr>', opts)
-  keymap('v', '<space>G', function()
+  keymap("n", "<space>G", ":Telescope live_grep<cr>", opts)
+  keymap("v", "<space>G", function()
     local text = vim.getVisualSelection()
     tb.live_grep({ default_text = text })
   end, opts)

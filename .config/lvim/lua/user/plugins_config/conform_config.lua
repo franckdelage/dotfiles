@@ -5,10 +5,10 @@ M.config = function ()
 
   conform.setup({
     formatters_by_ft = {
-      javascript = { "eslint_d" },
-      typescript = { "eslint_d" },
-      html = { "eslint_d", "prettierd" },
-      htmlangular = { "eslint_d", "prettierd" },
+      javascript = { "eslint" },
+      typescript = { "eslint" },
+      html = { "eslint", "prettierd" },
+      htmlangular = { "eslint", "prettierd" },
       css = { "prettierd" },
       scss = { "prettierd" },
       graphql = { "prettierd" },
