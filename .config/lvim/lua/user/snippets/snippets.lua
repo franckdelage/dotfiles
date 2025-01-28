@@ -261,7 +261,7 @@ ls.add_snippets("lua", {
       {
         trigger = i(1),
         name = i(2),
-        type = c(3, { t("fmta", "fmt") }),
+        type = c(3, { t("fmta"), t("fmt") }),
         template = i(4),
         variables = i(5)
       }
@@ -295,6 +295,33 @@ ls.add_snippets("scss", {
       {
         c(1, { t("xs"), t("md") }),
         i(0)
+      }
+    )
+  ),
+  s(
+    { trig="brand", name="Brand exception" },
+    fmt(
+     [[
+      @include bwc.bwc-brand-exception-{}() {{
+        {}
+      }}
+      ]],
+      {
+        c(1, { t("af"), t("kl") }),
+        i(0)
+      }
+    )
+  ),
+  s(
+    { trig="color", name="Color from palette" },
+    fmt(
+      [[
+      var(--bwc-palette-{}-{}){}
+      ]],
+      {
+        i(1, "primary"),
+        i(2),
+        i(0),
       }
     )
   ),

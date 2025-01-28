@@ -143,8 +143,11 @@ M.config = function()
       function()
         if vim.bo.filetype == 'typescript' then
           vim.cmd("EslintFixAll")
-        elseif vim.bo.filetype == "scss" then
+        elseif vim.bo.filetype == "htmlangular" then
           vim.lsp.buf.format()
+          require("conform").format({})
+        -- elseif vim.bo.filetype == "scss" then
+        --   vim.lsp.buf.format()
         else
           require("conform").format({})
         end

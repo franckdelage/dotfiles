@@ -47,7 +47,7 @@ M.config = function()
 			config = function()
 				require("typescript-tools").setup({
 					settings = {
-						separate_diagnostic_server = false,
+						separate_diagnostic_server = true,
 					},
 				})
 			end,

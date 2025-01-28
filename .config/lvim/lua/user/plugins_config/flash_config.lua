@@ -10,7 +10,7 @@ M.config = function ()
     },
     modes = {
       search = {
-        enabled = true,
+        enabled = false,
       },
     },
   })
