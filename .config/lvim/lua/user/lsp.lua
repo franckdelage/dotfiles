@@ -8,6 +8,9 @@ M.config = function()
 		pattern = {
 			[".*%.component%.html"] = "htmlangular",
 		},
+    extension = {
+      mdx = "markdown",
+    },
 	})
 
 	local capabilities = require("blink.cmp").get_lsp_capabilities()

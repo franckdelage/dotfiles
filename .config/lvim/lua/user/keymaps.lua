@@ -9,7 +9,15 @@ M.config = function()
   lvim.lsp.buffer_mappings.normal_mode["gd"] = { "<cmd>Lspsaga peek_definition<cr>", "Peek definition" }
   lvim.lsp.buffer_mappings.normal_mode["gD"] = { "<cmd>Lspsaga goto_definition<cr>", "Go to definition" }
   lvim.lsp.buffer_mappings.normal_mode["gy"] = { "<cmd>Lspsaga goto_type_definition<cr>", "Go to type definition" }
-  lvim.lsp.buffer_mappings.normal_mode["K"] = { "<cmd>Lspsaga hover_doc<cr>", "Hover Documentation" }
+  lvim.lsp.buffer_mappings.normal_mode["K"] = {
+    function ()
+      local winid = require('ufo').peekFoldedLinesUnderCursor()
+      if not winid then
+        vim.cmd("Lspsaga hover_doc")
+      end
+    end,
+    "Hover Documentation"
+  }
   lvim.lsp.buffer_mappings.normal_mode["gl"] = { "<cmd>Lspsaga diagnostic_jump_next<cr>", "Next diagnostic" }
   lvim.lsp.buffer_mappings.normal_mode["gL"] = { "<cmd>Lspsaga diagnostic_jump_prev<cr>", "Previous diagnostic" }
   lvim.lsp.buffer_mappings.normal_mode["gb"] = { "<cmd>Lspsaga show_buf_diagnostics<cr>", "Buffer diagnostics" }

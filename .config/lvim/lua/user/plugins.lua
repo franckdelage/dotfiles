@@ -334,7 +334,12 @@ M.config = function()
     {
       "ibhagwan/fzf-lua",
       dependencies = { "nvim-tree/nvim-web-devicons" },
-    }
+    },
+
+    {
+      "kevinhwang91/nvim-ufo",
+      dependencies = { "kevinhwang91/promise-async" },
+    },
 
 	}
 end

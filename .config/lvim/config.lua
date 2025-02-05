@@ -5,6 +5,11 @@
 -- Discord: https://discord.com/invite/Xb9B4Ny
 
 
+vim.o.foldcolumn = "0" -- '0' is not bad
+vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+
 require("user.lua").config()
 require("user.settings").config()
 require("user.keymaps").config()
@@ -14,6 +19,7 @@ require("user.lsp").config()
 require("user.dap").config()
 require("user.plugins").config()
 
+require("user.plugins_config.ufo").config()
 require("user.plugins_config.lualine").config()
 require("user.plugins_config.blink").config()
 require("user.plugins_config.nvim_lint_config").config()
