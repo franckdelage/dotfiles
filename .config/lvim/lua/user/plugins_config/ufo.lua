@@ -30,6 +30,30 @@ M.config = function()
 			return { "treesitter", "indent" }
 		end,
 	})
+
+  vim.api.nvim_create_autocmd('BufRead', {
+    callback = function()
+      vim.cmd[[ silent! foldclose! ]]
+      local bufnr = vim.api.nvim_get_current_buf()
+      -- make sure buffer is attached
+      vim.wait(100, function() require'ufo'.attach(bufnr) end)
+      if require'ufo'.hasAttached(bufnr) then
+        local winid = vim.api.nvim_get_current_win()
+        local method = vim.wo[winid].foldmethod
+        if method == 'diff' or method == 'marker' then
+          require'ufo'.closeAllFolds()
+          return
+        end
+        -- getFolds returns a Promise if providerName == 'lsp', use vim.wait in this case
+        local ok, ranges = pcall(require'ufo'.getFolds, bufnr, 'treesitter')
+        if ok and ranges then
+          if require'ufo'.applyFolds(bufnr, ranges) then
+            require'ufo'.openAllFolds()
+          end
+        end
+      end
+    end
+  })
 end
 
 return M
