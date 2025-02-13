@@ -256,6 +256,7 @@ M.config = function()
     C = { "<cmd>Telescope commands<cr>", "Commands" },
     l = { "<cmd>Telescope resume<cr>", "Resume last search" },
     s = { "<cmd>Telescope possession list<cr>", "Sessions" },
+    ["/"] = { "<cmd>Telescope search_history<cr>", "Search history" },
     p = {
       "<cmd>lua require('telescope.builtin').colorscheme({enable_preview = true})<cr>",
       "Colorscheme with Preview",
