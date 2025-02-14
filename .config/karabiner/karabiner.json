@@ -54,7 +54,6 @@
                     },
                     {
                         "description": "Caps Lock → Meh Key (⌃⌥⇧) (Caps Lock if alone)",
-                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
