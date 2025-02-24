@@ -6,13 +6,13 @@ local config = wezterm.config_builder()
 
 -- This is where you actually apply your config choices
 config.font = wezterm.font("JetBrainsMono Nerd Font Mono")
-config.font_size = 13
+config.font_size = 18
 
 config.hide_tab_bar_if_only_one_tab = true
 
 config.window_decorations = "RESIZE"
 
-config.window_background_opacity = 0.90
+config.window_background_opacity = 1
 -- config.macos_window_background_blur = 10
 
 local my_catppucin = wezterm.color.get_builtin_schemes()['Catppuccin Frappe']
