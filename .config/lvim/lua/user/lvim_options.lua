@@ -16,12 +16,19 @@ M.config = function ()
 
   lvim.builtin.treesitter.matchup.enable = true
 
-  lvim.builtin.telescope.theme = "ivy"
+  lvim.builtin.telescope.theme = "center"
   ---@diagnostic disable-next-line: unused-local
   lvim.builtin.telescope.defaults.path_display = function(opts, path)
     local tail = require("telescope.utils").path_tail(path)
     return string.format("%s (%s)", tail, path)
   end
+  lvim.builtin.telescope.defaults.layout_strategy = "horizontal"
+  lvim.builtin.telescope.defaults.sorting_strategy = "ascending"
+  lvim.builtin.telescope.defaults.layout_config = {
+    horizontal = {
+      prompt_position = "top",
+    },
+  }
 
   lvim.builtin.project.patterns = { ".git" }
 

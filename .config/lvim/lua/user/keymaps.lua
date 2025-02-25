@@ -124,7 +124,7 @@ M.config = function()
     R = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" },
     s = { "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", "Stage Hunk" },
     u = { "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>", "Undo Stage Hunk" },
-    o = { "<cmd>Telescope git_status<cr>", "Status" },
+    o = { function () Snacks.picker.git_status() end, "Status" },
     c = { "<cmd>Telescope git_commits<cr>", "Checkout commit" },
     C = { "<cmd>Telescope git_bcommits<cr>", "Checkout commit(for current file)" },
     d = { "<cmd>Gitsigns diffthis HEAD<cr>", "Git Diff" },
@@ -145,8 +145,8 @@ M.config = function()
   lvim.builtin.which_key.mappings["l"] = {
     name = "LSP",
     a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
-    d = { "<cmd>Telescope diagnostics bufnr=0 theme=get_ivy<cr>", "Buffer Diagnostics" },
-    w = { "<cmd>Telescope diagnostics<cr>", "Diagnostics" },
+    d = { function () Snacks.picker.diagnostics_buffer() end, "Buffer Diagnostics" },
+    w = { function () Snacks.picker.diagnostics() end, "Diagnostics" },
     f = {
       function()
         if vim.bo.filetype == 'typescript' then
@@ -175,13 +175,13 @@ M.config = function()
     l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
     q = { "<cmd>lua vim.diagnostic.setloclist()<cr>", "Quickfix" },
     r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
-    s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
+    s = { function () Snacks.picker.lsp_symbols() end, "Document Symbols" },
     S = {
-      "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
+      function () Snacks.picker.lsp_workspace_symbols() end,
       "Workspace Symbols",
     },
-    e = { "<cmd>Telescope quickfix<cr>", "Telescope Quickfix" },
-    u = { "<cmd>Telescope lsp_references<cr>", "References" },
+    e = { function () Snacks.picker.qflist() end, "Telescope Quickfix" },
+    u = { function () Snacks.picker.lsp_references() end, "References" },
     m = { "<cmd>TSToolsAddMissingImports<cr>", "Missing Imports" },
     x = { "<cmd>TSToolsRemoveUnusedImports<cr>", "Unused Imports" },
     c = {
@@ -241,22 +241,25 @@ M.config = function()
   }
 
   -- Telescope
+
+  lvim.builtin.which_key.mappings["f"] = { function () Snacks.picker.git_files() end, "Find Git files" }
+
   lvim.builtin.which_key.mappings["s"] = {
     name = "Search",
-    c = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
+    c = { function () Snacks.picker.colorschemes() end, "Colorscheme" },
     f = { "<cmd>lua require('telescope').extensions.menufacture.find_files()<cr>", "Find File" },
     z = { "<cmd>lua require('telescope').extensions.menufacture.grep_string()<cr>", "Find string under cursor" },
-    h = { "<cmd>Telescope help_tags<cr>", "Find Help" },
-    H = { "<cmd>Telescope highlights<cr>", "Find highlight groups" },
-    M = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
+    h = { function () Snacks.picker.help() end, "Find Help" },
+    H = { function () Snacks.picker.highlights() end, "Find highlight groups" },
+    M = { function () Snacks.picker.man() end, "Man Pages" },
     r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
     R = { "<cmd>Telescope registers<cr>", "Registers" },
     t = { "<cmd>lua require('telescope').extensions.menufacture.live_grep()<cr>", "Text" },
     k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
-    C = { "<cmd>Telescope commands<cr>", "Commands" },
+    C = { function () Snacks.picker.commands() end, "Commands" },
     l = { "<cmd>Telescope resume<cr>", "Resume last search" },
-    s = { "<cmd>Telescope possession list<cr>", "Sessions" },
-    ["/"] = { "<cmd>Telescope search_history<cr>", "Search history" },
+    s = { "<cmd>Telescope possession list theme=ivy<cr>", "Sessions" },
+    ["/"] = { function () Snacks.picker.search_history() end, "Search history" },
     p = {
       "<cmd>lua require('telescope.builtin').colorscheme({enable_preview = true})<cr>",
       "Colorscheme with Preview",

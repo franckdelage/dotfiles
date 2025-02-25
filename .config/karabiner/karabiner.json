@@ -5,6 +5,7 @@
                 "rules": [
                     {
                         "description": "Change right_command+hjkl to arrow keys",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
@@ -54,6 +55,7 @@
                     },
                     {
                         "description": "Caps Lock → Meh Key (⌃⌥⇧) (Caps Lock if alone)",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {

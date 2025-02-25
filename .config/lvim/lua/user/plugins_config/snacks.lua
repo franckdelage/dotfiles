@@ -17,6 +17,7 @@ M.config = function ()
     input = { enabled = true },
     lazygit = { enabled = true },
     notifier = { enabled = true },
+    picker = { enabled = true },
     scratch = { enabled = true },
     scroll = { enabled = true },
     toggle = { enabled = true },

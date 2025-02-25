@@ -331,16 +331,15 @@ M.config = function()
 			opts_extend = { "sources.default" },
 		},
 
-    {
-      "ibhagwan/fzf-lua",
-      dependencies = { "nvim-tree/nvim-web-devicons" },
-    },
+		{
+			"ibhagwan/fzf-lua",
+			dependencies = { "nvim-tree/nvim-web-devicons" },
+		},
 
-    {
-      "kevinhwang91/nvim-ufo",
-      dependencies = { "kevinhwang91/promise-async" },
-    },
-
+		{
+			"kevinhwang91/nvim-ufo",
+			dependencies = { "kevinhwang91/promise-async" },
+		},
 	}
 end
 
