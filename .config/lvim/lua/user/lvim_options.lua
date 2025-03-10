@@ -5,6 +5,8 @@ M.config = function ()
 
   vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "tsserver" })
   lvim.lsp.automatic_servers_installation = false
+  
+  lvim.builtin.bigfile.active = false
 
   lvim.builtin.cmp.active = false
 

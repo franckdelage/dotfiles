@@ -3,7 +3,7 @@ local M = {}
 M.config = function()
   require('lspsaga').setup({
     definition = {
-      width = 0.8,
+      width = 0.9,
       height = 0.8,
     },
     symbol_in_winbar = {

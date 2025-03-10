@@ -50,7 +50,8 @@ M.config = function()
     "Flash",
   }
 
-  vim.keymap.set("n", "-", "<cmd>Oil<cr>", { desc = "Open parent directory" })
+  -- vim.keymap.set("n", "-", "<cmd>Oil<cr>", { desc = "Open parent directory" })
+  vim.keymap.set("n", "-", function() require("oil").open_float() end, { desc = "Open parent directory" })
 
   lvim.builtin.which_key.mappings["c"] = {
     function()
@@ -285,31 +286,17 @@ M.config = function()
 
   lvim.builtin.which_key.mappings["a"] = {
     name = "Flash and Aerial",
-    s = {
-      function()
-        require("flash").jump()
-      end,
-      "Flash jump",
-    },
-    t = {
-      function()
-        require("flash").treesitter()
-      end,
-      "Flash Treesitter",
-    },
-    r = {
-      function()
-        require("flash").treesitter_search()
-      end,
-      "Flash Treesitter Search",
-    },
-    e = {
-      function()
-        require("flash").remote()
-      end,
-      "Flash Remote",
-    },
+    s = { function() require("flash").jump() end, "Flash jump", },
+    t = { function() require("flash").treesitter() end, "Flash Treesitter", },
+    r = { function() require("flash").treesitter_search() end, "Flash Treesitter Search", },
+    e = { function() require("flash").remote() end, "Flash Remote", },
     a = { "<cmd>AerialToggle<cr>", "Aerial Toggle" },
+    j = { function() require("aerial").snacks_picker({
+      layout = {
+        preset = "dropdown",
+        preview = false,
+      },
+    }) end, "Aerial Jump", },
   }
 
   lvim.builtin.which_key.mappings["r"] = {

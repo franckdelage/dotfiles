@@ -133,6 +133,7 @@ ctrl-alt-shift-t = 'workspace T'
 ctrl-alt-shift-v = 'workspace W'
 ctrl-alt-shift-w = 'workspace W'
 ctrl-alt-shift-x = 'workspace X'
+ctrl-alt-shift-y = 'workspace Y'
 ctrl-alt-shift-z = 'workspace Z'
 alt-space = 'workspace W'
 
@@ -157,6 +158,7 @@ alt-shift-t = 'move-node-to-workspace T'
 alt-shift-v = 'move-node-to-workspace W'
 alt-shift-w = 'move-node-to-workspace W'
 alt-shift-x = 'move-node-to-workspace X'
+alt-shift-y = 'move-node-to-workspace Y'
 alt-shift-z = 'move-node-to-workspace Z'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
@@ -191,9 +193,11 @@ w = 'z'
 
 [workspace-to-monitor-force-assignment]
 W = 'benq'
+Y = 'benq'
 
 B = 'asus'
 D = 'asus'
+E = 'asus'
 X = 'asus'
 Z = 'asus'
 
