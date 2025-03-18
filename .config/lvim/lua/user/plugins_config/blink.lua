@@ -24,6 +24,17 @@ M.config = function()
 				end,
 			},
 		},
+		cmdline = {
+			enabled = true,
+			completion = {
+				menu = {
+					auto_show = true,
+				},
+        -- ghost_text = {
+        --   enabled = false,
+        -- },
+			},
+		},
 		completion = {
 			menu = {
 				auto_show = function(ctx)
@@ -68,7 +79,7 @@ M.config = function()
 			end,
 		},
 		sources = {
-			default = { "snippets", "lsp", "path", "buffer", },
+			default = { "snippets", "lsp", "path", "buffer" },
 			providers = {
 				ripgrep = {
 					module = "blink-ripgrep",

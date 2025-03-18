@@ -340,6 +340,12 @@ M.config = function()
 			"kevinhwang91/nvim-ufo",
 			dependencies = { "kevinhwang91/promise-async" },
 		},
+
+    {
+      "rmagatti/auto-session",
+      lazy = false,
+    },
+
 	}
 end
 

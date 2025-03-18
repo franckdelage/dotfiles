@@ -19,6 +19,7 @@ require("user.lsp").config()
 require("user.dap").config()
 require("user.plugins").config()
 
+require("user.plugins_config.autosession").config()
 require("user.plugins_config.ufo").config()
 require("user.plugins_config.lualine").config()
 require("user.plugins_config.blink").config()

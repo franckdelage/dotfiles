@@ -41,7 +41,7 @@ M.config = function()
     function()
       require("lua.user.plugins_config.flash").jump()
     end,
-    "Flash",
+
   }
   lvim.lsp.buffer_mappings.normal_mode["<leader>,"] = {
     function()
@@ -259,7 +259,8 @@ M.config = function()
     k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
     C = { function () Snacks.picker.commands() end, "Commands" },
     l = { "<cmd>Telescope resume<cr>", "Resume last search" },
-    s = { "<cmd>Telescope possession list theme=ivy<cr>", "Sessions" },
+    -- s = { "<cmd>Telescope possession list theme=ivy<cr>", "Sessions" },
+    s = { "<cmd>SessionSearch<cr>", "Sessions" },
     ["/"] = { function () Snacks.picker.search_history() end, "Search history" },
     p = {
       "<cmd>lua require('telescope.builtin').colorscheme({enable_preview = true})<cr>",
@@ -279,7 +280,7 @@ M.config = function()
     b = {
       name = "Buffers",
       s = { "<cmd>Telescope scope buffers<cr>", "All Buffers" },
-      b = { "<cmd>Telescope buffers<cr>", "Tab's Buffers" },
+      b = { function () Snacks.picker.buffers() end, "Tab's Buffers" },
       f = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Fuzzy find" },
     },
   }
