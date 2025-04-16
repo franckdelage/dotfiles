@@ -63,24 +63,24 @@ M.config = function()
 			},
 		},
 
-		{
-			"jedrzejboczar/possession.nvim",
-			dependencies = {
-				"nvim-lua/plenary.nvim",
-				"nvim-telescope/telescope.nvim",
-				config = function()
-					require("telescope").load_extension("possession")
-				end,
-			},
-			opts = {
-				autosave = {
-					current = true,
-				},
-				plugins = {
-					delete_buffers = true,
-				},
-			},
-		},
+		-- {
+		-- 	"jedrzejboczar/possession.nvim",
+		-- 	dependencies = {
+		-- 		"nvim-lua/plenary.nvim",
+		-- 		"nvim-telescope/telescope.nvim",
+		-- 		config = function()
+		-- 			require("telescope").load_extension("possession")
+		-- 		end,
+		-- 	},
+		-- 	opts = {
+		-- 		autosave = {
+		-- 			current = true,
+		-- 		},
+		-- 		plugins = {
+		-- 			delete_buffers = true,
+		-- 		},
+		-- 	},
+		-- },
 
 		{
 			"folke/noice.nvim",

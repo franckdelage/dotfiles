@@ -76,6 +76,9 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # Deno/Altea
 export PATH="$HOME/.deno/bin:$PATH"
 
+# neovim
+export PATH="$HOME/.local/nvim/bin:$PATH"
+
 # Starship
 eval "$(starship init zsh)"
 

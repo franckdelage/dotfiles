@@ -117,6 +117,7 @@ M.config = function()
       "Browse",
     },
     f = { "<cmd>Git<cr>", "Fugitive" },
+    h = { "<cmd>Octo pr list<cr>", "List Pull Requests" },
     a = { "<cmd>Git blame<cr>", "Blame all file" },
     j = { "<cmd>lua require 'gitsigns'.nav_hunk('next', {navigation_message = false})<cr>", "Next Hunk" },
     k = { "<cmd>lua require 'gitsigns'.nav_hunk('prev', {navigation_message = false})<cr>", "Prev Hunk" },
@@ -279,7 +280,7 @@ M.config = function()
     },
     b = {
       name = "Buffers",
-      s = { "<cmd>Telescope scope buffers<cr>", "All Buffers" },
+      s = { function () Snacks.picker.buffers({ hidden = true }) end, "All Buffers" },
       b = { function () Snacks.picker.buffers() end, "Tab's Buffers" },
       f = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Fuzzy find" },
     },

@@ -94,7 +94,10 @@ M.config = function()
 		},
 		signature = {
 			enabled = true,
-			window = { border = "rounded" },
+			window = {
+        border = "rounded",
+        show_documentation = false,
+      },
 		},
 		fuzzy = {
 			sorts = {

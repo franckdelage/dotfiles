@@ -3,6 +3,7 @@ alias sc='source $HOME/.zshrc'
 
 alias cdc='cd ~ && clear'
 
+alias nvim='$HOME/Tools/neovim/nvim-macos-arm64/bin/nvim'
 alias vim='lvim'
 
 alias mux='tmuxinator start'

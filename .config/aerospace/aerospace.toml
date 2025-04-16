@@ -26,8 +26,7 @@ enable-normalization-opposite-orientation-for-nested-containers = true
 accordion-padding = 30
 
 # Possible values: tiles|accordion
-default-root-container-layout = 'accordion'
-
+default-root-container-layout = 'tiles'
 # Possible values: horizontal|vertical|auto
 # 'auto' means: wide monitor (anything wider than high) gets horizontal orientation,
 #               tall monitor (anything higher than wide) gets vertical orientation
@@ -53,10 +52,10 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 [gaps]
 inner.horizontal = 8
 inner.vertical =   8
-outer.left =       0
-outer.bottom =     0
-outer.top =        0
-outer.right =      0
+outer.left =       [{ monitor."benq" = 0 }, 8]
+outer.bottom =     [{ monitor."benq" = 0 }, 8]
+outer.top =        [{ monitor."benq" = 0 }, 8]
+outer.right =      [{ monitor."benq" = 0 }, 8]
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -93,17 +92,15 @@ alt-shift-q = 'layout accordion horizontal vertical'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#focus
 ctrl-alt-shift-h = 'focus left'
-ctrl-alt-shift-p = 'focus left'
 ctrl-alt-shift-j = 'focus down'
 ctrl-alt-shift-k = 'focus up'
 ctrl-alt-shift-l = 'focus right'
-ctrl-alt-shift-n = 'focus right'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move
-# alt-shift-h = 'move left'
-# alt-shift-j = 'move down'
-# alt-shift-k = 'move up'
-# alt-shift-l = 'move right'
+cmd-ctrl-alt-shift-h = 'move left'
+cmd-ctrl-alt-shift-j = 'move down'
+cmd-ctrl-alt-shift-k = 'move up'
+cmd-ctrl-alt-shift-l = 'move right'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#resize
 # alt-shift-minus = 'resize smart -50'
@@ -127,6 +124,7 @@ ctrl-alt-shift-d = 'workspace D'
 ctrl-alt-shift-e = 'workspace E'
 ctrl-alt-shift-f = 'workspace F'
 ctrl-alt-shift-o = 'workspace O'
+ctrl-alt-shift-q = 'workspace Q'
 ctrl-alt-shift-r = 'workspace R'
 ctrl-alt-shift-s = 'workspace S'
 ctrl-alt-shift-t = 'workspace T'

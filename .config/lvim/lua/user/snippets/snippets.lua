@@ -319,7 +319,7 @@ ls.add_snippets("scss", {
       var(--bwc-palette-{}-{}){}
       ]],
       {
-        i(1, "primary"),
+        i(1, ""),
         i(2),
         i(0),
       }
@@ -413,27 +413,67 @@ ls.add_snippets("htmlangular", {
         <mat-form-field outline-content>
           <input
             matInput
-            formControlName="{}"
-            placeholder="{{{{ '{}' | transloco }}}}"
+            formControlName="{1}"
+            [placeholder]="'{2}' | transloco"
           />
           <mat-error>
-            <bwc-form-errors [control]="{}.get('{}')">
+            <bwc-form-errors [control]="{3}.get('{1}')">
               <bwc-form-error for="required">
-                {{{{ '{}' | transloco }}}}
+                {{{{ '{4}' | transloco }}}}
               </bwc-form-error>
             </bwc-form-errors>
           </mat-error>
         </mat-form-field>
-      </bwc-form-input-container>{}
+      </bwc-form-input-container>
       ]],
       {
         i(1),
         i(2),
         i(3),
-        rep(1),
+        i(4),
+      }, { repeat_duplicates = true }
+    )
+  ),
+  s(
+    { trig="formselect", name="Blueweb Angular form select" },
+    fmt(
+      [[
+      <bwc-form-input-container [isOutlined]="true">
+        <bwc-form-select outline-content [control]="{1}.get('{2}')">
+          <mat-form-field>
+            <mat-select
+              formControlName="{2}"
+              [placeholder]="'{3}' | transloco"
+            >
+              @for ({4} of {5}; track {6}) {{
+                <mat-option [value]="{7}">
+                  <span>{8}</span>
+                </mat-option>
+              }}
+            </mat-select>
+
+            <mat-error>
+              <bwc-form-errors [control]="{1}.get('{2}')">
+                <bwc-form-error for="required">
+                  {{{{ '{9}' | transloco }}}}
+                </bwc-form-error>
+              </bwc-form-errors>
+            </mat-error>
+          </mat-form-field>
+        </bwc-form-select>
+      </bwc-form-input-container>
+      ]],
+      {
+        i(1),
+        i(2),
+        i(3),
+        i(4),
         i(5),
-        i(0)
-      }
+        i(6),
+        i(7),
+        i(8),
+        i(9),
+      }, { repeat_duplicates = true }
     )
   ),
   s(
@@ -443,7 +483,7 @@ ls.add_snippets("htmlangular", {
       bwc-grid__col--{}--span-{}
       ]],
       {
-        c(1, { t("xs"), t("md"), t("lg") }),
+        c(1, { t("sm"), t("md"), t("lg") }),
         i(2)
       }
     )
