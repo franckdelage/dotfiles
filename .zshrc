@@ -96,6 +96,7 @@ alias sc='source $HOME/.zshrc'
 alias cdc='cd ~ && clear'
 
 alias vim='lvim'
+alias nvim-kickstart='NVIM_APPNAME="nvim-kickstart" /opt/homebrew/bin/nvim'
 
 alias mux='tmuxinator start'
 

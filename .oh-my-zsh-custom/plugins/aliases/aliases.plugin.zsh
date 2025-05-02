@@ -5,6 +5,7 @@ alias cdc='cd ~ && clear'
 
 alias nvim='$HOME/Tools/neovim/nvim-macos-arm64/bin/nvim'
 alias vim='lvim'
+alias nvim-kickstart='NVIM_APPNAME="nvim-kickstart" nvim'
 
 alias mux='tmuxinator start'
 
