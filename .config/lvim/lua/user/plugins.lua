@@ -341,11 +341,10 @@ M.config = function()
 			dependencies = { "kevinhwang91/promise-async" },
 		},
 
-    {
-      "rmagatti/auto-session",
-      lazy = false,
-    },
-
+		{
+			"rmagatti/auto-session",
+			lazy = false,
+		},
 	}
 end
 
