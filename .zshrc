@@ -38,7 +38,8 @@ bindkey '^n' autosuggest-accept
 export TERM=xterm-256color-italic
 
 export PATH="$HOME/.local/bin:$PATH"
-export EDITOR=lvim
+# export EDITOR=lvim
+export EDITOR=nvim
 
 bindkey -v
 
@@ -77,7 +78,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="$HOME/.deno/bin:$PATH"
 
 # neovim
-export PATH="$HOME/.local/nvim/bin:$PATH"
+# export PATH="$HOME/.local/nvim/bin:$PATH"
 
 # Starship
 eval "$(starship init zsh)"
@@ -95,8 +96,8 @@ alias sc='source $HOME/.zshrc'
 
 alias cdc='cd ~ && clear'
 
-alias vim='lvim'
-alias nvim-kickstart='NVIM_APPNAME="nvim-kickstart" /opt/homebrew/bin/nvim'
+alias vim='nvim'
+# alias nvim-kickstart='NVIM_APPNAME="nvim-kickstart" /opt/homebrew/bin/nvim'
 
 alias mux='tmuxinator start'
 
