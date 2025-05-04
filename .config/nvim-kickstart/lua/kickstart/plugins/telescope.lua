@@ -25,6 +25,7 @@ return {
         end,
       },
       { 'nvim-telescope/telescope-ui-select.nvim' },
+      { 'nvim-telescope/telescope-file-browser.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
@@ -68,19 +69,46 @@ return {
         },
       }
 
+      local ts_select_dir_for_grep = function(prompt_bufnr)
+        local action_state = require("telescope.actions.state")
+        local fb = require("telescope").extensions.file_browser
+        local live_grep = require("telescope.builtin").live_grep
+        local current_line = action_state.get_current_line()
+
+        fb.file_browser({
+          files = false,
+          depth = false,
+          attach_mappings = function(prompt_bufnr)
+            require("telescope.actions").select_default:replace(function()
+              local entry_path = action_state.get_selected_entry().Path
+              local dir = entry_path:is_dir() and entry_path or entry_path:parent()
+              local relative = dir:make_relative(vim.fn.getcwd())
+              local absolute = dir:absolute()
+
+              live_grep({
+                results_title = relative .. "/",
+                cwd = absolute,
+                default_text = current_line,
+              })
+            end)
+
+            return true
+          end,
+        })
+      end
+
       -- Enable Telescope extensions if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
-      local mf = require('telescope').extensions.menufacture
       -- vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       -- vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader>sf', mf.find_files, { desc = 'Search Files' })
+      vim.keymap.set('n', '<leader>sf', require('telescope').extensions.file_browser.file_browser, { desc = 'Search Files' })
       -- vim.keymap.set('n', '<leader>st', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-      vim.keymap.set('n', '<leader>sw', mf.grep_string, { desc = 'Search current Word' })
-      vim.keymap.set('n', '<leader>sg', mf.live_grep, { desc = 'Search by Grep' })
+      vim.keymap.set('n', '<leader>sz', require('telescope').extensions.menufacture.grep_string, { desc = 'Search current Word' })
+      vim.keymap.set('n', '<leader>st', ts_select_dir_for_grep, { desc = 'Search by Grep' })
       -- vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       -- vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       -- vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })

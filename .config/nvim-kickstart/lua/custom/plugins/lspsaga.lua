@@ -25,5 +25,8 @@ return {
         shuttle = ']w'
       }
     }
+  },
+  keys = {
+    { "gd", '<cmd>Lspsaga peek_definition<cr>', desc = "Goto Definition" },
   }
 }

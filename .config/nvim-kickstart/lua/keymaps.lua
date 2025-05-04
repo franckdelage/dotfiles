@@ -60,5 +60,11 @@ vim.keymap.set('n', '<leader>w', '<cmd>w<cr>', { desc = 'Save' })
 vim.keymap.set('n', '<leader>q', '<cmd>q<cr>', { desc = 'Close buffer' })
 vim.keymap.set('n', '<leader>W', '<cmd>wall<cr>', { desc = 'Save all' })
 vim.keymap.set('n', '<leader>X', '<cmd>xall<cr>', { desc = 'Save all and quit' })
+vim.keymap.set('n', 'tg', 'gT', { desc = 'Previous tab' })
+
+vim.keymap.set('n', '<leader>pt', '<cmd>Vtemplate<cr>', { desc = 'Template' })
+vim.keymap.set('n', '<leader>pc', '<cmd>Vcomponent<cr>', { desc = 'Component' })
+vim.keymap.set('n', '<leader>ps', '<cmd>Vspec<cr>', { desc = 'Spec' })
+vim.keymap.set('n', '<leader>pa', '<cmd>Vscss<cr>', { desc = 'Stylesheet' })
 
 -- vim: ts=2 sts=2 sw=2 et
