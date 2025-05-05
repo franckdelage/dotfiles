@@ -25,20 +25,20 @@ return {
       --   changedelete = { text = '~' },
       -- },
       signs = {
-        add          = { text = '┃' },
-        change       = { text = '┃' },
-        delete       = { text = '_' },
-        topdelete    = { text = '‾' },
+        add = { text = '┃' },
+        change = { text = '┃' },
+        delete = { text = '_' },
+        topdelete = { text = '‾' },
         changedelete = { text = '~' },
-        untracked    = { text = '┆' },
+        untracked = { text = '┆' },
       },
       signs_staged = {
-        add          = { text = '┃' },
-        change       = { text = '┃' },
-        delete       = { text = '_' },
-        topdelete    = { text = '‾' },
+        add = { text = '┃' },
+        change = { text = '┃' },
+        delete = { text = '_' },
+        topdelete = { text = '‾' },
         changedelete = { text = '~' },
-        untracked    = { text = '┆' },
+        untracked = { text = '┆' },
       },
       on_attach = function(bufnr)
         local gitsigns = require 'gitsigns'
@@ -79,16 +79,19 @@ return {
         map('n', '<leader>gr', gitsigns.reset_hunk, { desc = 'Reset hunk' })
         map('n', '<leader>gS', gitsigns.stage_buffer, { desc = 'Stage buffer' })
         map('n', '<leader>gu', gitsigns.stage_hunk, { desc = 'Undo stage hunk' })
-        map('n', '<leader>hR', gitsigns.reset_buffer, { desc = 'Reset buffer' })
+        map('n', '<leader>gR', gitsigns.reset_buffer, { desc = 'Reset buffer' })
         map('n', '<leader>gp', gitsigns.preview_hunk, { desc = 'Preview hunk' })
         map('n', '<leader>gbb', gitsigns.blame_line, { desc = 'Blame line' })
+        map('n', '<leader>gbB', function()
+          require('gitsigns').blame_line { full = true }
+        end, { desc = 'Blame line' })
         map('n', '<leader>gd', gitsigns.diffthis, { desc = 'Diff against index' })
         map('n', '<leader>gD', function()
           gitsigns.diffthis '@'
         end, { desc = 'Diff against last commit' })
         -- Toggles
         map('n', '<leader>gbc', gitsigns.toggle_current_line_blame, { desc = 'Toggle git show blame line' })
-        map('n', '<leader>gD', gitsigns.preview_hunk_inline, { desc = 'Toggle git show Deleted' })
+        -- map('n', '<leader>gD', gitsigns.preview_hunk_inline, { desc = 'Toggle git show Deleted' })
       end,
     },
   },

@@ -8,9 +8,9 @@ M.config = function()
 		pattern = {
 			[".*%.component%.html"] = "htmlangular",
 		},
-    extension = {
-      mdx = "markdown",
-    },
+		extension = {
+			mdx = "markdown",
+		},
 	})
 
 	local capabilities = require("blink.cmp").get_lsp_capabilities()
@@ -32,13 +32,13 @@ M.config = function()
 		filetypes = { "typescript", "javascript", "html", "htmlangular" },
 		capabilities = capabilities,
 		settings = {
-      probe = { "typescript", "javascript", "html", "htmlangular" },
-      format = {
-        enable = true,
-      },
-      experimental = {
-        useFlatConfig = true,
-      },
+			probe = { "typescript", "javascript", "html", "htmlangular" },
+			format = {
+				enable = true,
+			},
+			experimental = {
+				useFlatConfig = true,
+			},
 		},
 	})
 

@@ -67,6 +67,7 @@ return {
         { '<leader>o', group = 'Octo' },
         { '<leader>l', group = 'Language' },
         { '<leader>p', group = 'Projectionist' },
+        { '<leader>gb', group = 'Blame' },
         -- { '<leader>h', group = 'Git Hunk', mode = { 'n', 'v' } },
       },
     },
