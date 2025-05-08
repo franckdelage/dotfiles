@@ -7,7 +7,16 @@ return {
       {
         '<leader>lf',
         function()
-          require('conform').format { async = true, lsp_format = 'fallback' }
+          if vim.bo.filetype == 'typescript' then
+            vim.cmd("EslintFixAll")
+          elseif vim.bo.filetype == "htmlangular" then
+            vim.lsp.buf.format()
+            require('conform').format { async = true, lsp_format = 'fallback' }
+            -- elseif vim.bo.filetype == "scss" then
+            --   vim.lsp.buf.format()
+          else
+            require('conform').format { async = true, lsp_format = 'fallback' }
+          end
         end,
         mode = '',
         desc = 'Format buffer',

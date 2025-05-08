@@ -5,9 +5,10 @@ return {
   ---@type snacks.Config
   opts = {
     animate = { enabled = true },
-    bigfile = { enabled = true },
+    bigfile = { enabled = false },
     bufdelete = { enabled = true },
     dim = {
+      enabled = false,
       scope = {
         min_size = 3,
         max_size = 20,
@@ -16,12 +17,13 @@ return {
     },
     git = { enabled = true },
     gitbrowse = { enabled = true },
-    input = { enabled = true },
+    input = { enabled = false },
     lazygit = { enabled = true },
-    notifier = { enabled = true },
-    picker = { enabled = true },
+    notifier = { enabled = false },
+    picker = { enabled = false },
     scratch = { enabled = true },
     scroll = { enabled = true },
+    statuscolumn = { enabled = true },
     toggle = { enabled = true },
     words = { enabled = true },
     zen = { enabled = true },
@@ -50,8 +52,9 @@ return {
     -- { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
     -- { "<leader>/", function() Snacks.picker.grep() end, desc = "Grep" },
     { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
-    { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notification History" },
+    -- { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notification History" },
     { "<leader>e", function() Snacks.explorer() end, desc = "File Explorer" },
+    -- { "<leader>d", function() Snacks.dim() end, desc = "Dim" },
     -- find
     { "<leader>bf", function() Snacks.picker.buffers() end, desc = "Buffers" },
     { "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },

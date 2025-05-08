@@ -91,4 +91,7 @@ vim.opt.foldlevel = 99 -- Using ufo provider need a large value, feel free to de
 vim.opt.foldlevelstart = 99
 vim.opt.foldenable = true
 
+vim.g["test#javascript#runner"] = "nx"
+vim.g["test#strategy"] = "floaterm"
+
 -- vim: ts=2 sts=2 sw=2 et

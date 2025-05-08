@@ -7,7 +7,7 @@ return {
   },
   opts = {
     messages = {
-      enabled = false,
+      enabled = true,
     },
     lsp = {
       -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
@@ -34,5 +34,8 @@ return {
         filter = { event = "msg_showmode" }
       },
     },
+  },
+  keys = {
+    { "<leader>n", "<cmd>Noice pick<cr>", desc = "Notification History" },
   },
 }

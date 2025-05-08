@@ -69,4 +69,6 @@ vim.keymap.set('n', '<leader>pa', '<cmd>Vscss<cr>', { desc = 'Stylesheet' })
 
 vim.keymap.set('n', '<leader>gba', '<cmd>Git blame<cr>', { desc = 'Blame all file' })
 
+vim.keymap.set('n', '<leader>kf', '<cmd>TestFile<cr>', { desc = 'Test file' })
+
 -- vim: ts=2 sts=2 sw=2 et
