@@ -8,7 +8,8 @@ return {
         '<leader>lf',
         function()
           if vim.bo.filetype == 'typescript' then
-            vim.cmd("EslintFixAll")
+            -- vim.cmd("LspEslintFixAll")
+            vim.lsp.buf.format()
           elseif vim.bo.filetype == "htmlangular" then
             vim.lsp.buf.format()
             require('conform').format { async = true, lsp_format = 'fallback' }

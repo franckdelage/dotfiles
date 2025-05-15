@@ -84,12 +84,12 @@ vim.o.softtabstop = 0
 vim.o.shiftwidth = 2
 vim.o.shiftround = true
 
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-vim.opt.foldcolumn = "0" -- '0' is not bad
-vim.opt.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-vim.opt.foldlevelstart = 99
-vim.opt.foldenable = true
+-- vim.opt.foldmethod = "expr"
+-- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+-- vim.opt.foldcolumn = "0" -- '0' is not bad
+-- vim.opt.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+-- vim.opt.foldlevelstart = 99
+-- vim.opt.foldenable = true
 
 vim.g["test#javascript#runner"] = "nx"
 vim.g["test#strategy"] = "floaterm"
