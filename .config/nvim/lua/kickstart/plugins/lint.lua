@@ -19,6 +19,24 @@ return {
         -- graphql = { "eslint" },
       }
 
+      lint.linters.luacheck = {
+        cmd = "luacheck",
+        name = "luacheck",
+        stdin = true,
+        args = {
+          "--globals",
+          "vim",
+          "lvim",
+          "reload",
+          "--",
+        },
+        stream = "stdout",
+        ignore_exitcode = true,
+        parser = require("lint.parser").from_errorformat("%f:%l:%c: %m", {
+          source = "luacheck",
+        }),
+      }
+
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
       -- instead set linters_by_ft like this:
       -- lint.linters_by_ft = lint.linters_by_ft or {}
