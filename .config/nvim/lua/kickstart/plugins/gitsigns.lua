@@ -75,7 +75,7 @@ return {
           gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
         end, { desc = 'git [r]eset hunk' })
         -- normal mode
-        map('n', '<leader>gs', gitsigns.stage_hunk, { desc = 'Stage hunk' })
+        map('n', '<leader>gh', gitsigns.stage_hunk, { desc = 'Stage hunk' })
         map('n', '<leader>gr', gitsigns.reset_hunk, { desc = 'Reset hunk' })
         map('n', '<leader>gS', gitsigns.stage_buffer, { desc = 'Stage buffer' })
         map('n', '<leader>gu', gitsigns.stage_hunk, { desc = 'Undo stage hunk' })

@@ -27,6 +27,7 @@ return {
           "--globals",
           "vim",
           "lvim",
+          "Snacks",
           "reload",
           "--",
         },

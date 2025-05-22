@@ -168,7 +168,7 @@ return {
       vim.diagnostic.config {
         severity_sort = true,
         float = { border = 'rounded', source = 'if_many' },
-        underline = { severity = vim.diagnostic.severity.ERROR },
+        underline = { severity = vim.diagnostic.severity.WARN },
         signs = vim.g.have_nerd_font and {
           text = {
             [vim.diagnostic.severity.ERROR] = '󰅚 ',
@@ -262,7 +262,9 @@ return {
         },
         html = {
           filetypes = { 'html', 'htmlangular' },
-          capabilities = capabilities,
+          cmd = '$MASON/bin/vscode-html-language-server', '--stdio',
+          root_markers = { 'nx.json' }
+          -- capabilities = capabilities,
         },
         stylelint_lsp = {
           settings = {
@@ -304,6 +306,7 @@ return {
       })
 
       vim.lsp.enable('ts_ls', false)
+      vim.lsp.enable('html')
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

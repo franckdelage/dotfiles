@@ -1,3 +1,5 @@
+local Snacks = require('Snacks');
+
 return {
   'folke/snacks.nvim',
   priority = 1000,

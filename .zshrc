@@ -30,6 +30,11 @@ zinit snippet OMZP::thefuck
 zinit snippet OMZP::colorize
 zinit snippet OMZP::command-not-found
 
+## History file configuration
+[ -z "$HISTFILE" ] && HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=10000
+
 # Load completions
 autoload -Uz compinit && compinit
 
@@ -84,7 +89,7 @@ export PATH="$HOME/.deno/bin:$PATH"
 eval "$(starship init zsh)"
 
 # Zoxide
-eval "$(zoxide init zsh)"
+eval "$(zoxide init --cmd cd zsh)"
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 export PATH="/Users/franckdelage/.rd/bin:$PATH"
@@ -111,8 +116,6 @@ alias fakesession='clear && yarn nx run fake-session:serve'
 alias ls='eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions'
 alias ll='eza -l --icons -h'
 alias la='eza -l -a --icons -h'
-
-alias cd='z'
 
 alias nxg='yarn nx g'
 alias nxgm='yarn nx g module'

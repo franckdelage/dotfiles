@@ -11,7 +11,7 @@ return {
             -- vim.cmd("LspEslintFixAll")
             vim.lsp.buf.format()
           elseif vim.bo.filetype == "htmlangular" then
-            vim.lsp.buf.format()
+            -- vim.lsp.buf.format()
             require('conform').format { async = true, lsp_format = 'fallback' }
             -- elseif vim.bo.filetype == "scss" then
             --   vim.lsp.buf.format()

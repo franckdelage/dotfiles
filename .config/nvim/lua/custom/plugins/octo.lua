@@ -7,6 +7,8 @@ return {
   },
   opts = {
     enable_builtin = true,
+    default_merge_method = 'squash',
+    picker = 'snacks',
     default_remote = { 'github', 'origin' },
     suppress_missing_scope = {
       projects_v2 = true,
