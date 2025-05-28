@@ -5,7 +5,7 @@ return {
   config = function()
     require('typescript-tools').setup {
       settings = {
-        separate_diagnostic_server = true,
+        separate_diagnostic_server = false,
         expose_as_code_actions = {
           'fix_all',
           'add_missing_imports',

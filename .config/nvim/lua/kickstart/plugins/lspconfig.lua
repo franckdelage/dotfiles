@@ -221,70 +221,6 @@ return {
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
         --
-
-        lua_ls = {
-          -- cmd = { ... },
-          -- filetypes = { ... },
-          -- capabilities = {},
-          settings = {
-            Lua = {
-              completion = {
-                callSnippet = 'Replace',
-              },
-              diagnostics = {
-                disable = {
-                  'missing-fields',
-                },
-              },
-              -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-              -- diagnostics = { disable = { 'missing-fields' } },
-            },
-          },
-        },
-        angularls = {
-          root_dir = util.root_pattern('angular.json', 'nx.json'),
-          filetypes = { 'typescript', 'html', 'htmlangular' },
-          capabilities = capabilities,
-        },
-        eslint = {
-          root_dir = util.root_pattern('angular.json', 'nx.json'),
-          filetypes = { 'typescript', 'javascript', 'html', 'htmlangular' },
-          capabilities = capabilities,
-          settings = {
-            probe = { 'typescript', 'javascript', 'html', 'htmlangular' },
-            format = {
-              enable = true,
-            },
-            experimental = {
-              useFlatConfig = true,
-            },
-          },
-        },
-        html = {
-          filetypes = { 'html', 'htmlangular' },
-          cmd = '$MASON/bin/vscode-html-language-server', '--stdio',
-          root_markers = { 'nx.json' }
-          -- capabilities = capabilities,
-        },
-        stylelint_lsp = {
-          settings = {
-            stylelintplus = {
-              autoFixOnFormat = true,
-            },
-          },
-          filetypes = { 'scss', 'sass' },
-          capabilities = capabilities,
-        },
-        emmet_language_server = {
-          filetypes = { 'html', 'htmlangular', 'css', 'scss', 'sass' },
-          capabilities = capabilities,
-        },
-        graphql = {
-          cmd = { 'graphql-lsp', 'server', '-m', 'stream' },
-          filetypes = { 'graphql', 'typescript' },
-          root_dir = util.root_pattern('.git', '.graphqlconfig'),
-          capabilities = capabilities,
-        },
       }
 
       -- Ensure the servers and tools above are installed
@@ -305,8 +241,78 @@ return {
         'stylua', -- Used to format Lua code
       })
 
-      vim.lsp.enable('ts_ls', false)
-      vim.lsp.enable('html')
+      -- vim.lsp.enable('ts_ls', false)
+      -- vim.lsp.enable('html')
+
+      local lspconfig = require 'lspconfig'
+
+      -- lspconfig.ts_ls.setup {
+      --   root_markers = { 'angular.json', 'nx.json' },
+      --   filetypes = { 'html', 'htmlangular' },
+      --   capabilities = capabilities,
+      -- }
+      lspconfig.lua_ls.setup {
+        -- cmd = { ... },
+        -- filetypes = { ... },
+        -- capabilities = {},
+        settings = {
+          Lua = {
+            completion = {
+              callSnippet = 'Replace',
+            },
+            diagnostics = {
+              disable = {
+                'missing-fields',
+              },
+            },
+          },
+        },
+      }
+      lspconfig.eslint.setup {
+        root_dir = util.root_pattern('angular.json', 'nx.json'),
+        filetypes = { 'typescript', 'javascript', 'html', 'htmlangular' },
+        settings = {
+          probe = { 'typescript', 'javascript', 'html', 'htmlangular' },
+          format = {
+            enable = true,
+          },
+          experimental = {
+            useFlatConfig = true,
+          },
+          problems = {
+            shortenToSingleLine = false,
+          },
+          useESLintClass = true,
+        },
+      }
+      lspconfig.angularls.setup {
+        root_dir = util.root_pattern('angular.json', 'nx.json'),
+        filetypes = { 'typescript', 'html', 'htmlangular' },
+        capabilities = capabilities,
+      }
+      lspconfig.html.setup {
+        root_markers = { 'nx.json' },
+        filetypes = { 'html', 'htmlangular' },
+      }
+      lspconfig.emmet_language_server.setup {
+        filetypes = { 'html', 'htmlangular', 'css', 'scss', 'sass' },
+        capabilities = capabilities,
+      }
+      lspconfig.stylelint_lsp.setup {
+        settings = {
+          stylelintplus = {
+            autoFixOnFormat = true,
+          },
+        },
+        filetypes = { 'scss', 'sass', 'css' },
+        capabilities = capabilities,
+      }
+      lspconfig.graphql.setup {
+        cmd = { 'graphql-lsp', 'server', '-m', 'stream' },
+        filetypes = { 'graphql', 'typescript' },
+        root_dir = util.root_pattern('.git', '.graphqlconfig'),
+        capabilities = capabilities,
+      }
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

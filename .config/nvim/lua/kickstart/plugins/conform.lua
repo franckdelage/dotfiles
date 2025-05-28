@@ -41,8 +41,8 @@ return {
       --   end
       -- end,
       formatters_by_ft = {
-        javascript = { "eslint" },
-        typescript = { "eslint" },
+        -- javascript = { "eslint" },
+        -- typescript = { "eslint" },
         html = { "eslint", "prettierd" },
         htmlangular = { "eslint", "prettierd" },
         css = { "prettierd" },
