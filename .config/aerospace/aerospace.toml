@@ -133,7 +133,6 @@ ctrl-alt-shift-w = 'workspace W'
 ctrl-alt-shift-x = 'workspace X'
 ctrl-alt-shift-y = 'workspace Y'
 ctrl-alt-shift-z = 'workspace Z'
-alt-space = 'workspace W'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 alt-shift-1 = 'move-node-to-workspace 1'
@@ -207,6 +206,10 @@ run = 'move-node-to-workspace W'
 [[on-window-detected]]
 if.app-id = 'com.google.Chrome'
 run = 'move-node-to-workspace C'
+
+[[on-window-detected]]
+if.app-id = 'com.chromium.Chromium'
+run = 'move-node-to-workspace X'
 
 [[on-window-detected]]
 if.app-id = 'com.tinyspeck.slackmacgap'

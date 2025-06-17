@@ -21,6 +21,7 @@ zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
 zinit light MichaelAquilina/zsh-you-should-use
+zinit load atuinsh/atuin
 
 # Add in snippets
 zinit snippet OMZL::git.zsh
@@ -34,6 +35,12 @@ zinit snippet OMZP::command-not-found
 [ -z "$HISTFILE" ] && HISTFILE="$HOME/.zsh_history"
 HISTSIZE=50000
 SAVEHIST=10000
+
+# FZF
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Atuin search instead of FZF
+bindkey '^R' atuin-up-search
 
 # Load completions
 autoload -Uz compinit && compinit
@@ -68,9 +75,6 @@ fi
 
 # RBENV
 eval "$(rbenv init - -zsh)"
-
-# FZF
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # bun completions
 [ -s "/Users/franckdelage/.bun/_bun" ] && source "/Users/franckdelage/.bun/_bun"
