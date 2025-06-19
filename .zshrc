@@ -31,6 +31,11 @@ zinit snippet OMZP::thefuck
 zinit snippet OMZP::colorize
 zinit snippet OMZP::command-not-found
 
+export NVM_COMPLETION=true
+export NVM_SYMLINK_CURRENT="true"
+export NVM_AUTO_USE=true
+zinit wait lucid light-mode for lukechilds/zsh-nvm
+
 ## History file configuration
 [ -z "$HISTFILE" ] && HISTFILE="$HOME/.zsh_history"
 HISTSIZE=50000
@@ -61,12 +66,6 @@ VI_MODE_CURSOR_VISUAL=5
 
 export JIRA_URL="https://jira.devnet.klm.com"
 export JIRA_NAME="T206002"
-
-# NVM
-export NODE_OPTIONS=--max-old-space-size=8192
-export NVM_DIR="$HOME/.nvm"
-  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 # PYENV
 if command -v pyenv 1>/dev/null 2>&1; then
