@@ -69,6 +69,7 @@ return {
         { '<leader>p', group = 'Projectionist' },
         { '<leader>d', group = 'Debug DAP' },
         { '<leader>gb', group = 'Blame' },
+        { '<leader>c', group = 'Copilot' },
         -- { '<leader>h', group = 'Git Hunk', mode = { 'n', 'v' } },
       },
     },

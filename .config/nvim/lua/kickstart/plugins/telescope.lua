@@ -105,7 +105,7 @@ return {
       local builtin = require 'telescope.builtin'
       -- vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       -- vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader>sf', require('telescope').extensions.file_browser.file_browser, { desc = 'Search Files' })
+      -- vim.keymap.set('n', '<leader>sf', require('telescope').extensions.file_browser.file_browser, { desc = 'Search Files' })
       -- vim.keymap.set('n', '<leader>st', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sz', require('telescope').extensions.menufacture.grep_string, { desc = 'Search current Word' })
       vim.keymap.set('n', '<leader>st', ts_select_dir_for_grep, { desc = 'Search by Grep' })

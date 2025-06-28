@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 return {
   'folke/snacks.nvim',
   priority = 1000,
@@ -20,7 +21,15 @@ return {
     input = { enabled = false },
     lazygit = { enabled = true },
     notifier = { enabled = false },
-    picker = { enabled = false },
+    picker = {
+      enabled = false,
+      formatters = {
+        file = {
+          filename_first = false,
+          truncate = 120,
+        },
+      },
+    },
     scratch = { enabled = true },
     scroll = { enabled = true },
     statuscolumn = { enabled = true },
@@ -58,7 +67,7 @@ return {
     -- find
     { "<leader>bf", function() Snacks.picker.buffers() end, desc = "Buffers" },
     { "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
-    -- { "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
+    { "<leader>sf", function() Snacks.picker.files({ hidden = true }) end, desc = "Find Files" },
     { "<leader>f", function() Snacks.picker.git_files() end, desc = "Find Git Files" },
     -- { "<leader>fp", function() Snacks.picker.projects() end, desc = "Projects" },
     -- { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent" },

@@ -18,5 +18,6 @@ return {
     { '<leader>oo', '<cmd>Octo<cr>', desc = 'Octo' },
     { '<leader>ol', '<cmd>Octo pr list<cr>', desc = 'Octo PR List' },
     { '<leader>oc', '<cmd>Octo pr create<cr>', desc = 'Octo PR Create' },
+    { '<leader>os', '<cmd>Octo pr search is:pr is:closed<cr>', desc = 'Octo PR search closed' },
   },
 }
