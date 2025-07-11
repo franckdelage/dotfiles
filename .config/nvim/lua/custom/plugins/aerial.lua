@@ -13,8 +13,8 @@ return {
       },
     }
 
-    vim.keymap.set('n', '<leader>aa', '<cmd>AerialOpen<cr>', { desc = 'Open' })
-    vim.keymap.set('n', '<leader>an', '<cmd>AerialNavToggle<cr>', { desc = 'Open navigation' })
-    vim.keymap.set('n', '<leader>ac', '<cmd>AerialCloseAll<cr>', { desc = 'Close all' })
+    vim.keymap.set('n', '<leader>ta', '<cmd>AerialOpen<cr>', { desc = 'Open' })
+    vim.keymap.set('n', '<leader>tn', '<cmd>AerialNavToggle<cr>', { desc = 'Open navigation' })
+    vim.keymap.set('n', '<leader>tc', '<cmd>AerialCloseAll<cr>', { desc = 'Close all' })
   end,
 }

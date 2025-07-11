@@ -70,6 +70,8 @@ return {
         { '<leader>d', group = 'Debug DAP' },
         { '<leader>gb', group = 'Blame' },
         { '<leader>c', group = 'Copilot' },
+        { '<leader>t', group = 'Aerial' },
+        { '<leader>k', group = 'Neotest' },
         -- { '<leader>h', group = 'Git Hunk', mode = { 'n', 'v' } },
       },
     },
