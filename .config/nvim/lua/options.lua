@@ -1,3 +1,4 @@
+-- Configuration d'options améliorée pour Angular/HTML
 -- [[ Setting options ]]
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!
@@ -68,30 +69,120 @@ vim.opt.confirm = true
 
 vim.opt.laststatus = 3
 
+-- 🔧 CONFIGURATION DE DÉTECTION DE TYPES DE FICHIERS AMÉLIORÉE
 vim.filetype.add {
   pattern = {
+    -- Angular HTML templates
     ['.*%.component%.html'] = 'htmlangular',
+    ['.*%.component%.spec%.html'] = 'htmlangular',
+    -- Angular templates dans des dossiers spécifiques
+    ['.*/templates/.*%.html'] = 'htmlangular',
+    ['.*/angular/.*%.html'] = 'htmlangular',
+    -- Fichiers HTML dans des projets Angular (basé sur la présence d'angular.json)
+    ['.*%.html'] = function(path, bufnr)
+      -- Vérifier si on est dans un projet Angular
+      local angular_json = vim.fs.find('angular.json', { 
+        path = path, 
+        upward = true 
+      })[1]
+      if angular_json then
+        return 'htmlangular'
+      end
+      return 'html'
+    end,
   },
   extension = {
     mdx = 'markdown',
+    -- Extensions TypeScript Angular
+    ts = 'typescript',
+    tsx = 'typescriptreact',
+  },
+  filename = {
+    -- Fichiers de configuration Angular
+    ['angular.json'] = 'jsonc',
+    ['nx.json'] = 'jsonc',
+    ['project.json'] = 'jsonc',
+    ['tsconfig.json'] = 'jsonc',
+    ['tsconfig.*.json'] = 'jsonc',
   },
 }
 
+-- 🔧 AMÉLIORATION DU WRAPPING ET DE L'INDENTATION
 vim.wo.wrap = true
 vim.wo.linebreak = true
 vim.o.tabstop = 2
 vim.o.softtabstop = 0
 vim.o.shiftwidth = 2
 vim.o.shiftround = true
+vim.o.expandtab = true -- Utiliser des espaces au lieu de tabs
 
--- vim.opt.foldmethod = "expr"
--- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
--- vim.opt.foldcolumn = "0" -- '0' is not bad
--- vim.opt.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
--- vim.opt.foldlevelstart = 99
--- vim.opt.foldenable = true
+-- 🔧 CONFIGURATION SPÉCIFIQUE POUR ANGULAR/HTML
+-- Améliorer la gestion des fichiers HTML volumineux
+vim.opt.synmaxcol = 300 -- Limite la syntaxe highlighting sur les lignes très longues
+vim.opt.lazyredraw = true -- Améliore les performances lors du scrolling
 
+-- Configuration pour les projets Angular/TypeScript
 vim.g["test#javascript#runner"] = "nx"
 vim.g["test#strategy"] = "floaterm"
 
+-- 🔧 AUTOCMDS POUR ANGULAR/HTML
+local angular_group = vim.api.nvim_create_augroup('AngularConfig', { clear = true })
+
+-- Auto-détection améliorée pour les fichiers HTML Angular
+vim.api.nvim_create_autocmd('BufRead', {
+  group = angular_group,
+  pattern = '*.html',
+  callback = function()
+    local path = vim.fn.expand('%:p')
+    -- Vérifier si le fichier contient des directives Angular
+    local content = vim.fn.readfile(path, '', 50) -- Lire les 50 premières lignes
+    local is_angular = false
+    
+    for _, line in ipairs(content) do
+      -- Chercher des patterns Angular typiques
+      if line:match('@%w+') or 
+         line:match('%*ng%w+') or 
+         line:match('%[%(%w+%)%]') or 
+         line:match('{{.*}}') or
+         line:match('(click)') or 
+         line:match('(change)') or
+         line:match('%[routerLink%]') then
+        is_angular = true
+        break
+      end
+    end
+    
+    if is_angular then
+      vim.bo.filetype = 'htmlangular'
+    end
+  end,
+})
+
+-- Configuration spécifique pour les fichiers HTML Angular
+vim.api.nvim_create_autocmd('FileType', {
+  group = angular_group,
+  pattern = 'htmlangular',
+  callback = function()
+    -- Configuration spécifique pour HTML Angular
+    vim.bo.commentstring = '<!-- %s -->'
+    vim.opt_local.iskeyword:append('-') -- Permet de naviguer dans les mots avec des tirets
+    
+    -- Améliorer l'indentation pour les templates Angular
+    vim.opt_local.indentexpr = ''
+    vim.opt_local.smartindent = true
+    vim.opt_local.autoindent = true
+  end,
+})
+
+-- Configuration pour TypeScript dans les projets Angular
+vim.api.nvim_create_autocmd('FileType', {
+  group = angular_group,
+  pattern = { 'typescript', 'typescriptreact' },
+  callback = function()
+    -- Configuration spécifique pour TypeScript Angular
+    vim.opt_local.iskeyword:append('-')
+  end,
+})
+
 -- vim: ts=2 sts=2 sw=2 et
+

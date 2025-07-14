@@ -1,3 +1,4 @@
+-- Configuration de formatage corrigée pour Angular/HTML
 return {
   { -- Autoformat
     'stevearc/conform.nvim',
@@ -7,15 +8,31 @@ return {
       {
         '<leader>lf',
         function()
-          if vim.bo.filetype == 'typescript' then
-            -- vim.cmd("LspEslintFixAll")
-            vim.lsp.buf.format()
-          elseif vim.bo.filetype == "htmlangular" then
-            -- vim.lsp.buf.format()
-            require('conform').format { async = true, lsp_format = 'fallback' }
-            -- elseif vim.bo.filetype == "scss" then
-            --   vim.lsp.buf.format()
+          -- 🔧 LOGIQUE DE FORMATAGE CORRIGÉE
+          local filetype = vim.bo.filetype
+          
+          if filetype == 'typescript' or filetype == 'typescriptreact' then
+            -- Pour TypeScript, utiliser le LSP en premier puis Conform en fallback
+            vim.lsp.buf.format({ 
+              async = true,
+              timeout_ms = 2000,
+              filter = function(client)
+                -- Éviter ESLint pour le formatage, utiliser ts_ls
+                return client.name ~= 'eslint'
+              end
+            })
+          elseif filetype == 'htmlangular' or filetype == 'html' then
+            -- Pour HTML Angular, utiliser Conform avec les bons formatters
+            require('conform').format { 
+              async = true, 
+              timeout_ms = 2000,
+              lsp_format = 'never' -- Éviter les conflits LSP
+            }
+          elseif filetype == 'scss' or filetype == 'css' then
+            -- Pour SCSS/CSS, utiliser le LSP en premier
+            vim.lsp.buf.format({ async = true, timeout_ms = 2000 })
           else
+            -- Pour les autres types, utiliser Conform avec fallback LSP
             require('conform').format { async = true, lsp_format = 'fallback' }
           end
         end,
@@ -24,40 +41,66 @@ return {
       },
     },
     opts = {
-      notify_on_error = false,
-      format_on_save = false,
-      -- format_on_save = function(bufnr)
-      --   -- Disable "format_on_save lsp_fallback" for languages that don't
-      --   -- have a well standardized coding style. You can add additional
-      --   -- languages here or re-enable it for the disabled ones.
-      --   local disable_filetypes = { c = true, cpp = true }
-      --   if disable_filetypes[vim.bo[bufnr].filetype] then
-      --     return nil
-      --   else
-      --     return {
-      --       timeout_ms = 500,
-      --       lsp_format = 'fallback',
-      --     }
-      --   end
-      -- end,
+      notify_on_error = true,
+      format_on_save = false, -- Désactivé pour éviter les conflits
+      -- 🔧 CONFIGURATION DE FORMATAGE CORRIGÉE
       formatters_by_ft = {
-        -- javascript = { "eslint" },
-        -- typescript = { "eslint" },
-        html = { "eslint", "prettierd" },
-        htmlangular = { "eslint", "prettierd" },
-        css = { "prettierd" },
-        scss = { "prettierd" },
-        graphql = { "prettierd" },
-        json = { "jq" },
-        jsonc = { "jq" },
-        lua = { "stylua" }
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
-        -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        -- JavaScript/TypeScript - Utiliser Prettier uniquement
+        javascript = { "prettierd", "prettier", stop_after_first = true },
+        typescript = { "prettierd", "prettier", stop_after_first = true },
+        typescriptreact = { "prettierd", "prettier", stop_after_first = true },
+        javascriptreact = { "prettierd", "prettier", stop_after_first = true },
+        
+        -- HTML/Angular - Prettier en premier, puis fallback
+        html = { "prettierd", "prettier", stop_after_first = true },
+        htmlangular = { "prettierd", "prettier", stop_after_first = true },
+        
+        -- CSS/SCSS - Prettier
+        css = { "prettierd", "prettier", stop_after_first = true },
+        scss = { "prettierd", "prettier", stop_after_first = true },
+        sass = { "prettierd", "prettier", stop_after_first = true },
+        
+        -- Autres formats
+        graphql = { "prettierd", "prettier", stop_after_first = true },
+        json = { "prettierd", "prettier", stop_after_first = true },
+        jsonc = { "prettierd", "prettier", stop_after_first = true },
+        markdown = { "prettierd", "prettier", stop_after_first = true },
+        
+        -- Lua
+        lua = { "stylua" },
+      },
+      
+      -- 🔧 CONFIGURATION DES FORMATTERS
+      formatters = {
+        prettierd = {
+          condition = function(self, ctx)
+            -- Vérifier si un fichier de config Prettier existe
+            return vim.fs.find({
+              '.prettierrc',
+              '.prettierrc.json',
+              '.prettierrc.js',
+              '.prettierrc.cjs',
+              'prettier.config.js',
+              'prettier.config.cjs',
+            }, { path = ctx.filename, upward = true })[1]
+          end,
+        },
+        prettier = {
+          condition = function(self, ctx)
+            -- Fallback si prettierd n'est pas disponible
+            return vim.fs.find({
+              '.prettierrc',
+              '.prettierrc.json',
+              '.prettierrc.js',
+              '.prettierrc.cjs',
+              'prettier.config.js',
+              'prettier.config.cjs',
+            }, { path = ctx.filename, upward = true })[1]
+          end,
+        },
       },
     },
   },
 }
 -- vim: ts=2 sts=2 sw=2 et
+

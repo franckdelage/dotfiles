@@ -1,4 +1,4 @@
--- LSP Plugins - Version corrigée pour Angular/HTML
+-- LSP Plugins
 return {
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
@@ -30,6 +30,31 @@ return {
       'saghen/blink.cmp',
     },
     config = function()
+      -- Brief aside: **What is LSP?**
+      --
+      -- LSP is an initialism you've probably heard, but might not understand what it is.
+      --
+      -- LSP stands for Language Server Protocol. It's a protocol that helps editors
+      -- and language tooling communicate in a standardized fashion.
+      --
+      -- In general, you have a "server" which is some tool built to understand a particular
+      -- language (such as `gopls`, `lua_ls`, `rust_analyzer`, etc.). These Language Servers
+      -- (sometimes called LSP servers, but that's kind of like ATM Machine) are standalone
+      -- processes that communicate with some "client" - in this case, Neovim!
+      --
+      -- LSP provides Neovim with features like:
+      --  - Go to definition
+      --  - Find references
+      --  - Autocompletion
+      --  - Symbol Search
+      --  - and more!
+      --
+      -- Thus, Language Servers are external tools that must be installed separately from
+      -- Neovim. This is where `mason` and related plugins come into play.
+      --
+      -- If you're wondering about lsp vs treesitter, you can check out the wonderfully
+      -- and elegantly composed help section, `:help lsp-vs-treesitter`
+
       --  This function gets run when an LSP attaches to a particular buffer.
       --    That is to say, every time a new file is opened that is associated with
       --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
@@ -144,6 +169,7 @@ return {
         severity_sort = true,
         float = {
           border = 'rounded',
+          -- source = 'if_many',
           source = true,
         },
         underline = { severity = vim.diagnostic.severity.WARN },
@@ -156,6 +182,7 @@ return {
           },
         } or {},
         virtual_text = {
+          -- source = 'if_many',
           source = true,
           spacing = 2,
           format = function(diagnostic)
@@ -176,7 +203,6 @@ return {
       --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
       local capabilities = require('blink.cmp').get_lsp_capabilities()
       local util = require 'lspconfig.util'
-      local lspconfig = require 'lspconfig'
 
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -202,135 +228,38 @@ return {
         --
       }
 
-      -- 🔧 CONFIGURATION CORRIGÉE POUR ANGULAR/HTML
+      -- Ensure the servers and tools above are installed
+      --
+      -- To check the current status of installed tools and/or manually install
+      -- other tools, you can run
+      --    :Mason
+      --
+      -- You can press `g?` for help in this menu.
+      --
+      -- `mason` had to be setup earlier: to configure its options see the
+      -- `dependencies` table for `nvim-lspconfig` above.
+      --
+      -- You can add other tools here that you want Mason to install
+      -- for you, so that they are available from within Neovim.
+      local ensure_installed = vim.tbl_keys(servers or {})
+      vim.list_extend(ensure_installed, {
+        'stylua', -- Used to format Lua code
+      })
 
-      -- 1. TypeScript Language Server - ESSENTIEL pour Angular
-      lspconfig.ts_ls.setup {
-        root_dir = util.root_pattern('angular.json', 'nx.json', 'package.json'),
-        filetypes = { 'typescript', 'javascript', 'typescriptreact', 'javascriptreact' },
-        capabilities = capabilities,
-        init_options = {
-          preferences = {
-            -- Améliore les performances pour les gros projets
-            disableSuggestions = false,
-            includeCompletionsForModuleExports = true,
-            includeCompletionsForImportStatements = true,
-          },
-        },
-        settings = {
-          typescript = {
-            preferences = {
-              noSemicolons = false,
-            },
-            suggest = {
-              includeCompletionsForModuleExports = true,
-            },
-          },
-        },
-      }
+      -- vim.lsp.enable('ts_ls', false)
+      -- vim.lsp.enable('html')
 
-      -- 2. Angular Language Server - CORRIGÉ
-      lspconfig.angularls.setup {
-        root_dir = util.root_pattern('angular.json', 'nx.json'),
-        filetypes = { 'typescript', 'html', 'htmlangular', 'typescriptreact' },
-        capabilities = capabilities,
-        -- Configuration spécifique pour Angular
-        cmd = { 'ngserver', '--stdio', '--tsProbeLocations', '.', '--ngProbeLocations', '.' },
-        on_new_config = function(new_config, new_root_dir)
-          new_config.cmd = { 'ngserver', '--stdio', '--tsProbeLocations', new_root_dir, '--ngProbeLocations', new_root_dir }
-        end,
-      }
+      local lspconfig = require 'lspconfig'
 
-      -- 3. HTML Language Server - CORRIGÉ
-      lspconfig.html.setup {
-        root_dir = util.root_pattern('angular.json', 'nx.json', 'package.json', '.git'),
-        filetypes = { 'html', 'htmlangular' },
-        capabilities = capabilities,
-        settings = {
-          html = {
-            format = {
-              enable = true,
-            },
-            hover = {
-              documentation = true,
-              references = true,
-            },
-          },
-        },
-      }
-
-      -- 4. ESLint Language Server - AMÉLIORÉ
-      lspconfig.eslint.setup {
-        root_dir = util.root_pattern('angular.json', 'nx.json', '.eslintrc.js', '.eslintrc.json', 'package.json'),
-        filetypes = { 'typescript', 'javascript', 'html', 'htmlangular', 'typescriptreact', 'javascriptreact' },
-        capabilities = capabilities,
-        settings = {
-          probe = { 'typescript', 'javascript', 'html', 'htmlangular', 'typescriptreact', 'javascriptreact' },
-          format = {
-            enable = true,
-          },
-          experimental = {
-            useFlatConfig = true,
-          },
-          problems = {
-            shortenToSingleLine = false,
-          },
-          useESLintClass = true,
-          -- Correction pour Angular
-          validate = { 'typescript', 'javascript', 'html', 'htmlangular' },
-          packageManager = 'yarn',
-        },
-        on_attach = function(client, bufnr)
-          -- Désactive le formatage ESLint pour éviter les conflits avec d'autres formatters
-          client.server_capabilities.documentFormattingProvider = false
-          client.server_capabilities.documentRangeFormattingProvider = false
-        end,
-      }
-
-      -- 5. Emmet Language Server - AMÉLIORÉ
-      lspconfig.emmet_language_server.setup {
-        root_dir = util.root_pattern('angular.json', 'nx.json', 'package.json', '.git'),
-        filetypes = { 'html', 'htmlangular', 'css', 'scss', 'sass', 'typescript', 'typescriptreact' },
-        capabilities = capabilities,
-        settings = {
-          emmet = {
-            includeLanguages = {
-              htmlangular = 'html',
-              typescriptreact = 'html',
-            },
-          },
-        },
-      }
-
-      -- 6. CSS/SCSS Language Servers
-      lspconfig.cssls.setup {
-        root_dir = util.root_pattern('angular.json', 'nx.json', 'package.json', '.git'),
-        filetypes = { 'css', 'scss', 'sass' },
-        capabilities = capabilities,
-      }
-
-      lspconfig.stylelint_lsp.setup {
-        root_dir = util.root_pattern('angular.json', 'nx.json', 'package.json', '.git'),
-        settings = {
-          stylelintplus = {
-            autoFixOnFormat = true,
-          },
-        },
-        filetypes = { 'scss', 'sass', 'css' },
-        capabilities = capabilities,
-      }
-
-      -- 7. GraphQL Language Server
-      lspconfig.graphql.setup {
-        cmd = { 'graphql-lsp', 'server', '-m', 'stream' },
-        filetypes = { 'graphql', 'typescript' },
-        root_dir = util.root_pattern('.git', '.graphqlconfig', 'angular.json', 'nx.json'),
-        capabilities = capabilities,
-      }
-
-      -- 8. Lua Language Server
+      -- lspconfig.ts_ls.setup {
+      --   root_markers = { 'angular.json', 'nx.json' },
+      --   filetypes = { 'html', 'htmlangular' },
+      --   capabilities = capabilities,
+      -- }
       lspconfig.lua_ls.setup {
-        capabilities = capabilities,
+        -- cmd = { ... },
+        -- filetypes = { ... },
+        -- capabilities = {},
         settings = {
           Lua = {
             completion = {
@@ -344,41 +273,56 @@ return {
           },
         },
       }
-
-      -- Ensure the servers and tools above are installed
-      --
-      -- To check the current status of installed tools and/or manually install
-      -- other tools, you can run
-      --    :Mason
-      --
-      -- You can press `g?` for help in this menu.
-      local ensure_installed = vim.tbl_keys(servers or {})
-      vim.list_extend(ensure_installed, {
-        'stylua', -- Used to format Lua code
-        'typescript-language-server',
-        'angular-language-server',
-        'html-lsp',
-        'eslint-lsp',
-        'emmet-language-server',
-        'css-lsp',
-        'stylelint-lsp',
-        'graphql-language-service-cli',
-      })
+      lspconfig.eslint.setup {
+        root_dir = util.root_pattern('angular.json', 'nx.json'),
+        filetypes = { 'typescript', 'javascript', 'html', 'htmlangular' },
+        settings = {
+          probe = { 'typescript', 'javascript', 'html', 'htmlangular' },
+          format = {
+            enable = true,
+          },
+          experimental = {
+            useFlatConfig = true,
+          },
+          problems = {
+            shortenToSingleLine = false,
+          },
+          useESLintClass = true,
+        },
+      }
+      lspconfig.angularls.setup {
+        root_dir = util.root_pattern('angular.json', 'nx.json'),
+        filetypes = { 'typescript', 'html', 'htmlangular' },
+        capabilities = capabilities,
+      }
+      lspconfig.html.setup {
+        root_markers = { 'nx.json' },
+        filetypes = { 'html', 'htmlangular' },
+      }
+      lspconfig.emmet_language_server.setup {
+        filetypes = { 'html', 'htmlangular', 'css', 'scss', 'sass' },
+        capabilities = capabilities,
+      }
+      lspconfig.stylelint_lsp.setup {
+        settings = {
+          stylelintplus = {
+            autoFixOnFormat = true,
+          },
+        },
+        filetypes = { 'scss', 'sass', 'css' },
+        capabilities = capabilities,
+      }
+      lspconfig.graphql.setup {
+        cmd = { 'graphql-lsp', 'server', '-m', 'stream' },
+        filetypes = { 'graphql', 'typescript' },
+        root_dir = util.root_pattern('.git', '.graphqlconfig'),
+        capabilities = capabilities,
+      }
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
-        ensure_installed = {
-          'ts_ls',
-          'angularls',
-          'html',
-          'eslint',
-          'emmet_language_server',
-          'cssls',
-          'stylelint_lsp',
-          'graphql',
-          'lua_ls',
-        },
+        ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
@@ -394,4 +338,3 @@ return {
   },
 }
 -- vim: ts=2 sts=2 sw=2 et
-

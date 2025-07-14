@@ -1,3 +1,4 @@
+-- TreeSitter Configuration corrigée pour Angular/HTML
 return {
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
@@ -17,6 +18,17 @@ return {
         'query',
         'vim',
         'vimdoc',
+        -- 🔧 AJOUTS ESSENTIELS POUR ANGULAR
+        'typescript',
+        'javascript',
+        'tsx',
+        'css',
+        'scss',
+        'json',
+        'jsonc',
+        'graphql',
+        -- Angular spécifique (si disponible)
+        'angular',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,
@@ -27,7 +39,69 @@ return {
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
         additional_vim_regex_highlighting = { 'ruby' },
       },
-      indent = { enable = true, disable = { 'ruby' } },
+      indent = { 
+        enable = true, 
+        disable = { 'ruby' } 
+      },
+      -- 🔧 AMÉLIORATIONS POUR ANGULAR
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = '<c-space>',
+          node_incremental = '<c-space>',
+          scope_incremental = '<c-s>',
+          node_decremental = '<M-space>',
+        },
+      },
+      textobjects = {
+        select = {
+          enable = true,
+          lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+          keymaps = {
+            -- You can use the capture groups defined in textobjects.scm
+            ['aa'] = '@parameter.outer',
+            ['ia'] = '@parameter.inner',
+            ['af'] = '@function.outer',
+            ['if'] = '@function.inner',
+            ['ac'] = '@class.outer',
+            ['ic'] = '@class.inner',
+          },
+        },
+        move = {
+          enable = true,
+          set_jumps = true, -- whether to set jumps in the jumplist
+          goto_next_start = {
+            [']m'] = '@function.outer',
+            [']]'] = '@class.outer',
+          },
+          goto_next_end = {
+            [']M'] = '@function.outer',
+            [']['] = '@class.outer',
+          },
+          goto_previous_start = {
+            ['[m'] = '@function.outer',
+            ['[['] = '@class.outer',
+          },
+          goto_previous_end = {
+            ['[M'] = '@function.outer',
+            ['[]'] = '@class.outer',
+          },
+        },
+        swap = {
+          enable = true,
+          swap_next = {
+            ['<leader>a'] = '@parameter.inner',
+          },
+          swap_previous = {
+            ['<leader>A'] = '@parameter.inner',
+          },
+        },
+      },
+    },
+    dependencies = {
+      -- 🔧 PLUGINS SUPPLÉMENTAIRES POUR UNE MEILLEURE EXPÉRIENCE
+      'nvim-treesitter/nvim-treesitter-textobjects',
+      'nvim-treesitter/nvim-treesitter-context',
     },
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
@@ -38,3 +112,4 @@ return {
   },
 }
 -- vim: ts=2 sts=2 sw=2 et
+
