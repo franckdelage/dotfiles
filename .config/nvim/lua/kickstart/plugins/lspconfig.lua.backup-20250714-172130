@@ -1,4 +1,4 @@
--- LSP Plugins - Version corrigée pour projets Nx Angular
+-- LSP Plugins - Version corrigée pour Angular/HTML
 return {
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
@@ -202,24 +202,19 @@ return {
         --
       }
 
-      -- 🔧 CONFIGURATION CORRIGÉE POUR NX + ANGULAR
+      -- 🔧 CONFIGURATION CORRIGÉE POUR ANGULAR/HTML
 
-      -- 1. TypeScript Language Server - PRIORITAIRE pour les projets Nx
+      -- 1. TypeScript Language Server - ESSENTIEL pour Angular
       lspconfig.ts_ls.setup {
-        -- 🔧 CORRECTION : Utiliser nx.json et tsconfig.base.json pour les projets Nx
-        root_dir = util.root_pattern('nx.json', 'angular.json', 'tsconfig.base.json', 'package.json'),
+        root_dir = util.root_pattern('angular.json', 'nx.json', 'package.json'),
         filetypes = { 'typescript', 'javascript', 'typescriptreact', 'javascriptreact' },
         capabilities = capabilities,
         init_options = {
           preferences = {
-            -- Améliore les performances pour les gros projets Nx
+            -- Améliore les performances pour les gros projets
             disableSuggestions = false,
             includeCompletionsForModuleExports = true,
             includeCompletionsForImportStatements = true,
-            includeInlayParameterNameHints = 'all',
-            includeInlayPropertyDeclarationTypeHints = true,
-            includeInlayFunctionParameterTypeHints = true,
-            includeInlayVariableTypeHints = false,
           },
         },
         settings = {
@@ -230,75 +225,25 @@ return {
             suggest = {
               includeCompletionsForModuleExports = true,
             },
-            -- 🔧 AJOUT : Support des path mappings Nx
-            workspaceSymbols = {
-              scope = 'allOpenProjects',
-            },
           },
         },
-        -- 🔧 CORRECTION : Configuration spécifique pour Nx
-        on_new_config = function(new_config, new_root_dir)
-          -- Vérifier si c'est un projet Nx
-          local nx_json = util.path.join(new_root_dir, 'nx.json')
-          if util.path.exists(nx_json) then
-            -- Configuration spécifique pour Nx
-            new_config.settings = new_config.settings or {}
-            new_config.settings.typescript = new_config.settings.typescript or {}
-            new_config.settings.typescript.preferences = new_config.settings.typescript.preferences or {}
-            new_config.settings.typescript.preferences.includePackageJsonAutoImports = 'on'
-          end
-        end,
       }
 
-      -- 2. Angular Language Server - CORRIGÉ pour Nx
+      -- 2. Angular Language Server - CORRIGÉ
       lspconfig.angularls.setup {
-        -- 🔧 CORRECTION : Détecter les projets Nx Angular
-        root_dir = function(fname)
-          -- Chercher nx.json avec Angular dans les dépendances
-          local root = util.root_pattern 'nx.json'(fname)
-          if root then
-            local package_json = util.path.join(root, 'package.json')
-            if util.path.exists(package_json) then
-              local f = io.open(package_json, 'r')
-              if f then
-                local content = f:read '*all'
-                f:close()
-                -- Vérifier si Angular est présent dans les dépendances
-                if content:match '"@angular/' then
-                  return root
-                end
-              end
-            end
-          end
-          -- Fallback vers angular.json
-          return util.root_pattern 'angular.json'(fname)
-        end,
+        root_dir = util.root_pattern('angular.json', 'nx.json'),
         filetypes = { 'typescript', 'html', 'htmlangular', 'typescriptreact' },
         capabilities = capabilities,
-        -- 🔧 CORRECTION : Configuration spécifique pour les projets Nx
+        -- Configuration spécifique pour Angular
         cmd = { 'ngserver', '--stdio', '--tsProbeLocations', '.', '--ngProbeLocations', '.' },
         on_new_config = function(new_config, new_root_dir)
-          new_config.cmd = {
-            'ngserver',
-            '--stdio',
-            '--tsProbeLocations',
-            new_root_dir,
-            '--ngProbeLocations',
-            new_root_dir,
-          }
+          new_config.cmd = { 'ngserver', '--stdio', '--tsProbeLocations', new_root_dir, '--ngProbeLocations', new_root_dir }
         end,
-        settings = {
-          angular = {
-            -- 🔧 AJOUT : Configuration pour les projets Nx
-            forceStrictTemplates = false,
-            includeCompletions = true,
-          },
-        },
       }
 
-      -- 3. HTML Language Server - CORRIGÉ pour Nx
+      -- 3. HTML Language Server - CORRIGÉ
       lspconfig.html.setup {
-        root_dir = util.root_pattern('nx.json', 'angular.json', 'package.json', '.git'),
+        root_dir = util.root_pattern('angular.json', 'nx.json', 'package.json', '.git'),
         filetypes = { 'html', 'htmlangular' },
         capabilities = capabilities,
         settings = {
@@ -310,17 +255,13 @@ return {
               documentation = true,
               references = true,
             },
-            -- 🔧 AJOUT : Support des templates Angular
-            customData = {
-              useDefaultDataProvider = true,
-            },
           },
         },
       }
 
-      -- 4. ESLint Language Server - AMÉLIORÉ pour Nx
+      -- 4. ESLint Language Server - AMÉLIORÉ
       lspconfig.eslint.setup {
-        root_dir = util.root_pattern('nx.json', 'angular.json', '.eslintrc.js', '.eslintrc.json', 'eslint.config.js', 'package.json'),
+        root_dir = util.root_pattern('angular.json', 'nx.json', '.eslintrc.js', '.eslintrc.json', 'package.json'),
         filetypes = { 'typescript', 'javascript', 'html', 'htmlangular', 'typescriptreact', 'javascriptreact' },
         capabilities = capabilities,
         settings = {
@@ -335,10 +276,9 @@ return {
             shortenToSingleLine = false,
           },
           useESLintClass = true,
-          -- 🔧 CORRECTION : Support des workspaces Nx
+          -- Correction pour Angular
           validate = { 'typescript', 'javascript', 'html', 'htmlangular' },
           packageManager = 'yarn',
-          workingDirectories = { { mode = 'auto' } },
         },
         on_attach = function(client, bufnr)
           -- Désactive le formatage ESLint pour éviter les conflits avec d'autres formatters
@@ -349,7 +289,7 @@ return {
 
       -- 5. Emmet Language Server - AMÉLIORÉ
       lspconfig.emmet_language_server.setup {
-        root_dir = util.root_pattern('nx.json', 'angular.json', 'package.json', '.git'),
+        root_dir = util.root_pattern('angular.json', 'nx.json', 'package.json', '.git'),
         filetypes = { 'html', 'htmlangular', 'css', 'scss', 'sass', 'typescript', 'typescriptreact' },
         capabilities = capabilities,
         settings = {
@@ -364,13 +304,13 @@ return {
 
       -- 6. CSS/SCSS Language Servers
       lspconfig.cssls.setup {
-        root_dir = util.root_pattern('nx.json', 'angular.json', 'package.json', '.git'),
+        root_dir = util.root_pattern('angular.json', 'nx.json', 'package.json', '.git'),
         filetypes = { 'css', 'scss', 'sass' },
         capabilities = capabilities,
       }
 
       lspconfig.stylelint_lsp.setup {
-        root_dir = util.root_pattern('nx.json', 'angular.json', 'package.json', '.git'),
+        root_dir = util.root_pattern('angular.json', 'nx.json', 'package.json', '.git'),
         settings = {
           stylelintplus = {
             autoFixOnFormat = true,
@@ -384,7 +324,7 @@ return {
       lspconfig.graphql.setup {
         cmd = { 'graphql-lsp', 'server', '-m', 'stream' },
         filetypes = { 'graphql', 'typescript' },
-        root_dir = util.root_pattern('.git', '.graphqlconfig', 'nx.json', 'angular.json'),
+        root_dir = util.root_pattern('.git', '.graphqlconfig', 'angular.json', 'nx.json'),
         capabilities = capabilities,
       }
 
@@ -454,3 +394,4 @@ return {
   },
 }
 -- vim: ts=2 sts=2 sw=2 et
+
