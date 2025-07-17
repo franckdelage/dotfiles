@@ -84,6 +84,77 @@ return {
           --  the definition of its *type*, not where it was *defined*.
           map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
 
+          -- 🔧 KEYMAPS SPÉCIFIQUES TYPESCRIPT IMPORTS
+          -- Keymaps pour la gestion des imports TypeScript avec ts_ls
+          local client = vim.lsp.get_client_by_id(event.data.client_id)
+          if client and client.name == 'ts_ls' then
+            -- Ajouter import manquant (code action spécifique)
+            map('<leader>li', function()
+              vim.lsp.buf.code_action({
+                filter = function(action)
+                  return action.title and (
+                    action.title:match("Add import") or
+                    action.title:match("Import") or
+                    action.title:match("Update import")
+                  )
+                end,
+                apply = true,
+              })
+            end, 'Add missing Import')
+
+            -- Organiser les imports
+            map('<leader>lo', function()
+              vim.lsp.buf.code_action({
+                filter = function(action)
+                  return action.title and (
+                    action.title:match("Organize imports") or
+                    action.title:match("Sort imports")
+                  )
+                end,
+                apply = true,
+              })
+            end, 'Organize imports')
+
+            -- Supprimer les imports inutilisés
+            map('<leader>lu', function()
+              vim.lsp.buf.code_action({
+                filter = function(action)
+                  return action.title and (
+                    action.title:match("Remove unused") or
+                    action.title:match("Remove all unused")
+                  )
+                end,
+                apply = true,
+              })
+            end, 'Remove Unused imports')
+
+            -- Corriger tous les imports automatiquement
+            map('<leader>lI', function()
+              vim.lsp.buf.code_action({
+                filter = function(action)
+                  return action.title and (
+                    action.title:match("Fix all") or
+                    action.title:match("Add all missing imports")
+                  )
+                end,
+                apply = true,
+              })
+            end, 'Fix all Imports')
+
+            -- Menu interactif pour toutes les actions d'imports
+            map('<leader>lm', function()
+              vim.lsp.buf.code_action({
+                filter = function(action)
+                  return action.title and (
+                    action.title:match("[Ii]mport") or
+                    action.title:match("Organize") or
+                    action.title:match("Remove unused")
+                  )
+                end,
+              })
+            end, 'Import Menu (interactive)')
+          end
+
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client
           ---@param method vim.lsp.protocol.Method
