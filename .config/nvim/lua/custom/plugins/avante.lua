@@ -52,7 +52,7 @@ return {
       },
       copilot = {
         endpoint = "https://api.github.com/copilot",
-        model = "claude-sonnet-4",
+        model = "gpt-4o",
       },
     },
     windows = {

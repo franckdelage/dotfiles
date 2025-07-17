@@ -274,8 +274,9 @@ return {
         },
       }
       lspconfig.eslint.setup {
-        root_dir = util.root_pattern('angular.json', 'nx.json'),
+        root_dir = util.root_pattern('nx.json', 'angular.json'),
         filetypes = { 'typescript', 'javascript', 'html', 'htmlangular' },
+        capabilities = capabilities,
         settings = {
           probe = { 'typescript', 'javascript', 'html', 'htmlangular' },
           format = {
@@ -288,6 +289,7 @@ return {
             shortenToSingleLine = false,
           },
           useESLintClass = true,
+          validate = { 'typescript', 'javascript', 'html', 'htmlangular' },
         },
       }
       lspconfig.angularls.setup {
@@ -298,6 +300,18 @@ return {
       lspconfig.html.setup {
         root_markers = { 'nx.json' },
         filetypes = { 'html', 'htmlangular' },
+        capabilities = capabilities,
+        settings = {
+          html = {
+            format = {
+              enable = true,
+            },
+            hover = {
+              documentation = true,
+              references = true,
+            },
+          },
+        },
       }
       lspconfig.emmet_language_server.setup {
         filetypes = { 'html', 'htmlangular', 'css', 'scss', 'sass' },
