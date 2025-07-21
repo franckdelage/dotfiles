@@ -40,21 +40,19 @@ return {
   version = false,
   mode = 'agentic',
   ---@module 'avante'
-  ---@type avante.Config
   opts = {
     auto_suggestions_provider = 'copilot',
     provider = 'copilot',
     providers = {
-      ollama = {
-        endpoint = "http://localhost:11434",
-        -- model = "deepseek-coder-v2",
-        model = "qwen2.5-coder",
-      },
       copilot = {
         endpoint = "https://api.github.com/copilot",
         model = "gpt-4o",
+        timeout = 30000, -- Timeout in milliseconds
       },
     },
+    format_on_save = true, -- Auto-formatting feature using Prettier
+    enable_debugging = true, -- Flag for enabling debugging tools
+    enable_testing = true, -- Flag for enabling testing framework
     windows = {
       input = {
         height = 12,
@@ -72,6 +70,7 @@ return {
     },
   },
   keys = {
-    { '<leader>ae', '<cmd>AvanteEdit<cr>', desc = 'Avante: Edit' },
+    { '<leader>ae', '<cmd>AvanteEdit<cr>', desc = 'avante: Edit' },
+    { '<leader>al', '<cmd>AvanteClear<cr>', desc = 'avante: Clear' },
   },
 }
