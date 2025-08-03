@@ -26,8 +26,8 @@ my_catppucin.cursor_fg = 'white'
 config.color_schemes = {
   ['My Catppuccin'] = my_catppucin,
 }
-config.color_scheme = 'My Catppuccin'
--- config.color_scheme = 'tokyonight_moon'
+-- config.color_scheme = 'My Catppuccin'
+config.color_scheme = 'tokyonight_moon'
 
 -- config.default_cursor_style = 'BlinkingBlock'
 

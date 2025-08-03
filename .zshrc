@@ -34,7 +34,34 @@ zinit snippet OMZP::command-not-found
 export NVM_COMPLETION=true
 export NVM_SYMLINK_CURRENT="true"
 export NVM_AUTO_USE=true
-zinit wait lucid light-mode for lukechilds/zsh-nvm
+# zinit wait lucid light-mode for lukechilds/zsh-nvm
+
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+autoload -U add-zsh-hook
+
+load-nvmrc() {
+  local nvmrc_path
+  nvmrc_path="$(nvm_find_nvmrc)"
+
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version
+    nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
+      nvm use
+    fi
+  elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
+    echo "Reverting to nvm default version"
+    nvm use default
+  fi
+}
+
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
 
 ## History file configuration
 [ -z "$HISTFILE" ] && HISTFILE="$HOME/.zsh_history"
@@ -128,7 +155,7 @@ alias nxgd='yarn nx g @ngneat/spectator:spectator-directive'
 
 alias apirequests="cd ~/Developer && mkdir -p mitm-files && cd mitm-files && mitmproxy --listen-port=8080 --set view_filter='!beacon & !pharos' --set console_focus_follow=true --set console_default_contentview='json'"
 
-alias appstart='yarn nx run touchpoint-web:serve'
+alias appstart='yarn nx run touchpoint-web:serve:ute3'
 alias gqlstart='HTTPS_PROXY=http://localhost:8080 NODE_TLS_REJECT_UNAUTHORIZED=0 FEATURE_ENV=localhost yarn nx run gql:serve:ute3'
 alias serverstart='yarn nx run touchpoint-web:server:ute3'
 alias exchangestart='yarn nx run exchange:serve:ute3'
