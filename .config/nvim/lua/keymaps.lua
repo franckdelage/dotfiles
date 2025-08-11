@@ -75,22 +75,4 @@ vim.keymap.set('n', '<leader>gba', '<cmd>Git blame<cr>', { desc = 'Blame all fil
 
 vim.keymap.set('n', '<leader>kf', '<cmd>TestFile<cr>', { desc = 'Test file' })
 
-vim.keymap.set('n', '<leader>lo', function()
-  vim.cmd('TSToolsAddMissingImports')
-
-  vim.cmd('TSToolsRemoveUnusedImports')
-
-  if vim.bo.filetype == 'typescript' then
-    -- vim.cmd("LspEslintFixAll")
-    vim.lsp.buf.format()
-  elseif vim.bo.filetype == "htmlangular" then
-    -- vim.lsp.buf.format()
-    require('conform').format { async = true, lsp_format = 'fallback' }
-    -- elseif vim.bo.filetype == "scss" then
-    --   vim.lsp.buf.format()
-  else
-    require('conform').format { async = true, lsp_format = 'fallback' }
-  end
-end, { desc = 'Set up imports and format' })
-
 -- vim: ts=2 sts=2 sw=2 et

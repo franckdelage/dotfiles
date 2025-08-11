@@ -275,6 +275,7 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'ts_ls', -- TypeScript Language Server
       })
 
       -- vim.lsp.enable('ts_ls', false)
@@ -282,11 +283,11 @@ return {
 
       local lspconfig = require 'lspconfig'
 
-      -- lspconfig.ts_ls.setup {
-      --   root_markers = { 'angular.json', 'nx.json' },
-      --   filetypes = { 'html', 'htmlangular' },
-      --   capabilities = capabilities,
-      -- }
+      lspconfig.ts_ls.setup {
+        root_markers = { 'angular.json', 'nx.json' },
+        filetypes = { 'typescript', 'javascript' },
+        capabilities = capabilities,
+      }
       lspconfig.lua_ls.setup {
         -- cmd = { ... },
         -- filetypes = { ... },
