@@ -11,16 +11,8 @@ windows:
       panes:
         - clear
   - servers:
-      layout: f7de,318x83,0,0{200x83,0,0,13,117x83,201,0[117x27,201,0,16,117x27,201,28,17,117x27,201,56,18]}
-      layout: 
+      layout: 3f33,347x87,0,0{215x87,0,0,11,131x87,216,0[131x43,216,0,13,131x43,216,44,14]}
       panes:
         - apirequests
         - appstart
         - gqlstart
-        - serverstart
-  # - e2e:
-  #     panes:
-  #       - clear
-  - whatever:
-      panes:
-        - clear
