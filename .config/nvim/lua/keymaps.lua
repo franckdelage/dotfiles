@@ -8,6 +8,48 @@ vim.keymap.set('n', '<leader>h', '<cmd>nohlsearch<CR>', { desc = 'Clear Highligh
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>lq', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
+-- LSP: TypeScript add missing imports (ts_ls)
+vim.keymap.set('n', '<leader>lm', function()
+  -- Only run for TypeScript related filetypes
+  local ft = vim.bo.filetype
+  if ft ~= 'typescript' and ft ~= 'typescriptreact' and ft ~= 'tsx' then
+    vim.notify('Add missing imports only available in TypeScript buffers', vim.log.levels.WARN)
+    return
+  end
+  -- Request the specific code action from tsserver/typescript-language-server
+  -- Build an explicit context including current diagnostics to satisfy LuaLS typing
+  local ctx = {
+    only = { 'source.addMissingImports.ts' },
+    diagnostics = vim.diagnostic.get(0),
+  }
+  -- The action kind 'source.addMissingImports.ts' is provided by typescript-language-server even if not in the default spec
+  ---@diagnostic disable-next-line: param-type-mismatch
+  vim.lsp.buf.code_action({
+    context = ctx,
+    apply = true,
+  })
+end, { desc = 'Add missing imports' })
+
+-- LSP: TypeScript remove unused imports (ts_ls)
+vim.keymap.set('n', '<leader>lx', function()
+  -- Only run for TypeScript related filetypes
+  local ft = vim.bo.filetype
+  if ft ~= 'typescript' and ft ~= 'typescriptreact' and ft ~= 'tsx' then
+    vim.notify('Remove unused imports only available in TypeScript buffers', vim.log.levels.WARN)
+    return
+  end
+  -- Request the specific code action from tsserver/typescript-language-server
+  local ctx = {
+    only = { 'source.removeUnused.ts' },
+    diagnostics = vim.diagnostic.get(0),
+  }
+  ---@diagnostic disable-next-line: param-type-mismatch
+  vim.lsp.buf.code_action({
+    context = ctx,
+    apply = true,
+  })
+end, { desc = 'Remove unused imports' })
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.

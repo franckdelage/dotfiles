@@ -46,7 +46,7 @@ return {
     providers = {
       copilot = {
         endpoint = "https://api.github.com/copilot",
-        model = "gpt-4o",
+        model = "gpt-5",
         timeout = 30000, -- Timeout in milliseconds
       },
     },
