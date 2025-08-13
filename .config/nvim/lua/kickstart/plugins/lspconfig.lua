@@ -275,7 +275,6 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
-        'ts_ls', -- TypeScript Language Server
       })
 
       -- vim.lsp.enable('ts_ls', false)
