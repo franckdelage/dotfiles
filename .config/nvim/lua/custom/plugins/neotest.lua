@@ -8,7 +8,7 @@ return {
       'nvim-treesitter/nvim-treesitter',
       'nvim-neotest/nvim-nio',
       'antoinemadec/FixCursorHold.nvim',
-      'folke/noice.nvim',
+      'folke/noice.nvim', -- For notifications
     },
     keys = {
       {
@@ -95,70 +95,45 @@ return {
 
       local function find_nx_project(path)
         local current_dir = vim.fs.dirname(path)
-        while current_dir and current_dir ~= '/' and current_dir ~= '' do
-          local pj = current_dir .. '/project.json'
-          if vim.fn.filereadable(pj) == 1 then
-            local content = vim.fn.readfile(pj)
+
+        while current_dir ~= nil and current_dir ~= '/' and current_dir ~= '' do
+          local project_json_path = current_dir .. '/project.json'
+
+          if vim.fn.filereadable(project_json_path) == 1 then
+            local content = vim.fn.readfile(project_json_path)
             local json_data = vim.fn.json_decode(content)
             if json_data and json_data.name then
-              return json_data.name, current_dir
+              return json_data.name
             end
           end
-          local parent = vim.fs.dirname(current_dir)
-          if parent == current_dir then
+
+          local parent_dir = vim.fs.dirname(current_dir)
+          if parent_dir == current_dir then
             break
           end
-          current_dir = parent
+          current_dir = parent_dir
         end
-        return nil, nil
-      end
 
-      local function project_jest_config(project_dir)
-        if not project_dir then
-          return nil
-        end
-        -- Heuristic: prefer a local jest.config.ts in the project directory
-        local candidate = project_dir .. '/jest.config.ts'
-        if vim.fn.filereadable(candidate) == 1 then
-          return candidate
-        end
-        -- Fallback to root aggregator
-        if vim.fn.filereadable 'jest.config.ts' == 1 then
-          return 'jest.config.ts'
-        end
         return nil
       end
 
       require('neotest').setup {
-        -- (Let discovery run; we removed the extra disable flags.)
+        discovery = {
+          enabled = false, -- Disable automatic discovery
+        },
         adapters = {
           require 'neotest-jest' {
-            -- Removed jest_test_discovery=false to allow adapter fallback.
             jestCommand = function(path)
-              -- Use a workspace-relative pattern for stability
-              local rel = vim.fn.fnamemodify(path, ':.')
-              local project, project_dir = find_nx_project(path)
+              local project = find_nx_project(path)
               if project then
-                local cmd = string.format('yarn nx %:tests --testPathPattern="%s"', project, rel)
-                notify('Running: ' .. cmd)
-                return cmd
+                notify("🚀 Running tests in project: " .. project, "info")
+                return string.format("yarn nx run %s:test --testPathPattern %s", project, path)
               end
-              local fallback = string.format('yarn jest --testPathPattern "%s"', rel)
-              notify('Fallback: ' .. fallback, 'warn')
-              return fallback
+              return "yarn jest --" .. path
             end,
-            jest_config_file = function(path)
-              local _, project_dir = find_nx_project(path)
-              local cfg = project_jest_config(project_dir)
-              if cfg then
-                notify('Using Jest config: ' .. cfg)
-                return cfg
-              end
-              notify('No specific jest config found, defaulting', 'warn')
-              return 'jest.config.ts'
-            end,
+            jest_config_file = "jest.config.ts",
             env = { CI = true },
-            cwd = function()
+            cwd = function(path)
               return vim.fn.getcwd()
             end,
           },
