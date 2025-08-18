@@ -31,6 +31,7 @@ zinit snippet OMZP::thefuck
 zinit snippet OMZP::colorize
 zinit snippet OMZP::command-not-found
 
+export NODE_OPTIONS="--max-old-space-size=16384"
 export NVM_COMPLETION=true
 export NVM_SYMLINK_CURRENT="true"
 export NVM_AUTO_USE=true

@@ -282,6 +282,15 @@ return {
 
       local lspconfig = require 'lspconfig'
 
+      local node_modules = vim.fn.getcwd() .. "/node_modules"
+      local ngls_cmd = {
+        "node",
+        node_modules .. "/@angular/language-service/index.js",
+        "--ngProbeLocations", node_modules,
+        "--tsProbeLocations", node_modules,
+        "--stdio",
+      }
+
       lspconfig.ts_ls.setup {
         root_markers = { 'angular.json', 'nx.json' },
         filetypes = { 'typescript', 'javascript' },
@@ -324,6 +333,7 @@ return {
         },
       }
       lspconfig.angularls.setup {
+        cmd = ngls_cmd,
         root_dir = util.root_pattern('angular.json', 'nx.json'),
         filetypes = { 'typescript', 'html', 'htmlangular' },
         capabilities = capabilities,
