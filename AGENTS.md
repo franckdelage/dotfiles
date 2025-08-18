@@ -188,6 +188,71 @@ Your layout and open/close listeners are good defaults. For very short-lived pro
 With these adjustments, debugging Angular apps in Nx and a large TypeScript GraphQL backend in Neovim becomes reliable and ergonomic.
 
 
+## Native LSP Configuration (Neovim 0.11+)
+
+In addition to DAP configuration, this setup now uses native Neovim 0.11+ LSP functionality instead of the nvim-lspconfig plugin.
+
+### Migration Benefits
+- Direct use of `vim.lsp.start()` for better control over server lifecycle
+- Reduced plugin dependencies while maintaining full functionality
+- Custom root directory detection using `vim.fs.find()`
+- FileType autocmds to automatically start appropriate LSP servers
+- Preserved all existing capabilities: completion, diagnostics, keymaps, etc.
+
+### Key Implementation Details
+
+**Root Directory Detection:**
+```lua
+local function find_root(patterns, start_path)
+  local path = start_path or vim.fn.getcwd()
+  for _, pattern in ipairs(patterns) do
+    local found = vim.fs.find(pattern, { path = path, upward = true })
+    if #found > 0 then
+      return vim.fs.dirname(found[1])
+    end
+  end
+  return vim.fn.getcwd()
+end
+```
+
+**Server Configuration:**
+Each LSP server is defined with:
+- `cmd`: Command array to start the server
+- `filetypes`: File types that trigger the server
+- `root_patterns`: Files/directories used for root detection
+- `name`: Unique server identifier
+- `settings`: Server-specific configuration
+
+**Automatic Server Startup:**
+FileType autocmds detect when to start each server:
+```lua
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = server_config.filetypes,
+  callback = function(event)
+    local clients = vim.lsp.get_clients({ bufnr = event.buf, name = server_config.name })
+    if #clients == 0 then
+      start_lsp_server(server_config, event.buf)
+    end
+  end,
+})
+```
+
+**Maintained Functionality:**
+- All LSP keymaps preserved (grr, gri, grd, etc.)
+- Document highlighting and inlay hints
+- Custom diagnostic display on cursor line
+- Integration with blink.cmp for completion
+- Mason integration for tool installation
+
+### Configured Servers
+- **TypeScript/JavaScript**: typescript-language-server with Nx/Angular root detection
+- **Lua**: lua-language-server with Neovim config optimization
+- **ESLint**: vscode-eslint-language-server for linting
+- **Angular**: @angular/language-service for Angular templates
+- **HTML**: vscode-html-language-server with Angular template support
+- **CSS/SCSS**: stylelint-lsp and emmet-language-server
+- **GraphQL**: graphql-lsp for schema and query support
+
 ## Update log
 
 - 2025-08-13
@@ -202,5 +267,13 @@ With these adjustments, debugging Angular apps in Nx and a large TypeScript Grap
   - New strategy: For Nx projects run full `yarn nx test <project>` letting neotest filter positions internally; for non-Nx fallback, invoke `yarn jest --runTestsByPath <file>` to ensure Jest directly loads the target file without relying on pattern matching.
   - Added notification via noice to surface which Nx project is targeted during test runs.
   - Rationale documented: mismatched path normalization between neotest supplied absolute paths and Jest's pattern engine in Nx root led to empty matches.
+
+- 2025-08-18
+  - **Native LSP Migration**: Completely migrated from nvim-lspconfig plugin to native Neovim 0.11+ LSP functionality.
+  - Implemented custom root directory detection using `vim.fs.find()` with patterns for Nx/Angular projects.
+  - Created FileType autocmds for automatic server startup with duplicate prevention logic.
+  - Maintained all existing LSP functionality: keymaps, diagnostics, completion integration, document highlighting.
+  - Preserved Mason integration for tool installation while removing lspconfig dependency.
+  - Configured 8 LSP servers: TypeScript, Lua, ESLint, Angular, HTML, Emmet, Stylelint, and GraphQL.
   
 

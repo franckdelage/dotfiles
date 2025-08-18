@@ -1,4 +1,4 @@
--- LSP Plugins
+-- Native LSP Configuration (Neovim 0.11+)
 return {
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
@@ -13,107 +13,122 @@ return {
     },
   },
   {
-    -- Main LSP Configuration
-    'neovim/nvim-lspconfig',
-    dependencies = {
-      -- Automatically install LSPs and related tools to stdpath for Neovim
-      -- Mason must be loaded before its dependents so we need to set it up here.
-      -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
-      { 'williamboman/mason.nvim', opts = {} },
-      'williamboman/mason-lspconfig.nvim',
-      'WhoIsSethDaniel/mason-tool-installer.nvim',
-
-      -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim', opts = {} },
-
-      -- Allows extra capabilities provided by blink.cmp
-      'saghen/blink.cmp',
+    -- Mason for tool installation (keeping this for convenience)
+    'williamboman/mason.nvim',
+    opts = {},
+  },
+  {
+    -- Tool installer for LSP servers and formatters
+    'WhoIsSethDaniel/mason-tool-installer.nvim',
+    dependencies = { 'williamboman/mason.nvim' },
+    opts = {
+      ensure_installed = {
+        'typescript-language-server',
+        'lua-language-server',
+        'eslint-lsp',
+        -- 'angular-language-server',
+        'html-lsp',
+        'emmet-language-server',
+        'stylelint-lsp',
+        'graphql-language-service-cli',
+        'stylua', -- Used to format Lua code
+      },
     },
+  },
+  {
+    -- Useful status updates for LSP.
+    'j-hui/fidget.nvim',
+    opts = {},
+  },
+  {
+    -- Completion plugin providing capabilities
+    'saghen/blink.cmp',
+  },
+  {
+    -- Native LSP setup plugin
+    name = 'native-lsp-config',
+    dir = vim.fn.stdpath('config'),
     config = function()
-      -- Brief aside: **What is LSP?**
-      --
-      -- LSP is an initialism you've probably heard, but might not understand what it is.
-      --
-      -- LSP stands for Language Server Protocol. It's a protocol that helps editors
-      -- and language tooling communicate in a standardized fashion.
-      --
-      -- In general, you have a "server" which is some tool built to understand a particular
-      -- language (such as `gopls`, `lua_ls`, `rust_analyzer`, etc.). These Language Servers
-      -- (sometimes called LSP servers, but that's kind of like ATM Machine) are standalone
-      -- processes that communicate with some "client" - in this case, Neovim!
-      --
-      -- LSP provides Neovim with features like:
-      --  - Go to definition
-      --  - Find references
-      --  - Autocompletion
-      --  - Symbol Search
-      --  - and more!
-      --
-      -- Thus, Language Servers are external tools that must be installed separately from
-      -- Neovim. This is where `mason` and related plugins come into play.
-      --
-      -- If you're wondering about lsp vs treesitter, you can check out the wonderfully
-      -- and elegantly composed help section, `:help lsp-vs-treesitter`
+      -- Helper function to find root directory
+      local function find_root(patterns, start_path)
+        local path = start_path or vim.fn.getcwd()
+        for _, pattern in ipairs(patterns) do
+          local found = vim.fs.find(pattern, { path = path, upward = true })
+          if #found > 0 then
+            return vim.fs.dirname(found[1])
+          end
+        end
+        return vim.fn.getcwd()
+      end
 
-      --  This function gets run when an LSP attaches to a particular buffer.
-      --    That is to say, every time a new file is opened that is associated with
-      --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
-      --    function will be executed to configure the current buffer
+      -- Get capabilities from blink.cmp
+      local capabilities = require('blink.cmp').get_lsp_capabilities()
+
+      -- LSP Attach autocmd for keymaps and functionality
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
-          -- NOTE: Remember that Lua is a real programming language, and as such it is possible
-          -- to define small helper and utility functions so you don't have to repeat yourself.
-          --
-          -- In this case, we create a function that lets us more easily define mappings specific
-          -- for LSP related items. It sets the mode, buffer and description for us each time.
           local map = function(keys, func, desc, mode)
             mode = mode or 'n'
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
 
           -- Rename the variable under your cursor.
-          --  Most Language Servers support renaming across files, etc.
           map('<leader>ln', vim.lsp.buf.rename, 'Rename')
 
-          -- Execute a code action, usually your cursor needs to be on top of an error
-          -- or a suggestion from your LSP for this to activate.
+          -- Execute a code action
           map('<leader>la', vim.lsp.buf.code_action, 'Goto Code Action', { 'n', 'x' })
 
           -- Find references for the word under your cursor.
           map('grr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
 
           -- Jump to the implementation of the word under your cursor.
-          --  Useful when your language has ways of declaring types without an actual implementation.
           map('gri', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
 
           -- Jump to the definition of the word under your cursor.
-          --  This is where a variable was first declared, or where a function is defined, etc.
-          --  To jump back, press <C-t>.
           map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
 
-          -- WARN: This is not Goto Definition, this is Goto Declaration.
-          --  For example, in C this would take you to the header.
+          -- Goto Declaration
           map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
           -- Fuzzy find all the symbols in your current document.
-          --  Symbols are things like variables, functions, types, etc.
           map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
 
           -- Fuzzy find all the symbols in your current workspace.
-          --  Similar to document symbols, except searches over your entire project.
           map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
 
           -- Jump to the type of the word under your cursor.
-          --  Useful when you're not sure what type a variable is and you want to see
-          --  the definition of its *type*, not where it was *defined*.
           map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
 
-          -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
-          ---@param client vim.lsp.Client
-          ---@param method vim.lsp.protocol.Method
-          ---@param bufnr? integer some lsp support methods only in specific files
-          ---@return boolean
+          -- Show signature help
+          map('<C-k>', vim.lsp.buf.signature_help, 'Signature Help', { 'n', 'i' })
+
+          -- Format document or selection
+          -- map('<leader>lf', function()
+          --   vim.lsp.buf.format({ async = true })
+          -- end, 'Format Document')
+          -- map('<leader>lf', function()
+          --   vim.lsp.buf.format({ async = true })
+          -- end, 'Format Selection', 'v')
+
+          -- Diagnostic navigation
+          map('[d', function() vim.diagnostic.jump({ count = -1, float = true }) end, 'Go to Previous Diagnostic')
+          map(']d', function() vim.diagnostic.jump({ count = 1, float = true }) end, 'Go to Next Diagnostic')
+
+          -- Show line diagnostics in floating window
+          map('<leader>le', vim.diagnostic.open_float, 'Show Line Diagnostics')
+
+          -- Add diagnostics to location list
+          map('<leader>lq', vim.diagnostic.setloclist, 'Add Diagnostics to Location List')
+
+          -- Workspace folders
+          map('<leader>lwa', vim.lsp.buf.add_workspace_folder, 'Add Workspace Folder')
+          map('<leader>lwr', vim.lsp.buf.remove_workspace_folder, 'Remove Workspace Folder')
+          map('<leader>lwl', function()
+            print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+          end, 'List Workspace Folders')
+
+          -- Helper function for checking LSP method support (0.11+ compatibility)
           local function client_supports_method(client, method, bufnr)
             if vim.fn.has 'nvim-0.11' == 1 then
               return client:supports_method(method, bufnr)
@@ -122,11 +137,7 @@ return {
             end
           end
 
-          -- The following two autocommands are used to highlight references of the
-          -- word under your cursor when your cursor rests there for a little while.
-          --    See `:help CursorHold` for information about when this is executed
-          --
-          -- When you move your cursor, the highlights will be cleared (the second autocommand).
+          -- Document highlight setup
           local client = vim.lsp.get_client_by_id(event.data.client_id)
           if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
             local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
@@ -151,25 +162,20 @@ return {
             })
           end
 
-          -- The following code creates a keymap to toggle inlay hints in your
-          -- code, if the language server you are using supports them
-          --
-          -- This may be unwanted, since they displace some of your code
+          -- Inlay hints toggle
           if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
-            map('<leader>kh', function()
+            map('<leader>lh', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
             end, '[T]oggle Inlay [H]ints')
           end
         end,
       })
 
-      -- Diagnostic Config
-      -- See :help vim.diagnostic.Opts
+      -- Diagnostic Configuration
       vim.diagnostic.config {
         severity_sort = true,
         float = {
           border = 'rounded',
-          -- source = 'if_many',
           source = true,
         },
         underline = { severity = vim.diagnostic.severity.WARN },
@@ -185,6 +191,7 @@ return {
         virtual_lines = false,
       }
 
+      -- Custom diagnostic display on cursor line
       local ns = vim.api.nvim_create_namespace("cursor_line_diagnostics")
 
       local function format_diagnostic(diagnostic)
@@ -228,168 +235,208 @@ return {
         callback = show_line_diagnostics,
       })
 
-      -- LSP servers and clients are able to communicate to each other what features they support.
-      --  By default, Neovim doesn't support everything that is in the LSP specification.
-      --  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
-      --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
-      local capabilities = require('blink.cmp').get_lsp_capabilities()
-      local util = require 'lspconfig.util'
-
-      -- Enable the following language servers
-      --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
-      --
-      --  Add any additional override configuration in the following tables. Available keys are:
-      --  - cmd (table): Override the default command used to start the server
-      --  - filetypes (table): Override the default list of associated filetypes for the server
-      --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
-      --  - settings (table): Override the default settings passed when initializing the server.
-      --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+      -- LSP Server configurations
       local servers = {
-        -- clangd = {},
-        -- gopls = {},
-        -- pyright = {},
-        -- rust_analyzer = {},
-        -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
-        --
-      }
-
-      -- Ensure the servers and tools above are installed
-      --
-      -- To check the current status of installed tools and/or manually install
-      -- other tools, you can run
-      --    :Mason
-      --
-      -- You can press `g?` for help in this menu.
-      --
-      -- `mason` had to be setup earlier: to configure its options see the
-      -- `dependencies` table for `nvim-lspconfig` above.
-      --
-      -- You can add other tools here that you want Mason to install
-      -- for you, so that they are available from within Neovim.
-      local ensure_installed = vim.tbl_keys(servers or {})
-      vim.list_extend(ensure_installed, {
-        'stylua', -- Used to format Lua code
-      })
-
-      -- vim.lsp.enable('ts_ls', false)
-      -- vim.lsp.enable('html')
-
-      local lspconfig = require 'lspconfig'
-
-      local node_modules = vim.fn.getcwd() .. "/node_modules"
-      local ngls_cmd = {
-        "node",
-        node_modules .. "/@angular/language-service/index.js",
-        "--ngProbeLocations", node_modules,
-        "--tsProbeLocations", node_modules,
-        "--stdio",
-      }
-
-      lspconfig.ts_ls.setup {
-        root_markers = { 'angular.json', 'nx.json' },
-        filetypes = { 'typescript', 'javascript' },
-        capabilities = capabilities,
-      }
-      lspconfig.lua_ls.setup {
-        -- cmd = { ... },
-        -- filetypes = { ... },
-        -- capabilities = {},
-        settings = {
-          Lua = {
-            completion = {
-              callSnippet = 'Replace',
-            },
-            diagnostics = {
-              disable = {
-                'missing-fields',
+        typescript = {
+          cmd = { 'typescript-language-server', '--stdio' },
+          filetypes = { 'typescript', 'javascript' },
+          root_patterns = { 'angular.json', 'nx.json', 'package.json', 'tsconfig.json' },
+          name = 'ts_ls',
+        },
+        lua = {
+          cmd = { 'lua-language-server' },
+          filetypes = { 'lua' },
+          root_patterns = { '.git', 'lua/' },
+          name = 'lua_ls',
+          settings = {
+            Lua = {
+              completion = {
+                callSnippet = 'Replace',
+              },
+              diagnostics = {
+                disable = {
+                  'missing-fields',
+                },
               },
             },
           },
         },
-      }
-      lspconfig.eslint.setup {
-        root_dir = util.root_pattern('nx.json', 'angular.json'),
-        filetypes = { 'typescript', 'javascript', 'html', 'htmlangular' },
-        capabilities = capabilities,
-        settings = {
-          probe = { 'typescript', 'javascript', 'html', 'htmlangular' },
-          format = {
-            enable = true,
-          },
-          experimental = {
-            useFlatConfig = true,
-          },
-          problems = {
-            shortenToSingleLine = false,
-          },
-          useESLintClass = true,
-          validate = { 'typescript', 'javascript', 'html', 'htmlangular' },
-        },
-      }
-      lspconfig.angularls.setup {
-        cmd = ngls_cmd,
-        root_dir = util.root_pattern('angular.json', 'nx.json'),
-        filetypes = { 'typescript', 'html', 'htmlangular' },
-        capabilities = capabilities,
-      }
-      lspconfig.html.setup {
-        root_markers = { 'nx.json' },
-        filetypes = { 'html', 'htmlangular' },
-        capabilities = capabilities,
-        settings = {
-          html = {
-            format = {
-              enable = true,
+        eslint = {
+          cmd = function()
+            local mason_path = vim.fn.stdpath('data') .. '/mason'
+            return {
+              'node',
+              mason_path .. '/packages/eslint-lsp/node_modules/vscode-langservers-extracted/bin/vscode-eslint-language-server',
+              '--stdio'
+            }
+          end,
+          filetypes = { 'typescript', 'javascript', 'typescriptreact', 'javascriptreact', 'html', 'htmlangular' },
+          root_patterns = { '.eslintrc.js', '.eslintrc.json', '.eslintrc.cjs', 'eslint.config.js', 'package.json' },
+          name = 'eslint',
+          settings = {
+            validate = 'on',
+            packageManager = 'npm',
+            useESLintClass = false,
+            experimental = {
+              useFlatConfig = true,
             },
-            hover = {
-              documentation = true,
-              references = true,
+            codeActionOnSave = {
+              enable = false,
+              mode = 'all'
             },
+            format = false,
+            quiet = false,
+            onIgnoredFiles = 'off',
+            rulesCustomizations = {},
+            run = 'onType',
+            problems = {
+              shortenToSingleLine = false
+            },
+            nodePath = '',
+            workingDirectory = {
+              mode = 'auto'
+            }
           },
-        },
-      }
-      lspconfig.emmet_language_server.setup {
-        filetypes = { 'html', 'htmlangular', 'css', 'scss', 'sass' },
-        capabilities = capabilities,
-      }
-      lspconfig.stylelint_lsp.setup {
-        settings = {
-          stylelintplus = {
-            autoFixOnFormat = true,
-          },
-        },
-        filetypes = { 'scss', 'sass', 'css' },
-        capabilities = capabilities,
-      }
-      lspconfig.graphql.setup {
-        cmd = { 'graphql-lsp', 'server', '-m', 'stream' },
-        filetypes = { 'graphql', 'typescript' },
-        root_dir = util.root_pattern('.git', '.graphqlconfig'),
-        capabilities = capabilities,
-      }
-
-      require('mason-tool-installer').setup { ensure_installed = ensure_installed }
-
-      require('mason-lspconfig').setup {
-        ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-        handlers = {
-          function(server_name)
-            local server = servers[server_name] or {}
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for ts_ls)
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
+          on_new_config = function(config, new_root_dir)
+            config.settings.workingDirectory = {
+              mode = 'location',
+              location = new_root_dir
+            }
           end,
         },
+        angular = {
+          cmd = function()
+            local node_modules = vim.fn.getcwd() .. "/node_modules"
+            return {
+              "node",
+              node_modules .. "/@angular/language-service/index.js",
+              "--ngProbeLocations", node_modules,
+              "--tsProbeLocations", node_modules,
+              "--stdio",
+            }
+          end,
+          filetypes = { 'typescript', 'html', 'htmlangular' },
+          root_patterns = { 'angular.json', 'nx.json' },
+          name = 'angularls',
+        },
+        html = {
+          cmd = { 'vscode-html-language-server', '--stdio' },
+          filetypes = { 'html', 'htmlangular' },
+          root_patterns = { 'nx.json', '.git' },
+          name = 'html',
+          settings = {
+            html = {
+              format = {
+                enable = true,
+              },
+              hover = {
+                documentation = true,
+                references = true,
+              },
+            },
+          },
+        },
+        emmet = {
+          cmd = { 'emmet-language-server', '--stdio' },
+          filetypes = { 'html', 'htmlangular', 'css', 'scss', 'sass' },
+          root_patterns = { '.git' },
+          name = 'emmet_language_server',
+        },
+        stylelint = {
+          cmd = { 'stylelint-lsp', '--stdio' },
+          filetypes = { 'scss', 'sass', 'css' },
+          root_patterns = { '.stylelintrc', 'package.json', '.git' },
+          name = 'stylelint_lsp',
+          settings = {
+            stylelintplus = {
+              autoFixOnFormat = true,
+            },
+          },
+        },
+        graphql = {
+          cmd = { 'graphql-lsp', 'server', '-m', 'stream' },
+          filetypes = { 'graphql', 'typescript' },
+          root_patterns = { '.git', '.graphqlconfig' },
+          name = 'graphql',
+        },
       }
+
+      -- Function to start LSP server
+      local function start_lsp_server(server_config, bufnr)
+        local root_dir = find_root(server_config.root_patterns)
+
+        -- Special handling for ESLint - only start if config files exist
+        if server_config.name == 'eslint' then
+          local eslint_configs = { '.eslintrc.js', '.eslintrc.json', '.eslintrc.cjs', 'eslint.config.js', 'eslint.config.mjs', '.eslintrc.yml', '.eslintrc.yaml' }
+          local has_eslint_config = false
+          for _, config_file in ipairs(eslint_configs) do
+            local found = vim.fs.find(config_file, { path = root_dir, upward = true })
+            if #found > 0 then
+              has_eslint_config = true
+              break
+            end
+          end
+
+          -- Also check for eslint in package.json
+          if not has_eslint_config then
+            local package_json_path = vim.fs.find('package.json', { path = root_dir, upward = true })[1]
+            if package_json_path then
+              local package_json = vim.fn.readfile(package_json_path)
+              local package_content = table.concat(package_json, '\n')
+              if package_content:match('"eslint"') or package_content:match('"eslintConfig"') then
+                has_eslint_config = true
+              end
+            end
+          end
+
+          if not has_eslint_config then
+            return -- Don't start ESLint if no config found
+          end
+        end
+
+        local cmd = server_config.cmd
+        if type(cmd) == 'function' then
+          cmd = cmd()
+        end
+
+        local config = {
+          name = server_config.name,
+          cmd = cmd,
+          root_dir = root_dir,
+          capabilities = capabilities,
+          settings = server_config.settings,
+          init_options = server_config.init_options,
+        }
+
+        vim.lsp.start(config, { bufnr = bufnr })
+      end
+
+      -- Create autocmds for each server based on filetype
+      for _, server_config in pairs(servers) do
+        vim.api.nvim_create_autocmd('FileType', {
+          pattern = server_config.filetypes,
+          callback = function(event)
+            -- Check if this server is already running for this buffer
+            local clients = vim.lsp.get_clients({ bufnr = event.buf, name = server_config.name })
+            if #clients == 0 then
+              start_lsp_server(server_config, event.buf)
+            end
+          end,
+        })
+      end
+
+      -- Special handling for eslint - enable it explicitly
+      vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
+        pattern = { '*.ts', '*.js', '*.tsx', '*.jsx', '*.html' },
+        callback = function(event)
+          local clients = vim.lsp.get_clients({ bufnr = event.buf, name = 'eslint' })
+          if #clients == 0 then
+            start_lsp_server(servers.eslint, event.buf)
+          end
+        end,
+      })
     end,
   },
 }
 -- vim: ts=2 sts=2 sw=2 et
+

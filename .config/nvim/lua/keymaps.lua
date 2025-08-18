@@ -5,9 +5,6 @@
 --  See `:help hlsearch`
 vim.keymap.set('n', '<leader>h', '<cmd>nohlsearch<CR>', { desc = 'Clear Highlight' })
 
--- Diagnostic keymaps
-vim.keymap.set('n', '<leader>lq', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-
 -- LSP: TypeScript add missing imports (ts_ls)
 vim.keymap.set('n', '<leader>lm', function()
   -- Only run for TypeScript related filetypes
