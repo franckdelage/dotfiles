@@ -26,7 +26,7 @@ return {
         'typescript-language-server',
         'lua-language-server',
         'eslint-lsp',
-        -- 'angular-language-server',
+        'angular-language-server',
         'html-lsp',
         'emmet-language-server',
         'stylelint-lsp',
@@ -305,16 +305,7 @@ return {
           end,
         },
         angular = {
-          cmd = function()
-            local node_modules = vim.fn.getcwd() .. "/node_modules"
-            return {
-              "node",
-              node_modules .. "/@angular/language-service/index.js",
-              "--ngProbeLocations", node_modules,
-              "--tsProbeLocations", node_modules,
-              "--stdio",
-            }
-          end,
+          cmd = { 'ngserver', '--stdio', '--tsProbeLocations', 'node_modules', '--ngProbeLocations', 'node_modules' },
           filetypes = { 'typescript', 'html', 'htmlangular' },
           root_patterns = { 'angular.json', 'nx.json' },
           name = 'angularls',
