@@ -125,11 +125,12 @@ return {
         },
         adapters = {
           require 'neotest-jest' {
+            jest_test_discovery = false, -- Disable automatic discovery
             jestCommand = function(path)
               local project = find_nx_project(path)
               if project then
                 notify("🚀 Running tests in project: " .. project, "info")
-                return string.format("yarn nx run %s:test --testPathPattern %s", project, path)
+                return string.format("yarn nx run %s:test %s", project, path)
               end
               return "yarn jest --" .. path
             end,
