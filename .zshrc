@@ -116,6 +116,9 @@ export PATH="$HOME/.deno/bin:$PATH"
 # neovim
 # export PATH="$HOME/.local/nvim/bin:$PATH"
 
+# TAVILY_API_KEY
+export TAVILY_API_KEY="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"
+
 # Starship
 eval "$(starship init zsh)"
 
