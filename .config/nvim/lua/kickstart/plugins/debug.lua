@@ -36,6 +36,12 @@ return {
 
     { 'theHamsta/nvim-dap-virtual-text', opts = {} },
 
+    {
+      'microsoft/vscode-js-debug',
+      -- After install, build it and rename the dist directory to out
+      build = 'npm install --legacy-peer-deps --no-save && npx gulp vsDebugServerBundle && rm -rf out && mv dist out',
+      version = '1.*',
+    },
   },
   keys = {
     -- Basic debugging keymaps, feel free to change to your liking!
@@ -110,9 +116,12 @@ return {
       -- see mason-nvim-dap README for more information
       handlers = {},
 
+      -- You'll need to check that you have the required things installed
+      -- online, please don't ask me how to install them :)
       ensure_installed = {
-        'js-debug-adapter',
-      }
+        -- Update this to ensure that you have the debuggers for the langs you want
+        -- 'delve',
+      },
     }
 
     -- Dap UI setup
@@ -179,12 +188,6 @@ return {
     dap_vscode.json_decode = function(str)
       return vim.json.decode(json.json_strip_comments(str, {}))
     end
-
-    -- Load VS Code launch.json so Nx/Angular/Node configs work out of the box
-    dap_vscode.load_launchjs(nil, {
-      ['pwa-node'] = { 'typescript', 'javascript', 'typescriptreact', 'javascriptreact' },
-      ['pwa-chrome'] = { 'typescript', 'javascript', 'typescriptreact', 'javascriptreact' },
-    })
 
     -- ADAPTERS
 
@@ -257,8 +260,6 @@ return {
           name = 'Launch file',
           program = '${file}',
           cwd = vim.fn.getcwd(),
-          skipFiles = { '<node_internals>/**', '${workspaceFolder}/node_modules/**' },
-          autoAttachChildProcesses = true,
           sourceMaps = true,
         },
         -- Debug nodejs processes (make sure to add --inspect when you run the process)
@@ -268,25 +269,32 @@ return {
           name = 'Attach',
           processId = require('dap.utils').pick_process,
           cwd = vim.fn.getcwd(),
-          skipFiles = { '<node_internals>/**', '${workspaceFolder}/node_modules/**' },
-          autoAttachChildProcesses = true,
           sourceMaps = true,
         },
         -- Debug web applications (client side)
         {
           type = 'pwa-chrome',
-          name = 'Angular: Launch Chrome',
-          url = 'http://localhost:4200',
-          webRoot = '${workspaceFolder}',
+          request = 'launch',
+          name = 'Launch & Debug Chrome',
+          url = function()
+            local co = coroutine.running()
+            return coroutine.create(function()
+              vim.ui.input({
+                prompt = 'Enter URL: ',
+                default = 'https://localhost.airfrance.fr',
+              }, function(url)
+                if url == nil or url == '' then
+                  return
+                else
+                  coroutine.resume(co, url)
+                end
+              end)
+            end)
+          end,
+          webRoot = vim.fn.getcwd(),
           protocol = 'inspector',
           sourceMaps = true,
           userDataDir = false,
-          sourceMapPathOverrides = {
-            ['webpack:///./*'] = '${webRoot}/*',
-            ['webpack:///*'] = '${webRoot}/*',
-            ['webpack:///src/*'] = '${webRoot}/src/*',
-            ['file:///*'] = '*',
-                      },
         },
         -- Divider for the launch.json derived configs
         {
