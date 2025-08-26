@@ -19,7 +19,7 @@ return {
           '%=',
           'lsp_status',
         },
-        lualine_x = {},
+        lualine_x = { 'aerial' },
         lualine_y = { 'filetype', 'progress' },
         lualine_z = {
           { 'location', separator = { right = '' }, left_padding = 2 },

@@ -15,6 +15,7 @@ return {
 
     vim.keymap.set('n', '<leader>ta', '<cmd>AerialOpen<cr>', { desc = 'Aerial Open' })
     vim.keymap.set('n', '<leader>tn', '<cmd>AerialNavToggle<cr>', { desc = 'Aerial Open navigation' })
+    vim.keymap.set('n', '<leader>tt', function () require('aerial').snacks_picker() end, { desc = 'Aerial list symbols' })
     vim.keymap.set('n', '<leader>tx', '<cmd>AerialCloseAll<cr>', { desc = 'Aerial Close all' })
   end,
 }

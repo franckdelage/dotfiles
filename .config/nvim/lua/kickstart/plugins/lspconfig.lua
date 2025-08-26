@@ -101,7 +101,7 @@ return {
           map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
 
           -- Show signature help
-          map('<C-k>', vim.lsp.buf.signature_help, 'Signature Help', { 'n', 'i' })
+          -- map('<C-k>', vim.lsp.buf.signature_help, 'Signature Help', { 'n', 'i' })
 
           -- Format document or selection
           -- map('<leader>lf', function()
