@@ -11,6 +11,6 @@ return {
   },
   keys = {
     -- Will use Telescope if installed or a vim.ui.select picker otherwise
-    { '<leader>ss', '<cmd>SessionSearch<CR>', desc = 'Session search' },
+    { '<leader>ss', '<cmd>AutoSession search<CR>', desc = 'Session search' },
   },
 }

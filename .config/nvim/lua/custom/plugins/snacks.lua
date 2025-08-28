@@ -50,7 +50,7 @@ return {
         { title = 'MRU ', file = vim.fn.fnamemodify('.', ':~'), padding = 1 },
         { section = 'recent_files', cwd = true, limit = 8, padding = 1 },
         { title = 'Sessions', padding = 1 },
-        { desc = "Find session", icon = " ", padding = 1, action = ":SessionSearch", key = "s" },
+        { desc = "Find session", icon = " ", padding = 1, action = ":AutoSession search", key = "s" },
         { title = 'Bookmarks', padding = 1 },
         { section = 'keys' },
       },
