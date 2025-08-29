@@ -1,197 +1,237 @@
--- debug.lua
---
--- Shows how to use the DAP plugin to debug your code.
---
--- Primarily focused on configuring the debugger for Go, but can
--- be extended to other languages as well. That's why it's called
--- kickstart.nvim and not kitchen-sink.nvim ;)
---
--- Franck's section
--- More references:
--- https://github.com/gonstoll/dotfiles/blob/28eb244708dbf77588abf5b4f01bfcfe8436a68a/.config/nvim/lua/plugins/dap.lua
--- https://github.com/nikolovlazar/dotfiles/blob/92c91ed035348c74e387ccd85ca19a376ea2f35e/.config/nvim/lua/plugins/dap.lua
-
-local js_based_languages = {
-  'typescript',
-  'javascript',
-  'typescriptreact',
-  'javascriptreact',
-  'vue',
-}
-
 return {
-  -- NOTE: Yes, you can install new plugins here!
-  'mfussenegger/nvim-dap',
-  -- NOTE: And you can specify dependencies as well
-  dependencies = {
-    -- Creates a beautiful debugger UI
-    'rcarriga/nvim-dap-ui',
-
-    -- Required dependency for nvim-dap-ui
-    'nvim-neotest/nvim-nio',
-
-    -- Installs the debug adapters for you
+  -- Mason for debug adapter management
+  {
     'williamboman/mason.nvim',
+    config = function()
+      require('mason').setup()
+    end,
+  },
+  {
     'jay-babu/mason-nvim-dap.nvim',
-
-    { 'theHamsta/nvim-dap-virtual-text', opts = {} },
-
-    {
-      'microsoft/vscode-js-debug',
-      -- After install, build it and rename the dist directory to out
-      build = 'npm install --legacy-peer-deps --no-save && npx gulp vsDebugServerBundle && rm -rf out && mv dist out',
-      version = '1.*',
+    dependencies = {
+      'williamboman/mason.nvim',
+      'mfussenegger/nvim-dap',
     },
+    config = function()
+      require('mason-nvim-dap').setup {
+        automatic_installation = true,
+        handlers = {},
+        ensure_installed = {
+          'js-debug-adapter',
+        },
+      }
+    end,
   },
-  keys = {
-    -- Basic debugging keymaps, feel free to change to your liking!
-    {
-      '<leader>ds',
-      function()
-        require('dap').continue()
-      end,
-      desc = 'Start/Continue',
+  {
+    'mfussenegger/nvim-dap',
+    dependencies = {
+      'rcarriga/nvim-dap-ui',
+      'theHamsta/nvim-dap-virtual-text',
+      'nvim-neotest/nvim-nio',
+      'williamboman/mason.nvim',
+      'jay-babu/mason-nvim-dap.nvim',
     },
-    {
-      '<leader>dx',
-      function()
-        require('dap').terminate()
-      end,
-      desc = 'Stop',
-    },
-    {
-      '<leader>di',
-      function()
-        require('dap').step_into()
-      end,
-      desc = 'Step Into',
-    },
-    {
-      '<leader>do',
-      function()
-        require('dap').step_over()
-      end,
-      desc = 'Step Over',
-    },
-    {
-      '<leader>du',
-      function()
-        require('dap').step_out()
-      end,
-      desc = 'Step Out',
-    },
-    {
-      '<leader>db',
-      function()
-        require('dap').toggle_breakpoint()
-      end,
-      desc = 'Toggle Breakpoint',
-    },
-    {
-      '<leader>dB',
-      function()
-        require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
-      end,
-      desc = 'Set Breakpoint',
-    },
-    -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
-    {
-      '<leader>dt',
-      function()
-        require('dapui').toggle()
-      end,
-      desc = 'See last session result.',
-    },
-  },
-  config = function()
-    local dap = require 'dap'
-    local dapui = require 'dapui'
-
-    require('mason-nvim-dap').setup {
-      -- Makes a best effort to setup the various debuggers with
-      -- reasonable debug configurations
-      automatic_installation = true,
-
-      -- You can provide additional configuration to the handlers,
-      -- see mason-nvim-dap README for more information
-      handlers = {},
-
-      -- You'll need to check that you have the required things installed
-      -- online, please don't ask me how to install them :)
-      ensure_installed = {
-        -- Update this to ensure that you have the debuggers for the langs you want
-        -- 'delve',
+    keys = {
+      {
+        '<leader>dc',
+        function()
+          require('dap').continue()
+        end,
+        desc = 'Debug: Start/Continue',
       },
-    }
+      {
+        '<leader>di',
+        function()
+          require('dap').step_into()
+        end,
+        desc = 'Debug: Step Into',
+      },
+      {
+        '<leader>do',
+        function()
+          require('dap').step_over()
+        end,
+        desc = 'Debug: Step Over',
+      },
+      {
+        '<leader>du',
+        function()
+          require('dap').step_out()
+        end,
+        desc = 'Debug: Step Out',
+      },
+      {
+        '<leader>db',
+        function()
+          require('dap').toggle_breakpoint()
+        end,
+        desc = 'Debug: Toggle Breakpoint',
+      },
+      {
+        '<leader>dB',
+        function()
+          require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
+        end,
+        desc = 'Debug: Set Conditional Breakpoint',
+      },
+      {
+        '<leader>dt',
+        function()
+          require('dapui').toggle()
+        end,
+        desc = 'Debug: See last session result',
+      },
+      {
+        '<leader>dr',
+        function()
+          require('dap').repl.open()
+        end,
+        desc = 'Debug: Open REPL',
+      },
+      {
+        '<leader>dl',
+        function()
+          require('dap').run_last()
+        end,
+        desc = 'Debug: Run Last',
+      },
+      {
+        '<leader>dx',
+        function()
+          require('dap').terminate()
+        end,
+        desc = 'Debug: Stop',
+      },
+      {
+        '<leader>dh',
+        function()
+          require('dap.ui.widgets').hover()
+        end,
+        desc = 'Debug: Hover',
+        mode = { 'n', 'v' },
+      },
+      {
+        '<leader>dp',
+        function()
+          require('dap.ui.widgets').preview()
+        end,
+        desc = 'Debug: Preview',
+        mode = { 'n', 'v' },
+      },
+      {
+        '<leader>df',
+        function()
+          local widgets = require 'dap.ui.widgets'
+          widgets.centered_float(widgets.frames)
+        end,
+        desc = 'Debug: Frames',
+      },
+      {
+        '<leader>ds',
+        function()
+          local widgets = require 'dap.ui.widgets'
+          widgets.centered_float(widgets.scopes)
+        end,
+        desc = 'Debug: Scopes',
+      },
+    },
+    config = function()
+      local dap = require 'dap'
+      local dapui = require 'dapui'
 
-    -- Dap UI setup
-    -- For more information, see |:help nvim-dap-ui|
-    ---@diagnostic disable-next-line: missing-fields
-    dapui.setup {
-      layouts = {
-        {
-          elements = {
-            {
-              id = 'scopes',
-              size = 0.25,
+      -- Disable automatic loading of .vscode/launch.json
+      dap.ext = dap.ext or {}
+      dap.ext.vscode = nil
+
+      -- Setup DAP UI
+      dapui.setup {
+        icons = { expanded = '▾', collapsed = '▸', current_frame = '▸' },
+        mappings = {
+          expand = { '<CR>', '<2-LeftMouse>' },
+          open = 'o',
+          remove = 'd',
+          edit = 'e',
+          repl = 'r',
+          toggle = 't',
+        },
+        layouts = {
+          {
+            elements = {
+              { id = 'scopes', size = 0.25 },
+              { id = 'breakpoints', size = 0.25 },
+              { id = 'stacks', size = 0.25 },
+              { id = 'watches', size = 0.25 },
             },
-            {
-              id = 'breakpoints',
-              size = 0.25,
-            },
-            {
-              id = 'stacks',
-              size = 0.25,
-            },
-            {
-              id = 'watches',
-              size = 0.25,
-            },
+            size = 80,
+            position = 'left',
           },
-          position = 'left',
-          size = 80,
+          {
+            elements = {
+              { id = 'repl', size = 0.5 },
+              { id = 'console', size = 0.5 },
+            },
+            size = 22,
+            position = 'bottom',
+          },
         },
-        {
-          elements = { {
-            id = 'repl',
-            size = 0.5,
-          }, {
-            id = 'console',
-            size = 0.5,
-          } },
-          position = 'bottom',
-          size = 20,
+        controls = {
+          enabled = true,
+          element = 'repl',
+          icons = {
+            disconnect = '',
+            pause = '',
+            play = '',
+            run_last = '',
+            step_back = '',
+            step_into = '',
+            step_out = '',
+            step_over = '',
+            terminate = '',
+          },
         },
-      },
-    }
+        floating = {
+          max_height = nil,
+          max_width = nil,
+          border = 'single',
+          mappings = {
+            close = { 'q', '<Esc>' },
+          },
+        },
+        windows = { indent = 1 },
+        render = {
+          max_type_length = nil,
+        },
+      }
 
-    -- Change breakpoint icons
-    vim.api.nvim_set_hl(0, 'DapBreak', { fg = '#e51400' })
-    vim.api.nvim_set_hl(0, 'DapStop', { fg = '#ffcc00' })
-    local breakpoint_icons = vim.g.have_nerd_font
-        and { Breakpoint = '', BreakpointCondition = '', BreakpointRejected = '', LogPoint = '', Stopped = '' }
-      or { Breakpoint = '●', BreakpointCondition = '⊜', BreakpointRejected = '⊘', LogPoint = '◆', Stopped = '⭔' }
-    for type, icon in pairs(breakpoint_icons) do
-      local tp = 'Dap' .. type
-      local hl = (type == 'Stopped') and 'DapStop' or 'DapBreak'
-      vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
-    end
+      -- Setup virtual text
+      require('nvim-dap-virtual-text').setup {
+        enabled = true,
+        enabled_commands = true,
+        highlight_changed_variables = true,
+        highlight_new_as_changed = false,
+        show_stop_reason = true,
+        commented = false,
+        only_first_definition = true,
+        all_references = false,
+        clear_on_continue = false,
+        ---@diagnostic disable-next-line: unused-local
+        display_callback = function(variable, _buf, _stackframe, _node, options)
+          if options.virt_text_pos == 'inline' then
+            return ' = ' .. variable.value
+          else
+            return variable.name .. ' = ' .. variable.value
+          end
+        end,
+        virt_text_pos = vim.fn.has 'nvim-0.10' == 1 and 'inline' or 'eol',
+        all_frames = false,
+        virt_lines = false,
+        virt_text_win_col = nil,
+      }
 
-    dap.listeners.after.event_initialized['dapui_config'] = dapui.open
-    dap.listeners.before.event_terminated['dapui_config'] = dapui.close
-    dap.listeners.before.event_exited['dapui_config'] = dapui.close
+      -- Manual adapter setup since mason-nvim-dap isn't working
+      local mason_path = vim.fn.stdpath 'data' .. '/mason'
 
-    -- setup dap config by VsCode launch.json file
-    local dap_vscode = require 'dap.ext.vscode'
-    local json = require 'plenary.json'
-    ---@diagnostic disable-next-line: duplicate-set-field
-    dap_vscode.json_decode = function(str)
-      return vim.json.decode(json.json_strip_comments(str, {}))
-    end
-
-    -- ADAPTERS
-
-    if not dap.adapters['pwa-node'] then
+      -- Node.js/JavaScript adapter
       dap.adapters['pwa-node'] = {
         type = 'server',
         host = 'localhost',
@@ -199,14 +239,13 @@ return {
         executable = {
           command = 'node',
           args = {
-            vim.fn.expand '$MASON/packages/js-debug-adapter/js-debug/src/dapDebugServer.js',
+            mason_path .. '/packages/js-debug-adapter/js-debug/src/dapDebugServer.js',
             '${port}',
           },
         },
       }
-    end
 
-    if not dap.adapters['pwa-chrome'] then
+      -- Chrome adapter
       dap.adapters['pwa-chrome'] = {
         type = 'server',
         host = 'localhost',
@@ -214,95 +253,151 @@ return {
         executable = {
           command = 'node',
           args = {
-            vim.fn.expand '$MASON/packages/js-debug-adapter/js-debug/src/dapDebugServer.js',
+            mason_path .. '/packages/js-debug-adapter/js-debug/src/dapDebugServer.js',
             '${port}',
           },
         },
       }
-    end
 
-    if not dap.adapters['node'] then
-      dap.adapters['node'] = function(cb, config)
-        if config.type == 'node' then
-          config.type = 'pwa-node'
-        end
-        local nativeAdapter = dap.adapters['pwa-node']
-        if type(nativeAdapter) == 'function' then
-          nativeAdapter(cb, config)
-        else
-          cb(nativeAdapter)
-        end
+      -- Debug configurations for your project
+      for _, language in ipairs { 'typescript', 'javascript', 'typescriptreact', 'javascriptreact' } do
+        dap.configurations[language] = {
+          -- Debug Air France localhost
+          {
+            type = 'pwa-chrome',
+            request = 'launch',
+            name = ' Debug AF (localhost.airfrance.fr)',
+            url = 'https://localhost.airfrance.fr',
+            webRoot = '${workspaceFolder}',
+            skipFiles = {
+              '<node_internals>/**',
+              '${workspaceFolder}/node_modules/**',
+            },
+            sourceMaps = true,
+          },
+          -- Debug KLM localhost
+          {
+            type = 'pwa-chrome',
+            request = 'launch',
+            name = ' Debug KLM (localhost.klm.nl)',
+            url = 'https://localhost.klm.nl',
+            webRoot = '${workspaceFolder}',
+            skipFiles = {
+              '<node_internals>/**',
+              '${workspaceFolder}/node_modules/**',
+            },
+            sourceMaps = true,
+          },
+          -- Jest current file
+          {
+            type = 'pwa-node',
+            request = 'launch',
+            name = ' Debug Jest (Current File)',
+            program = '${workspaceFolder}/node_modules/.bin/jest',
+            args = {
+              '--runInBand',
+              '--testPathPattern=${relativeFile}',
+              '--config=${workspaceFolder}/jest.config.ts',
+            },
+            cwd = '${workspaceFolder}',
+            console = 'integratedTerminal',
+            internalConsoleOptions = 'neverOpen',
+            skipFiles = {
+              '<node_internals>/**',
+              '${workspaceFolder}/node_modules/**',
+            },
+            sourceMaps = true,
+          },
+          -- Jest via Nx
+          {
+            type = 'pwa-node',
+            request = 'launch',
+            name = ' Debug Jest (Nx Project)',
+            program = '${workspaceFolder}/node_modules/.bin/nx',
+            args = function()
+              local project = vim.fn.input 'Project name: '
+              local testFile = vim.fn.input('Test file pattern (optional): ', '')
+              local args = { 'test', project }
+              if testFile ~= '' then
+                table.insert(args, '--testPathPattern=' .. testFile)
+              end
+              table.insert(args, '--runInBand')
+              return args
+            end,
+            cwd = '${workspaceFolder}',
+            console = 'integratedTerminal',
+            internalConsoleOptions = 'neverOpen',
+            skipFiles = {
+              '<node_internals>/**',
+              '${workspaceFolder}/node_modules/**',
+            },
+            sourceMaps = true,
+          },
+          -- Attach to GraphQL
+          {
+            type = 'pwa-node',
+            request = 'attach',
+            name = ' Attach GQL (9221)',
+            port = 9221,
+            restart = true,
+            cwd = '${workspaceFolder}',
+            sourceMaps = true,
+            resolveSourceMapLocations = { '**', '!**/node_modules/**' },
+            outFiles = { '${workspaceFolder}/dist/**/*.js' },
+            skipFiles = {
+              '<node_internals>/**',
+              '${workspaceFolder}/node_modules/**',
+            },
+          },
+          -- Debug GraphQL server
+          -- {
+          --   type = 'pwa-node',
+          --   request = 'launch',
+          --   name = ' Launch GraphQL Server',
+          --   program = '${workspaceFolder}/node_modules/.bin/tsx',
+          --   args = {
+          --     '--tsconfig',
+          --     '${workspaceFolder}/apps/gql/tsconfig.json',
+          --     '${workspaceFolder}/apps/gql/src/main.ts',
+          --   },
+          --   cwd = '${workspaceFolder}',
+          --   console = 'integratedTerminal',
+          --   internalConsoleOptions = 'neverOpen',
+          --   env = {
+          --     NODE_ENV = 'development',
+          --     PORT = '3000',
+          --   },
+          --   skipFiles = {
+          --     '<node_internals>/**',
+          --     '${workspaceFolder}/node_modules/**',
+          --   },
+          --   sourceMaps = true,
+          -- },
+        }
       end
-    end
 
-    if not dap.adapters['chrome'] then
-      dap.adapters['chrome'] = function(cb, config)
-        if config.type == 'chrome' then
-          config.type = 'pwa-chrome'
-        end
-        local nativeAdapter = dap.adapters['pwa-chrome']
-        if type(nativeAdapter) == 'function' then
-          nativeAdapter(cb, config)
-        else
-          cb(nativeAdapter)
-        end
+      -- Auto open/close DAP UI
+      dap.listeners.after.event_initialized['dapui_config'] = function()
+        dapui.open()
       end
-    end
+      dap.listeners.before.event_terminated['dapui_config'] = function()
+        dapui.close()
+      end
+      dap.listeners.before.event_exited['dapui_config'] = function()
+        dapui.close()
+      end
 
-    -- CONFIGURATIONS
-
-    for _, language in ipairs(js_based_languages) do
-      dap.configurations[language] = {
-        -- Debug single nodejs files
-        {
-          type = 'pwa-node',
-          request = 'launch',
-          name = 'Launch file',
-          program = '${file}',
-          cwd = vim.fn.getcwd(),
-          sourceMaps = true,
-        },
-        -- Debug nodejs processes (make sure to add --inspect when you run the process)
-        {
-          type = 'pwa-node',
-          request = 'attach',
-          name = 'Attach',
-          processId = require('dap.utils').pick_process,
-          cwd = vim.fn.getcwd(),
-          sourceMaps = true,
-        },
-        -- Debug web applications (client side)
-        {
-          type = 'pwa-chrome',
-          request = 'launch',
-          name = 'Launch & Debug Chrome',
-          url = function()
-            local co = coroutine.running()
-            return coroutine.create(function()
-              vim.ui.input({
-                prompt = 'Enter URL: ',
-                default = 'https://localhost.airfrance.fr',
-              }, function(url)
-                if url == nil or url == '' then
-                  return
-                else
-                  coroutine.resume(co, url)
-                end
-              end)
-            end)
-          end,
-          webRoot = vim.fn.getcwd(),
-          protocol = 'inspector',
-          sourceMaps = true,
-          userDataDir = false,
-        },
-        -- Divider for the launch.json derived configs
-        {
-          name = '----- ↓ launch.json configs ↓ -----',
-          type = '',
-          request = 'launch',
-        },
-      }
-    end
-  end,
+      -- Change breakpoint icons
+      vim.api.nvim_set_hl(0, 'DapBreak', { fg = '#e51400' })
+      vim.api.nvim_set_hl(0, 'DapStop', { fg = '#ffcc00' })
+      local breakpoint_icons = vim.g.have_nerd_font
+          and { Breakpoint = '', BreakpointCondition = '', BreakpointRejected = '', LogPoint = '', Stopped = '' }
+        or { Breakpoint = '●', BreakpointCondition = '⊜', BreakpointRejected = '⊘', LogPoint = '◆', Stopped = '⭔' }
+      for type, icon in pairs(breakpoint_icons) do
+        local tp = 'Dap' .. type
+        local hl = (type == 'Stopped') and 'DapStop' or 'DapBreak'
+        vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
+      end
+    end,
+  },
 }
