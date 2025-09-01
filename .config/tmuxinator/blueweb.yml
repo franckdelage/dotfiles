@@ -16,3 +16,6 @@ windows:
         - apirequests
         - appstart
         - gqlstart
+  - opencode:
+      panes:
+        - opencode
