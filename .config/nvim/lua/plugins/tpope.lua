@@ -4,6 +4,6 @@ return {
   "tpope/vim-dispatch",
   "tpope/vim-eunuch",
   "tpope/vim-unimpaired",
-  -- "tpope/vim-surround",
+  "tpope/vim-sleuth",
   "tpope/vim-repeat",
 }
