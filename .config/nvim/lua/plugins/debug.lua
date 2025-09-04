@@ -37,77 +37,85 @@ return {
         function()
           require('dap').continue()
         end,
-        desc = 'Debug: Start/Continue',
+        desc = 'Start/Continue',
       },
       {
         '<leader>di',
         function()
           require('dap').step_into()
         end,
-        desc = 'Debug: Step Into',
+        desc = 'Step Into',
       },
       {
         '<leader>do',
         function()
           require('dap').step_over()
         end,
-        desc = 'Debug: Step Over',
+        desc = 'Step Over',
       },
       {
         '<leader>du',
         function()
           require('dap').step_out()
         end,
-        desc = 'Debug: Step Out',
+        desc = 'Step Out',
       },
       {
         '<leader>db',
         function()
           require('dap').toggle_breakpoint()
         end,
-        desc = 'Debug: Toggle Breakpoint',
+        desc = 'Toggle Breakpoint',
       },
       {
         '<leader>dB',
         function()
           require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
         end,
-        desc = 'Debug: Set Conditional Breakpoint',
+        desc = 'Set Conditional Breakpoint',
       },
       {
         '<leader>dt',
         function()
           require('dapui').toggle()
         end,
-        desc = 'Debug: See last session result',
+        desc = 'Toggle UI',
       },
       {
         '<leader>dr',
         function()
           require('dap').repl.open()
         end,
-        desc = 'Debug: Open REPL',
+        desc = 'Open REPL',
       },
       {
         '<leader>dl',
         function()
           require('dap').run_last()
         end,
-        desc = 'Debug: Run Last',
+        desc = 'Run Last',
       },
       {
         '<leader>dx',
         function()
           require('dap').terminate()
         end,
-        desc = 'Debug: Stop',
+        desc = 'Stop',
+      },
+      {
+        '<leader>de',
+        function()
+          require('dapui').eval()
+        end,
+        desc = 'Evaluate',
+        mode = { 'n', 'v' },
       },
       {
         '<leader>dh',
         function()
           require('dap.ui.widgets').hover()
         end,
-        desc = 'Debug: Hover',
+        desc = 'Hover',
         mode = { 'n', 'v' },
       },
       {
@@ -115,7 +123,7 @@ return {
         function()
           require('dap.ui.widgets').preview()
         end,
-        desc = 'Debug: Preview',
+        desc = 'Preview',
         mode = { 'n', 'v' },
       },
       {
@@ -124,7 +132,7 @@ return {
           local widgets = require 'dap.ui.widgets'
           widgets.centered_float(widgets.frames)
         end,
-        desc = 'Debug: Frames',
+        desc = 'Frames',
       },
       {
         '<leader>ds',
@@ -132,7 +140,7 @@ return {
           local widgets = require 'dap.ui.widgets'
           widgets.centered_float(widgets.scopes)
         end,
-        desc = 'Debug: Scopes',
+        desc = 'Scopes',
       },
     },
     config = function()
