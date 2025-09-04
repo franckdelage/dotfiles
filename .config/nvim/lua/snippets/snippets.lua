@@ -500,7 +500,7 @@ ls.add_snippets("gitcommit", {
       {}({}): {}-{} {}
       ]],
       {
-        c(1, { t("feat"), t("fix"), t("refactor"), t("test"),  }),
+        i(1, "feat"),
         i(2),
         i(3, "BWDISCUSS"),
         i(4),
