@@ -1,27 +1,56 @@
 return {
-  "github/copilot.vim",
-  lazy = true,
+  "zbirenbaum/copilot.lua",
+  cmd = "Copilot",
   event = "InsertEnter",
   config = function()
-    vim.g.copilot_filetypes = {
-      ["markdown"] = false,
-      ["text"] = false,
-      ["gitcommit"] = false,
-      ["help"] = false,
-      ["TelescopePrompt"] = false,
-      ["dashboard"] = false,
-      ["alpha"] = false,
-    }
+    require('copilot').setup({
+      panel = {
+        enabled = true,
+        auto_refresh = false,
+        keymap = {
+          jump_prev = "[[",
+          jump_next = "]]",
+          accept = "<CR>",
+          refresh = "gr",
+          open = "<M-CR>"
+        },
+        layout = {
+          position = "bottom", -- | top | left | right | bottom |
+          ratio = 0.4
+        },
+      },
+      suggestion = {
+        enabled = true,
+        auto_trigger = true,
+        hide_during_completion = true,
+        debounce = 75,
+        trigger_on_accept = true,
+        keymap = {
+          accept = "<C-h>",
+          accept_word = "<C-l>",
+          accept_line = false,
+          next = "<C-k>",
+          prev = "<C-j>",
+          dismiss = "<C-j>",
+        },
+      },
+      filetypes = {
+        yaml = false,
+        markdown = false,
+        help = false,
+        gitcommit = false,
+        gitrebase = false,
+        hgcommit = false,
+        svn = false,
+        cvs = false,
+        telescopeprompt = false,
+        ["."] = false,
+      },
+    })
   end,
   keys = {
-    { "<C-H>", mode = "i", 'copilot#Accept("\\<CR>")', expr = true, replace_keycodes = false, silent = true, noremap = true },
-    { "<C-E>", mode = "i", 'copilot#Dismiss()', expr = true, replace_keycodes = false, silent = true, noremap = true },
-    { "<C-J>", mode = "i", 'copilot#Next()', expr = true, replace_keycodes = false, silent = true, noremap = true },
-    { "<C-K>", mode = "i", 'copilot#Previous()', expr = true, replace_keycodes = false, silent = true, noremap = true },
-    { "<leader>cc", "<cmd>Copilot status<cr>", desc = "Copilot Status" },
-    { "<leader>ce", "<cmd>Copilot enable<cr>", desc = "Enable Copilot" },
-    { "<leader>cd", "<cmd>Copilot disable<cr>", desc = "Disable Copilot" },
-    { "<leader>cp", "<cmd>Copilot panel<cr>", desc = "Copilot Panel" },
+    { "<leader>ct", function() require('copilot.suggestion').toggle_auto_trigger() end, desc = "Toggle Copilot" },
+    { "<leader>cp", function() require('copilot.panel').toggle() end, desc = "Copilot Panel Toggle" },
   },
 
 }
