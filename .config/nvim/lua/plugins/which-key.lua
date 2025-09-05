@@ -75,7 +75,7 @@ return {
         { '<leader>k', group = 'Neotest' },
         { '<leader>a', group = 'Avante' },
         { '<leader>u', group = 'Miscellaneous' },
-        { '<leader>h', group = 'Harpoon' },
+        { '<leader>v', group = 'Harpoon' },
         -- { '<leader>h', group = 'Git Hunk', mode = { 'n', 'v' } },
       },
     },

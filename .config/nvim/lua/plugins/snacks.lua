@@ -66,7 +66,7 @@ return {
     -- { "<leader>d", function() Snacks.dim() end, desc = "Dim" },
     -- find
     { "<leader>bf", function() Snacks.picker.buffers() end, desc = "Buffers" },
-    { "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
+    { "<leader>sn", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Neovim File" },
     { "<leader>sf", function() Snacks.picker.files({ hidden = true }) end, desc = "Find Files" },
     { "<leader>f", function() Snacks.picker.git_files() end, desc = "Find Git Files" },
     -- { "<leader>fp", function() Snacks.picker.projects() end, desc = "Projects" },
@@ -91,8 +91,6 @@ return {
     { "<leader>sb", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
     { "<leader>sc", function() Snacks.picker.command_history() end, desc = "Command History" },
     { "<leader>sC", function() Snacks.picker.commands() end, desc = "Commands" },
-    { "<leader>sd", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
-    { "<leader>sD", function() Snacks.picker.diagnostics_buffer() end, desc = "Buffer Diagnostics" },
     { "<leader>sh", function() Snacks.picker.help() end, desc = "Help Pages" },
     { "<leader>sH", function() Snacks.picker.highlights() end, desc = "Highlights" },
     { "<leader>si", function() Snacks.picker.icons() end, desc = "Icons" },
@@ -107,7 +105,9 @@ return {
     { "<leader>su", function() Snacks.picker.undo() end, desc = "Undo History" },
     { "<leader>uC", function() Snacks.picker.colorschemes() end, desc = "Colorschemes" },
     -- LSP
-    { "<leader>ld", function() Snacks.picker.lsp_definitions() end, desc = "Goto Definition" },
+    { "<leader>lD", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
+    { "<leader>ld", function() Snacks.picker.diagnostics_buffer() end, desc = "Buffer Diagnostics" },
+    { "<leader>ll", function() Snacks.picker.lsp_definitions() end, desc = "Goto Definition" },
     { "<leader>lt", function() Snacks.picker.lsp_declarations() end, desc = "Goto Declaration" },
     { "<leader>lu", function() Snacks.picker.lsp_references() end, nowait = true, desc = "References" },
     { "<leader>li", function() Snacks.picker.lsp_implementations() end, desc = "Goto Implementation" },
