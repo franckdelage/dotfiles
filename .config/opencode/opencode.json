@@ -4,7 +4,14 @@
   "model": "copilot/claude-sonnet-4-20250514",
   "formatter": {
     "prettier": {
-      "extensions": [".css", ".scss", ".html", ".graphql"]
+      "disabled": true
     }
-  }
+  },
+  "mcp": {
+    "context7": {
+      "type": "local",
+      "command": ["npx", "-y", "@upstash/context7-mcp"],
+      "enabled": true
+    }
+  } 
 }
