@@ -192,12 +192,12 @@ w = 'z'
 [workspace-to-monitor-force-assignment]
 W = 'benq'
 Y = 'benq'
+G = 'benq'
 
 B = 'asus'
 C = 'asus'
 D = 'asus'
 E = 'asus'
-G = 'asus'
 X = 'asus'
 Z = 'asus'
 
