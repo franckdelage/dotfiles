@@ -12,11 +12,11 @@ return {
           jump_next = "]]",
           accept = "<CR>",
           refresh = "gr",
-          open = "<M-CR>"
+          open = "<M-p>"
         },
         layout = {
-          position = "bottom", -- | top | left | right | bottom |
-          ratio = 0.4
+          position = "right", -- | top | left | right | bottom |
+          ratio = 0.4,
         },
       },
       suggestion = {
@@ -38,13 +38,11 @@ return {
         yaml = false,
         markdown = false,
         help = false,
-        gitcommit = false,
         gitrebase = false,
         hgcommit = false,
         svn = false,
         cvs = false,
         telescopeprompt = false,
-        ["."] = false,
       },
     })
   end,
