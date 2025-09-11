@@ -1,5 +1,37 @@
 # Dotfiles
 
+<!--toc:start-->
+- [Dotfiles](#dotfiles)
+  - [🚀 Quick Start](#🚀-quick-start)
+    - [What is GNU Stow?](#what-is-gnu-stow)
+  - [🛠 Core Tools](#🛠-core-tools)
+    - [Shell & Terminal](#shell-terminal)
+    - [Development Tools](#development-tools)
+    - [Productivity Tools](#productivity-tools)
+    - [Window Management (macOS)](#window-management-macos)
+  - [📁 Repository Structure (GNU Stow Compatible)](#📁-repository-structure-gnu-stow-compatible)
+  - [⚙️ Key Features](#️-key-features)
+    - [Zsh Configuration](#zsh-configuration)
+    - [Neovim Setup](#neovim-setup)
+    - [Tmux Configuration](#tmux-configuration)
+    - [Development Workflow](#development-workflow)
+  - [🎨 Theming](#🎨-theming)
+  - [🔧 Installation Requirements](#🔧-installation-requirements)
+  - [📝 Managing Configurations with Stow](#📝-managing-configurations-with-stow)
+    - [Install All Configurations](#install-all-configurations)
+    - [Selective Installation](#selective-installation)
+    - [Remove Configurations](#remove-configurations)
+    - [Check What Would Be Linked](#check-what-would-be-linked)
+  - [📝 Customization](#📝-customization)
+    - [Adding New Configurations](#adding-new-configurations)
+    - [Modifying Existing Configs](#modifying-existing-configs)
+    - [Adding New Aliases](#adding-new-aliases)
+    - [Modifying Tmux](#modifying-tmux)
+    - [Neovim Plugins](#neovim-plugins)
+  - [🚨 Notes](#🚨-notes)
+  - [📖 Useful Commands](#📖-useful-commands)
+<!--toc:end-->
+
 Personal dotfiles for macOS development environment with a focus on terminal-based productivity tools. Organized for [GNU Stow](https://www.gnu.org/software/stow/) symlink management.
 
 ## 🚀 Quick Start

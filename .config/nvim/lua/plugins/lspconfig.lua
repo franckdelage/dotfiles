@@ -35,6 +35,7 @@ return {
         'stylelint-lsp',
         'graphql-language-service-cli',
         'stylua',
+        'marksman',  -- Markdown language server
       },
     },
   },
@@ -429,6 +430,22 @@ return {
           filetypes = { 'graphql', 'typescript' },
           root_patterns = { '.git', '.graphqlconfig' },
           name = 'graphql',
+        },
+        marksman = {
+          cmd = { 'marksman', 'server' },
+          filetypes = { 'markdown' },
+          root_patterns = { '.git', '.marksman.toml' },
+          name = 'marksman',
+          settings = {
+            marksman = {
+              -- Enable completion for wiki-style links
+              completion = {
+                wiki = {
+                  enabled = true
+                }
+              }
+            }
+          }
         },
       }
 
