@@ -30,8 +30,11 @@ return {
         'html-lsp',
         'emmet-language-server',
         'stylelint-lsp',
+        'css-lsp',
+        'some-sass-language-server',
+        'stylelint-lsp',
         'graphql-language-service-cli',
-        'stylua', -- Used to format Lua code
+        'stylua',
       },
     },
   },
@@ -293,6 +296,8 @@ return {
           },
         },
         eslint = {
+          validate = 'on',
+          packageManager = 'yarn',
           cmd = function()
             local mason_path = vim.fn.stdpath('data') .. '/mason'
             return {
@@ -340,10 +345,18 @@ return {
           filetypes = { 'typescript', 'html', 'htmlangular' },
           root_patterns = { 'angular.json', 'nx.json' },
           name = 'angularls',
+          settings = {
+            angular = {
+              log = 'verbose'
+            }
+          },
+          init_options = {
+            legacyNgLanguageService = false
+          }
         },
         html = {
           cmd = { 'vscode-html-language-server', '--stdio' },
-          filetypes = { 'html', 'htmlangular' },
+          filetypes = { 'html' },
           root_patterns = { 'nx.json', '.git' },
           name = 'html',
           settings = {
@@ -374,6 +387,42 @@ return {
               autoFixOnFormat = true,
             },
           },
+        },
+        css = {
+          cmd = { 'vscode-css-language-server', '--stdio' },
+          filetypes = { 'css', 'scss', 'sass', 'less' },
+          root_patterns = { 'package.json', '.git' },
+          name = 'cssls',
+          settings = {
+            css = {
+              validate = true,
+              lint = {
+                unknownAtRules = 'ignore' -- For Angular/SCSS specific at-rules
+              }
+            },
+            scss = {
+              validate = true,
+              lint = {
+                unknownAtRules = 'ignore'
+              }
+            },
+            less = {
+              validate = true
+            }
+          }
+        },
+        sass = {
+          cmd = { 'some-sass-language-server', '--stdio' },
+          filetypes = { 'scss', 'sass' },
+          root_patterns = { 'package.json', '.git' },
+          name = 'somesass_ls',
+          settings = {
+            somesass = {
+              suggestAllFromOpenDocument = true,
+              suggestFromUseOnly = false,
+              suggestFunctionsInStringContextAfterSymbols = ' (+-*%'
+            }
+          }
         },
         graphql = {
           cmd = { 'graphql-lsp', 'server', '-m', 'stream' },
