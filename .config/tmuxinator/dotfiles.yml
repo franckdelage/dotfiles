@@ -7,6 +7,6 @@ windows:
   - main:
       panes:
         - vim
-  - whatever:
+  - opencode:
       panes:
-        - clear
+        - opencode
