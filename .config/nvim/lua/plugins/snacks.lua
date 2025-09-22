@@ -3,6 +3,7 @@ return {
   'folke/snacks.nvim',
   priority = 1000,
   lazy = false,
+  dependencies = { 'rmagatti/auto-session' },
   ---@type snacks.Config
   opts = {
     animate = { enabled = true },

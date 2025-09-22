@@ -15,7 +15,7 @@ return {
           open = "<M-p>"
         },
         layout = {
-          position = "right", -- | top | left | right | bottom |
+          position = "bottom", -- | top | left | right | bottom |
           ratio = 0.4,
         },
       },

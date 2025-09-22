@@ -141,6 +141,11 @@ return {
             end,
           },
         },
+        floating = {
+          max_height = 0.9,
+          max_width = 0.7,
+          border = 'rounded',
+        },
       }
     end,
   },

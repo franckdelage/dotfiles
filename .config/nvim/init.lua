@@ -90,6 +90,32 @@ P.S. You can delete this when you're done too. It's your config now! :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- Ensure leader key is properly set after session restoration
+local function ensure_leader()
+  if vim.g.mapleader ~= ' ' then
+    vim.g.mapleader = ' '
+    vim.g.maplocalleader = ' '
+  end
+end
+
+-- Re-establish leader key after session restoration
+vim.api.nvim_create_autocmd('SessionLoadPost', {
+  group = vim.api.nvim_create_augroup('FixLeaderAfterSession', { clear = true }),
+  callback = ensure_leader,
+})
+
+-- Backup: also check on BufEnter in case SessionLoadPost doesn't fire
+vim.api.nvim_create_autocmd('BufEnter', {
+  group = vim.api.nvim_create_augroup('FixLeaderBackup', { clear = true }),
+  callback = function()
+    -- Only run once per session to avoid overhead
+    if not vim.g.leader_fixed then
+      ensure_leader()
+      vim.g.leader_fixed = true
+    end
+  end,
+})
+
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
