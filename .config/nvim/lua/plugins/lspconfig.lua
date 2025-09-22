@@ -45,15 +45,7 @@ return {
     'j-hui/fidget.nvim',
     opts = {},
   },
-  {
-    -- Completion plugin providing capabilities
-    'saghen/blink.cmp',
-    config = function()
-      -- Setup native LSP after blink.cmp is loaded
-      require('lsp').setup()
-    end,
-    event = 'VeryLazy',
-  },
+
 }
 -- vim: ts=2 sts=2 sw=2 et
 

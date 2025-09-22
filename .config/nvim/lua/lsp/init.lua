@@ -1,5 +1,5 @@
 local utils = require('lsp.utils')
-local servers = require('lsp.servers')
+local servers = require('lsp.servers.init')
 local keymaps = require('lsp.keymaps')
 local diagnostics = require('lsp.diagnostics')
 
