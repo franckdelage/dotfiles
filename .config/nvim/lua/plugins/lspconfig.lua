@@ -36,6 +36,7 @@ return {
         'graphql-language-service-cli',
         'stylua',
         'marksman',  -- Markdown language server
+        'cucumber-language-server',  -- Cucumber/Gherkin language server
       },
     },
   },
@@ -444,6 +445,18 @@ return {
                   enabled = true
                 }
               }
+            }
+          }
+        },
+        cucumber = {
+          cmd = { 'cucumber-language-server', '--stdio' },
+          filetypes = { 'cucumber' },
+          root_patterns = { '.git', 'nx.json', 'cucumber.yml', 'cucumber.json', 'package.json' },
+          name = 'cucumber_language_server',
+          settings = {
+            cucumber = {
+              features = { '**/*.feature' },
+              glue = { 'src/**/*.js', 'src/**/*.ts', 'features/**/*.js', 'features/**/*.ts' }
             }
           }
         },
