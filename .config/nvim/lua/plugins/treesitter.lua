@@ -17,6 +17,15 @@ return {
         'query',
         'vim',
         'vimdoc',
+        -- Angular/Nx/GraphQL essentials
+        'typescript',
+        'tsx',
+        'javascript',
+        'json',
+        'graphql',
+        'css',
+        'scss',
+        'yaml',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,
