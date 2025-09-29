@@ -14,11 +14,18 @@ M.servers = {
       }
     end,
     filetypes = { 'typescript', 'javascript', 'typescriptreact', 'javascriptreact', 'html', 'htmlangular' },
-    root_patterns = { '.eslintrc.js', '.eslintrc.json', '.eslintrc.cjs', 'eslint.config.js', 'package.json' },
+    root_patterns = {
+      'nx.json',
+      '.eslintrc.js',
+      '.eslintrc.json',
+      '.eslintrc.cjs',
+      'eslint.config.js',
+      'package.json',
+    },
     name = 'eslint',
     settings = {
       validate = 'on',
-      packageManager = 'npm',
+      packageManager = 'yarn',
       useESLintClass = false,
       experimental = {
         useFlatConfig = true,
@@ -40,12 +47,12 @@ M.servers = {
         mode = 'auto'
       }
     },
-    on_new_config = function(config, new_root_dir)
-      config.settings.workingDirectory = {
-        mode = 'location',
-        location = new_root_dir
-      }
-    end,
+    -- on_new_config = function(config, new_root_dir)
+    --   config.settings.workingDirectory = {
+    --     mode = 'location',
+    --     location = new_root_dir
+    --   }
+    -- end,
   },
 }
 
