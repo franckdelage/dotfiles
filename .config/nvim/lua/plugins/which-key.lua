@@ -78,6 +78,7 @@ return {
         { '<leader>a', group = 'Avante' },
         { '<leader>u', group = 'Miscellaneous' },
         { '<leader>v', group = 'Harpoon' },
+        { '<leader>n', group = 'Nx and notifications' },
         -- { '<leader>h', group = 'Git Hunk', mode = { 'n', 'v' } },
       },
     },

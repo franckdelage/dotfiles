@@ -114,12 +114,46 @@ local function nx_generate()
   end)
 end
 
+local function nx_affected()
+  -- Affected targets
+  local targets = { "test", "lint", "build", "e2e" }
+  
+  vim.ui.select(targets, {
+    prompt = "Select affected target:",
+  }, function(target)
+    if not target then return end
+    
+    -- Run affected command
+    local cmd = string.format("yarn nx affected:%s --base=origin/master", target)
+    create_floating_terminal(cmd)
+  end)
+end
+
+local function nx_graph()
+  -- Open Nx dependency graph
+  create_floating_terminal("yarn nx graph")
+end
+
+local function nx_codegen()
+  -- Run GraphQL codegen
+  create_floating_terminal("yarn graphql:generate")
+end
+
+local function nx_codegen_affected()
+  -- Run GraphQL codegen for affected projects
+  create_floating_terminal("yarn graphql:generate-affected")
+end
+
 return {
   {
     'nvim-telescope/telescope.nvim',
     keys = {
       { '<leader>nx', nx_run_target, desc = 'Nx run target' },
       { '<leader>ng', nx_generate, desc = 'Nx generate' },
+      { '<leader>na', nx_affected, desc = 'Nx affected' },
+      { '<leader>nG', nx_graph, desc = 'Nx graph' },
+      { '<leader>nc', nx_codegen, desc = 'GraphQL codegen' },
+      { '<leader>nC', nx_codegen_affected, desc = 'GraphQL codegen affected' },
     },
   },
 }
