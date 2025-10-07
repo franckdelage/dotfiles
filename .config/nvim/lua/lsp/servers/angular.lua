@@ -21,8 +21,14 @@ M.servers = {
       }
     },
     init_options = {
-      legacyNgLanguageService = false
-    }
+      legacyNgLanguageService = false,
+      typescript = {
+        tsdk = vim.fn.getcwd() .. '/node_modules/typescript/lib',
+      },
+    },
+    on_new_config = function(config, root_dir)
+      config.init_options.typescript.tsdk = root_dir .. '/node_modules/typescript/lib'
+    end,
   },
 }
 
