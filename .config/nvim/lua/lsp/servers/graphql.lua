@@ -6,8 +6,8 @@ M.servers = {
     cmd = { 'graphql-lsp', 'server', '-m', 'stream' },
     filetypes = { 'graphql', 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' },
     root_patterns = {
-      'apps/gql/.graphqlconfig',
       '.graphqlconfig',
+      'apps/gql/.graphqlconfig',
       'apollo.config.js',
       'apollo.config.json',
       '.graphqlrc*',
@@ -22,7 +22,7 @@ M.servers = {
     settings = {
       graphql = {
         introspection = {
-          file = 'apps/gql/schema.graphql',
+          file = './apps/gql/schema.graphql',
         },
         completion = {
           externalFragments = true,
