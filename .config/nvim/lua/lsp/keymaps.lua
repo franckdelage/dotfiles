@@ -1,4 +1,4 @@
-local utils = require('lsp.utils')
+local utils = require 'lsp.utils'
 local M = {}
 
 function M.setup()
@@ -50,8 +50,12 @@ function M.setup()
       -- end, 'Format Selection', 'v')
 
       -- Diagnostic navigation
-      map('[d', function() vim.diagnostic.jump({ count = -1, float = true }) end, 'Go to Previous Diagnostic')
-      map(']d', function() vim.diagnostic.jump({ count = 1, float = true }) end, 'Go to Next Diagnostic')
+      map('[d', function()
+        vim.diagnostic.jump { count = -1, float = true }
+      end, 'Go to Previous Diagnostic')
+      map(']d', function()
+        vim.diagnostic.jump { count = 1, float = true }
+      end, 'Go to Next Diagnostic')
 
       -- Show line diagnostics in floating window
       map('<leader>le', vim.diagnostic.open_float, 'Show Line Diagnostics')
@@ -61,7 +65,7 @@ function M.setup()
 
       -- ESLint autofix
       map('<leader>lc', function()
-        local clients = vim.lsp.get_clients({ bufnr = event.buf, name = 'eslint' })
+        local clients = vim.lsp.get_clients { bufnr = event.buf, name = 'eslint' }
         if #clients > 0 then
           local client = clients[1]
           -- Use ESLint's executeAutofix command with the new API
@@ -76,13 +80,13 @@ function M.setup()
             vim.notify('ESLint autofix applied', vim.log.levels.INFO)
           else
             -- Fallback to code action approach
-            vim.lsp.buf.code_action({
+            vim.lsp.buf.code_action {
               context = {
                 only = { 'source.fixAll' },
                 diagnostics = vim.diagnostic.get(event.buf),
               },
               apply = true,
-            })
+            }
             vim.notify('ESLint fixes applied via code action', vim.log.levels.INFO)
           end
         else

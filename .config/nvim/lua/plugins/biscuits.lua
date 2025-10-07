@@ -6,7 +6,7 @@ return {
   },
   config = function()
     require('nvim-biscuits').setup {
-      toggle_keybind = "<leader>tb",
+      toggle_keybind = '<leader>tb',
       show_on_start = false,
       cursor_line_only = true,
       default_config = {

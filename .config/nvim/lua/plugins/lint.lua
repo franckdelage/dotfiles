@@ -4,7 +4,7 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       local lint = require 'lint'
-      
+
       lint.linters_by_ft = {
         markdown = { 'markdownlint' },
         css = { 'stylelint' },
@@ -18,34 +18,35 @@ return {
       local markdownlint = lint.linters.markdownlint
       if markdownlint then
         markdownlint.args = vim.list_extend({
-          '--config', vim.fn.expand('~/.config/markdownlint/config.json')
+          '--config',
+          vim.fn.expand '~/.config/markdownlint/config.json',
         }, markdownlint.args or {})
       end
 
       lint.linters.luacheck = {
-        cmd = "luacheck",
-        name = "luacheck",
+        cmd = 'luacheck',
+        name = 'luacheck',
         stdin = true,
         args = {
-          "--globals",
-          "vim",
-          "lvim",
-          "Snacks",
-          "reload",
-          "--",
+          '--globals',
+          'vim',
+          'lvim',
+          'Snacks',
+          'reload',
+          '--',
         },
-        stream = "stdout",
+        stream = 'stdout',
         ignore_exitcode = true,
-        parser = require("lint.parser").from_errorformat("%f:%l:%c: %m", {
-          source = "luacheck",
+        parser = require('lint.parser').from_errorformat('%f:%l:%c: %m', {
+          source = 'luacheck',
         }),
       }
 
       -- Debug function
       vim.api.nvim_create_user_command('LintDebug', function()
-        print("Available linters for markdown:", vim.inspect(lint.linters_by_ft.markdown))
-        print("Markdownlint config:", vim.inspect(lint.linters.markdownlint))
-        print("Current buffer filetype:", vim.bo.filetype)
+        print('Available linters for markdown:', vim.inspect(lint.linters_by_ft.markdown))
+        print('Markdownlint config:', vim.inspect(lint.linters.markdownlint))
+        print('Current buffer filetype:', vim.bo.filetype)
         lint.try_lint()
       end, {})
 

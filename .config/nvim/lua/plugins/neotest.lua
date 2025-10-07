@@ -1,7 +1,7 @@
 return {
   {
     'nvim-neotest/neotest',
-    commit = "52fca6717ef972113ddd6ca223e30ad0abb2800c",
+    commit = '52fca6717ef972113ddd6ca223e30ad0abb2800c',
     lazy = true,
     dependencies = {
       'nvim-neotest/neotest-jest',
@@ -129,12 +129,12 @@ return {
             jestCommand = function(path)
               local project = find_nx_project(path)
               if project then
-                notify("🚀 Running tests in project: " .. project, "info")
-                return string.format("yarn nx run %s:test %s", project, path)
+                notify('🚀 Running tests in project: ' .. project, 'info')
+                return string.format('yarn nx run %s:test %s', project, path)
               end
-              return "yarn jest --" .. path
+              return 'yarn jest --' .. path
             end,
-            jest_config_file = "jest.config.ts",
+            jest_config_file = 'jest.config.ts',
             env = { CI = true },
             cwd = function(path)
               return vim.fn.getcwd()

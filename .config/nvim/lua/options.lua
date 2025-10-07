@@ -92,7 +92,7 @@ vim.o.shiftround = true
 -- vim.opt.foldlevelstart = 99
 -- vim.opt.foldenable = true
 
-vim.g["test#javascript#runner"] = "nx"
-vim.g["test#strategy"] = "floaterm"
+vim.g['test#javascript#runner'] = 'nx'
+vim.g['test#strategy'] = 'floaterm'
 
 -- vim: ts=2 sts=2 sw=2 et

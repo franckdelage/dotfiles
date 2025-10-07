@@ -6,11 +6,11 @@ M.servers = {
     validate = 'on',
     packageManager = 'yarn',
     cmd = function()
-      local mason_path = vim.fn.stdpath('data') .. '/mason'
+      local mason_path = vim.fn.stdpath 'data' .. '/mason'
       return {
         'node',
         mason_path .. '/packages/eslint-lsp/node_modules/vscode-langservers-extracted/bin/vscode-eslint-language-server',
-        '--stdio'
+        '--stdio',
       }
     end,
     filetypes = { 'typescript', 'javascript', 'typescriptreact', 'javascriptreact', 'html', 'htmlangular' },
@@ -32,7 +32,7 @@ M.servers = {
       },
       codeActionOnSave = {
         enable = false,
-        mode = 'all'
+        mode = 'all',
       },
       format = false,
       quiet = false,
@@ -40,12 +40,12 @@ M.servers = {
       rulesCustomizations = {},
       run = 'onType',
       problems = {
-        shortenToSingleLine = false
+        shortenToSingleLine = false,
       },
       nodePath = '',
       workingDirectory = {
-        mode = 'auto'
-      }
+        mode = 'auto',
+      },
     },
     -- on_new_config = function(config, new_root_dir)
     --   config.settings.workingDirectory = {

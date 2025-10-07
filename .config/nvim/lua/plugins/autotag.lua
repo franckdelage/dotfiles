@@ -10,19 +10,19 @@ return {
         enable_close_on_slash = true, -- Auto close on trailing </
       },
       per_filetype = {
-        ["html"] = {
-          enable_close = true
+        ['html'] = {
+          enable_close = true,
         },
-        ["htmlangular"] = {
-          enable_close = true
+        ['htmlangular'] = {
+          enable_close = true,
         },
-        ["typescript"] = {
-          enable_close = true
+        ['typescript'] = {
+          enable_close = true,
         },
-        ["tsx"] = {
-          enable_close = true
-        }
-      }
+        ['tsx'] = {
+          enable_close = true,
+        },
+      },
     },
   },
 }

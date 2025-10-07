@@ -2,9 +2,9 @@ return {
   'akinsho/bufferline.nvim',
   version = '*',
   dependencies = { 'nvim-tree/nvim-web-devicons' },
-  config = function ()
-    local bufferline = require('bufferline')
-    bufferline.setup({
+  config = function()
+    local bufferline = require 'bufferline'
+    bufferline.setup {
       options = {
         numbers = 'none',
         indicator = {
@@ -30,7 +30,7 @@ return {
         color_icons = true,
         separator_style = 'slant',
       },
-    })
+    }
 
     vim.keymap.set('n', '<leader>bx', '<cmd>BufferLineCloseOthers<cr>', { desc = 'Close others' })
     vim.keymap.set('n', '<leader>bj', '<cmd>BufferLinePick<cr>', { desc = 'Pick' })

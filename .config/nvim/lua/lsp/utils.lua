@@ -43,7 +43,7 @@ function M.start_lsp_server(server_config, bufnr)
       if package_json_path then
         local package_json = vim.fn.readfile(package_json_path)
         local package_content = table.concat(package_json, '\n')
-        if package_content:match('"eslint"') or package_content:match('"eslintConfig"') then
+        if package_content:match '"eslint"' or package_content:match '"eslintConfig"' then
           has_eslint_config = true
         end
       end

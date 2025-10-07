@@ -21,10 +21,10 @@ vim.keymap.set('n', '<leader>lm', function()
   }
   -- The action kind 'source.addMissingImports.ts' is provided by typescript-language-server even if not in the default spec
   ---@diagnostic disable-next-line: param-type-mismatch
-  vim.lsp.buf.code_action({
+  vim.lsp.buf.code_action {
     context = ctx,
     apply = true,
-  })
+  }
 end, { desc = 'Add missing imports' })
 
 -- LSP: TypeScript remove unused imports (ts_ls)
@@ -41,10 +41,10 @@ vim.keymap.set('n', '<leader>lx', function()
     diagnostics = vim.diagnostic.get(0),
   }
   ---@diagnostic disable-next-line: param-type-mismatch
-  vim.lsp.buf.code_action({
+  vim.lsp.buf.code_action {
     context = ctx,
     apply = true,
-  })
+  }
 end, { desc = 'Remove unused imports' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier

@@ -45,8 +45,8 @@ return {
     provider = 'copilot',
     providers = {
       copilot = {
-        endpoint = "https://api.github.com/copilot",
-        model = "gpt-5",
+        endpoint = 'https://api.github.com/copilot',
+        model = 'gpt-5',
         timeout = 30000, -- Timeout in milliseconds
       },
     },
@@ -59,13 +59,13 @@ return {
       },
       ask = {
         start_insert = false,
-      }
+      },
     },
     input = {
       provider = 'snacks',
       provider_opts = {
         -- snacks.nvim options
-        icon = " ",
+        icon = ' ',
       },
     },
   },

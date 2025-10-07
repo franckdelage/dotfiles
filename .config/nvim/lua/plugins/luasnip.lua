@@ -4,9 +4,9 @@ return {
   version = 'v2.*', -- Replace <CurrentMajor> by the latest released major (first number of latest release)
   -- install jsregexp (optional!).
   build = 'make install_jsregexp',
-  config = function ()
-    local ls = require "luasnip"
-    local types = require "luasnip.util.types"
+  config = function()
+    local ls = require 'luasnip'
+    local types = require 'luasnip.util.types'
 
     -- TODO: Think about `locally_jumpable`, etc.
     -- Might be nice to send PR to luasnip to use filters instead for these functions ;)
@@ -45,35 +45,35 @@ return {
     -- ================================================
     ls.config.set_config {
       history = true,
-      updateevents = "TextChanged,TextChangedI",
+      updateevents = 'TextChanged,TextChangedI',
       override_builtin = true,
-      store_selection_keys = "<Tab>",
+      store_selection_keys = '<Tab>',
       enable_autosnippets = true,
       ext_opts = {
         [types.choiceNode] = {
           active = {
-            virt_text = { { "<-", "Error"} },
+            virt_text = { { '<-', 'Error' } },
           },
         },
       },
     }
 
-    for _, ft_path in ipairs(vim.api.nvim_get_runtime_file("lua/snippets/*.lua", true)) do
+    for _, ft_path in ipairs(vim.api.nvim_get_runtime_file('lua/snippets/*.lua', true)) do
       loadfile(ft_path)()
     end
 
-    vim.keymap.set({ "i", "s" }, "<c-k>", function()
+    vim.keymap.set({ 'i', 's' }, '<c-k>', function()
       return vim.snippet.active { direction = 1 } and vim.snippet.jump(1)
     end, { silent = true })
 
-    vim.keymap.set({ "i", "s" }, "<c-j>", function()
+    vim.keymap.set({ 'i', 's' }, '<c-j>', function()
       return vim.snippet.active { direction = -1 } and vim.snippet.jump(-1)
     end, { silent = true })
 
-    vim.keymap.set({ "i" }, "<c-l>", function()
+    vim.keymap.set({ 'i' }, '<c-l>', function()
       if ls.choice_active() then
         ls.change_choice(1)
       end
     end, { silent = true })
-  end
+  end,
 }

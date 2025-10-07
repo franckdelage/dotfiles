@@ -35,8 +35,8 @@ return {
         'stylelint-lsp',
         'graphql-language-service-cli',
         'stylua',
-        'marksman',  -- Markdown language server
-        'cucumber-language-server',  -- Cucumber/Gherkin language server
+        'marksman', -- Markdown language server
+        'cucumber-language-server', -- Cucumber/Gherkin language server
       },
     },
   },
@@ -45,7 +45,5 @@ return {
     'j-hui/fidget.nvim',
     opts = {},
   },
-
 }
 -- vim: ts=2 sts=2 sw=2 et
-

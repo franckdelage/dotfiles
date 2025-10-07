@@ -1,7 +1,7 @@
 return {
   'echasnovski/mini.move',
   config = function()
-    require("mini.move").setup({
+    require('mini.move').setup {
       mappings = {
         left = '<M-H>',
         right = '<M-L>',
@@ -15,6 +15,6 @@ return {
       options = {
         reindent_linewise = true,
       },
-    })
+    }
   end,
 }

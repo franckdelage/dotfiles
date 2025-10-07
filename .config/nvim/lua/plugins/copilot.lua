@@ -1,21 +1,21 @@
 return {
-  "zbirenbaum/copilot.lua",
-  cmd = "Copilot",
-  event = "InsertEnter",
+  'zbirenbaum/copilot.lua',
+  cmd = 'Copilot',
+  event = 'InsertEnter',
   config = function()
-    require('copilot').setup({
+    require('copilot').setup {
       panel = {
         enabled = true,
         auto_refresh = false,
         keymap = {
-          jump_prev = "[[",
-          jump_next = "]]",
-          accept = "<CR>",
-          refresh = "gr",
-          open = "<M-p>"
+          jump_prev = '[[',
+          jump_next = ']]',
+          accept = '<CR>',
+          refresh = 'gr',
+          open = '<M-p>',
         },
         layout = {
-          position = "bottom", -- | top | left | right | bottom |
+          position = 'bottom', -- | top | left | right | bottom |
           ratio = 0.4,
         },
       },
@@ -26,12 +26,12 @@ return {
         debounce = 75,
         trigger_on_accept = true,
         keymap = {
-          accept = "<C-h>",
-          accept_word = "<C-l>",
-          accept_line = "<M-i>",
-          next = "<C-k>",
-          prev = "<C-j>",
-          dismiss = "<C-e>",
+          accept = '<C-h>',
+          accept_word = '<C-l>',
+          accept_line = '<M-i>',
+          next = '<C-k>',
+          prev = '<C-j>',
+          dismiss = '<C-e>',
         },
       },
       filetypes = {
@@ -44,11 +44,22 @@ return {
         cvs = false,
         telescopeprompt = false,
       },
-    })
+    }
   end,
   keys = {
-    { "<leader>ct", function() require('copilot.suggestion').toggle_auto_trigger() end, desc = "Toggle Copilot" },
-    { "<leader>cp", function() require('copilot.panel').toggle() end, desc = "Copilot Panel Toggle" },
+    {
+      '<leader>ct',
+      function()
+        require('copilot.suggestion').toggle_auto_trigger()
+      end,
+      desc = 'Toggle Copilot',
+    },
+    {
+      '<leader>cp',
+      function()
+        require('copilot.panel').toggle()
+      end,
+      desc = 'Copilot Panel Toggle',
+    },
   },
-
 }

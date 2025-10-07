@@ -86,7 +86,6 @@ function M.setup_ui(dap, dapui)
   dap.listeners.before.event_exited['dapui_config'] = function()
     dapui.close()
   end
-
 end
 
 function M.setup_icons()

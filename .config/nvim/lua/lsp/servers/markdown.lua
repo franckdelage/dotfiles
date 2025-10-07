@@ -12,11 +12,11 @@ M.servers = {
         -- Enable completion for wiki-style links
         completion = {
           wiki = {
-            enabled = true
-          }
-        }
-      }
-    }
+            enabled = true,
+          },
+        },
+      },
+    },
   },
 }
 

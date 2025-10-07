@@ -1,7 +1,7 @@
-local utils = require('lsp.utils')
-local servers = require('lsp.servers.init')
-local keymaps = require('lsp.keymaps')
-local diagnostics = require('lsp.diagnostics')
+local utils = require 'lsp.utils'
+local servers = require 'lsp.servers.init'
+local keymaps = require 'lsp.keymaps'
+local diagnostics = require 'lsp.diagnostics'
 
 local M = {}
 
@@ -18,7 +18,7 @@ function M.setup()
       pattern = server_config.filetypes,
       callback = function(event)
         -- Check if this server is already running for this buffer
-        local clients = vim.lsp.get_clients({ bufnr = event.buf, name = server_config.name })
+        local clients = vim.lsp.get_clients { bufnr = event.buf, name = server_config.name }
         if #clients == 0 then
           utils.start_lsp_server(server_config, event.buf)
         end
@@ -30,7 +30,7 @@ function M.setup()
   vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
     pattern = { '*.ts', '*.js', '*.tsx', '*.jsx', '*.html' },
     callback = function(event)
-      local clients = vim.lsp.get_clients({ bufnr = event.buf, name = 'eslint' })
+      local clients = vim.lsp.get_clients { bufnr = event.buf, name = 'eslint' }
       if #clients == 0 then
         utils.start_lsp_server(servers.servers.eslint, event.buf)
       end

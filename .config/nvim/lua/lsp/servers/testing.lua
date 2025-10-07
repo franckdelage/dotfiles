@@ -10,9 +10,9 @@ M.servers = {
     settings = {
       cucumber = {
         features = { '**/*.feature' },
-        glue = { 'src/**/*.js', 'src/**/*.ts', 'features/**/*.js', 'features/**/*.ts' }
-      }
-    }
+        glue = { 'src/**/*.js', 'src/**/*.ts', 'features/**/*.js', 'features/**/*.ts' },
+      },
+    },
   },
 }
 

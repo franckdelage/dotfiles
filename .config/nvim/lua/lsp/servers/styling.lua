@@ -28,19 +28,19 @@ M.servers = {
       css = {
         validate = true,
         lint = {
-          unknownAtRules = 'ignore' -- For Angular/SCSS specific at-rules
-        }
+          unknownAtRules = 'ignore', -- For Angular/SCSS specific at-rules
+        },
       },
       scss = {
         validate = true,
         lint = {
-          unknownAtRules = 'ignore'
-        }
+          unknownAtRules = 'ignore',
+        },
       },
       less = {
-        validate = true
-      }
-    }
+        validate = true,
+      },
+    },
   },
   sass = {
     cmd = { 'some-sass-language-server', '--stdio' },
@@ -51,9 +51,9 @@ M.servers = {
       somesass = {
         suggestAllFromOpenDocument = true,
         suggestFromUseOnly = false,
-        suggestFunctionsInStringContextAfterSymbols = ' (+-*%'
-      }
-    }
+        suggestFunctionsInStringContextAfterSymbols = ' (+-*%',
+      },
+    },
   },
 }
 

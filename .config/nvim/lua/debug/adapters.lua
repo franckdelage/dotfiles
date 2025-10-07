@@ -2,7 +2,7 @@
 local M = {}
 
 function M.setup_adapters(dap)
- local mason_path = vim.fn.stdpath 'data' .. '/mason'
+  local mason_path = vim.fn.stdpath 'data' .. '/mason'
 
   -- Node.js/JavaScript adapter
   dap.adapters['pwa-node'] = {

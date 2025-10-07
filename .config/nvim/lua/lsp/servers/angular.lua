@@ -18,7 +18,7 @@ M.servers = {
       angular = {
         log = 'verbose',
         forceStrictTemplates = true,
-      }
+      },
     },
     init_options = {
       legacyNgLanguageService = false,

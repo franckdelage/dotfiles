@@ -22,14 +22,14 @@ function M.setup()
   }
 
   -- Custom diagnostic display on cursor line
-  local ns = vim.api.nvim_create_namespace("cursor_line_diagnostics")
+  local ns = vim.api.nvim_create_namespace 'cursor_line_diagnostics'
 
   local function format_diagnostic(diagnostic)
     local diagnostic_message = {
       [vim.diagnostic.severity.ERROR] = diagnostic.message,
-      [vim.diagnostic.severity.WARN]  = diagnostic.message,
-      [vim.diagnostic.severity.INFO]  = diagnostic.message,
-      [vim.diagnostic.severity.HINT]  = diagnostic.message,
+      [vim.diagnostic.severity.WARN] = diagnostic.message,
+      [vim.diagnostic.severity.INFO] = diagnostic.message,
+      [vim.diagnostic.severity.HINT] = diagnostic.message,
     }
     return diagnostic_message[diagnostic.severity] or diagnostic.message
   end
@@ -37,9 +37,7 @@ function M.setup()
   local function show_line_diagnostics()
     local bufnr = vim.api.nvim_get_current_buf()
 
-    if not vim.api.nvim_buf_is_valid(bufnr)
-      or not vim.api.nvim_buf_is_loaded(bufnr)
-      or vim.bo[bufnr].buftype ~= "" then
+    if not vim.api.nvim_buf_is_valid(bufnr) or not vim.api.nvim_buf_is_loaded(bufnr) or vim.bo[bufnr].buftype ~= '' then
       return
     end
 
@@ -50,7 +48,7 @@ function M.setup()
     local diags = vim.diagnostic.get(bufnr, { lnum = cursor_line })
 
     if #diags > 0 then
-     local formatted_diags = {}
+      local formatted_diags = {}
       for _, d in ipairs(diags) do
         local copy = vim.deepcopy(d)
         copy.message = format_diagnostic(copy)
@@ -61,7 +59,7 @@ function M.setup()
     end
   end
 
-  vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+  vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
     callback = show_line_diagnostics,
   })
 end
