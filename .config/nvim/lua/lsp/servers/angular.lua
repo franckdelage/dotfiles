@@ -18,12 +18,20 @@ M.servers = {
       angular = {
         log = 'verbose',
         forceStrictTemplates = true,
+        enableBlockSyntax = true,
+        experimental = {
+          enableTemplateDiagnosticsInControlFlow = true,
+        },
       },
     },
     init_options = {
       legacyNgLanguageService = false,
       typescript = {
         tsdk = vim.fn.getcwd() .. '/node_modules/typescript/lib',
+        preferences = {
+          includePackageJsonAutoImports = 'on',
+          importModuleSpecifierPreference = 'non-relative',
+        },
       },
     },
     on_new_config = function(config, root_dir)
