@@ -1,8 +1,8 @@
 alias ec='$EDITOR $HOME/.zshrc'
 alias sc='source $HOME/.zshrc'
 
-alias cd='z'
-alias cdc='z ~ && clear'
+alias cd='j'
+alias cdc='j ~ && clear'
 
 alias vim='nvim'
 
