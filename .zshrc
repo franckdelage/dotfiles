@@ -4,7 +4,7 @@ fi
 
 ZDOTDIR="${ZDOTDIR:-$HOME}"
 
-for config in "$ZDOTDIR"/.zsh/{env,plugins,history,completion,keybindings,languages,tools,aliases,work}.zsh; do
+for config in "$ZDOTDIR"/.zsh/{env,plugins,history,completion,keybindings,languages,fzf,tools,aliases,work}.zsh; do
   [ -f "$config" ] && source "$config"
 done
 

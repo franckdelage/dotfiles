@@ -5,3 +5,5 @@ export TERM=xterm-256color-italic
 export PATH="$HOME/.local/bin:$PATH"
 
 export EDITOR=nvim
+
+export BAT_THEME="Catppuccin Frappe"
