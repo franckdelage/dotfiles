@@ -1,4 +1,4 @@
-if [[ -f "/opt/homebrew/bin/brew" ]] then
+if [[ -f "/opt/homebrew/bin/brew" ]]; then
   # If you're using macOS, you'll want this enabled
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
@@ -104,7 +104,7 @@ fi
 eval "$(rbenv init - -zsh)"
 
 # bun completions
-[ -s "/Users/franckdelage/.bun/_bun" ] && source "/Users/franckdelage/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
@@ -116,8 +116,8 @@ export PATH="$HOME/.deno/bin:$PATH"
 # neovim
 # export PATH="$HOME/.local/nvim/bin:$PATH"
 
-# TAVILY_API_KEY
-export TAVILY_API_KEY="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"
+# Load private/local environment variables
+[ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
 
 # Starship
 eval "$(starship init zsh)"
@@ -135,7 +135,7 @@ alias sc='source $HOME/.zshrc'
 
 alias cd='z'
 
-alias cdc='cd ~ && clear'
+alias cdc='z ~ && clear'
 
 alias vim='nvim'
 # alias nvim-kickstart='NVIM_APPNAME="nvim-kickstart" /opt/homebrew/bin/nvim'
