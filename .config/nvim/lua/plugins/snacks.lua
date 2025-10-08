@@ -56,6 +56,12 @@ return {
         { section = 'keys' },
       },
     },
+    styles = {
+      scratch = {
+        width = 120,
+        height = 35,
+      },
+    },
   },
   keys = {
     -- { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
