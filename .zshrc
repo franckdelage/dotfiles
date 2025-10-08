@@ -123,7 +123,7 @@ export TAVILY_API_KEY="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"
 eval "$(starship init zsh)"
 
 # Zoxide
-eval "$(zoxide init --cmd cd zsh)"
+eval "$(zoxide init zsh)"
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 export PATH="/Users/franckdelage/.rd/bin:$PATH"
@@ -132,6 +132,8 @@ export PATH="/Users/franckdelage/.rd/bin:$PATH"
 # ALIASES
 alias ec='$EDITOR $HOME/.zshrc'
 alias sc='source $HOME/.zshrc'
+
+alias cd='z'
 
 alias cdc='cd ~ && clear'
 
