@@ -3,12 +3,12 @@ blacklist = [
 ]
 
 sort_order = [
+	"tmux",
 	"tmuxinator",
 	"config",
-	"tmux",
 	"zoxide",
 ]
 
 [[session]]
-name = "🏠"
-startup_command = "tmuxinator start home"
+name = "🏠 Home"
+startup_command = "tmux split-window -h \\; select-pane -L \\; send-keys 'yazi' C-m"
