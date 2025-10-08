@@ -1,0 +1,14 @@
+blacklist = [
+	"scratch"
+]
+
+sort_order = [
+	"tmuxinator",
+	"config",
+	"tmux",
+	"zoxide",
+]
+
+[[session]]
+name = "🏠"
+startup_command = "tmuxinator start home"
