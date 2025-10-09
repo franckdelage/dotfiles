@@ -9,4 +9,4 @@ windows:
         - vim
   - opencode:
       panes:
-        - opencode
+        - clear

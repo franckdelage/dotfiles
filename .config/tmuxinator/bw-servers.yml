@@ -1,0 +1,12 @@
+# /Users/franckdelage/.config/tmuxinator/bw-servers.yml
+
+name: BW-Servers
+root: ~/Developer/bw-blueweb
+
+windows:
+  - servers:
+      layout: 3f33,347x87,0,0{215x87,0,0,11,131x87,216,0[131x43,216,0,13,131x43,216,44,14]}
+      panes:
+        - apirequests
+        - appstart
+        - gqlstart
