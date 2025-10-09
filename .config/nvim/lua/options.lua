@@ -75,6 +75,7 @@ vim.filetype.add {
   extension = {
     mdx = 'markdown',
     snap = 'javascript',
+    vil = 'json',
   },
 }
 
