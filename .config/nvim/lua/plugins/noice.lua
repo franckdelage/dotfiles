@@ -36,6 +36,6 @@ return {
     },
   },
   keys = {
-    { '<leader>n', '<cmd>Noice pick<cr>', desc = 'Notification History' },
+    { '<leader>no', '<cmd>Noice pick<cr>', desc = 'Noice History' },
   },
 }
