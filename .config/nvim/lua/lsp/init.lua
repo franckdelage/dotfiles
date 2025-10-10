@@ -36,6 +36,51 @@ function M.setup()
       end
     end,
   })
+
+  -- Create user commands
+  vim.api.nvim_create_user_command('LspInfo', function()
+    local buf_clients = vim.lsp.get_clients { bufnr = 0 }
+    local all_clients = vim.lsp.get_clients()
+
+    local lines = { 'LSP client info for current buffer:', '' }
+
+    if #buf_clients == 0 then
+      table.insert(lines, 'No LSP clients attached to this buffer')
+    else
+      for _, client in ipairs(buf_clients) do
+        table.insert(lines, string.format('Client: %s (id %d)', client.name, client.id))
+        table.insert(lines, string.format('  Root dir: %s', client.root_dir or 'N/A'))
+        table.insert(lines, '')
+      end
+    end
+
+    table.insert(lines, 'All active LSP clients:')
+    table.insert(lines, '')
+    if #all_clients == 0 then
+      table.insert(lines, 'No active LSP clients')
+    else
+      for _, client in ipairs(all_clients) do
+        table.insert(lines, string.format('  %s (id %d)', client.name, client.id))
+      end
+    end
+
+    local buf = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+    vim.bo[buf].modifiable = false
+    vim.bo[buf].filetype = 'lspinfo'
+
+    vim.api.nvim_open_win(buf, true, {
+      relative = 'editor',
+      width = math.floor(vim.o.columns * 0.8),
+      height = math.floor(vim.o.lines * 0.8),
+      row = math.floor(vim.o.lines * 0.1),
+      col = math.floor(vim.o.columns * 0.1),
+      style = 'minimal',
+      border = 'rounded',
+    })
+
+    vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = buf, silent = true })
+  end, { desc = 'Show LSP client information' })
 end
 
 return M
