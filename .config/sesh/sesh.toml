@@ -4,12 +4,53 @@ blacklist = [
 
 sort_order = [
 	"tmux",
-	"tmuxinator",
 	"config",
+	"tmuxinator",
 	"zoxide",
 ]
 
 [[session]]
 name = "🏠 Home"
 # startup_command = "tmux split-window -h \\; select-pane -L \\; send-keys 'yazi' C-m"
-startup_command = "yazi"
+startup_command = "tmux rename-window 'Yazi' && yazi"
+
+[[session]]
+name = "✈️ Blueweb"
+path = "~/Developer/bw-blueweb"
+startup_command = "tmux rename-window 'Vim' && vim"
+preview_command = "eza --all --git --icons --color=always {}"
+windows = ["Whatever" , "Opencode"]
+
+[[session]]
+name = "🖥️ BW-Servers"
+path = "~/Developer/bw-blueweb"
+startup_command = "tmux rename-window 'MitmProxy' && apirequests"
+preview_command = "eza --all --git --icons --color=always {}"
+windows = ["Application" , "Graphql"]
+
+[[session]]
+name = "⚙️ Dotfiles"
+path = "~/dotfiles"
+startup_command = "tmux rename-window 'Vim' && vim"
+preview_command = "eza --all --git --icons --color=always {}"
+windows = ["Whatever"]
+
+[[window]]
+name = "Whatever"
+startup_script = "clear"
+
+[[window]]
+name = "Vim"
+startup_script = "vim"
+
+[[window]]
+name = "Opencode"
+startup_script = "opencode"
+
+[[window]]
+name = "Application"
+startup_script = "appstart"
+
+[[window]]
+name = "Graphql"
+startup_script = "gqlstart"
