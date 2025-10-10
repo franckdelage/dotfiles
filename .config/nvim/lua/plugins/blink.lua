@@ -8,8 +8,6 @@ return {
   opts_extend = { 'sources.default' },
   config = function(_, opts)
     require('blink.cmp').setup(opts)
-    -- Setup native LSP after blink.cmp is loaded
-    require('lsp').setup()
   end,
   opts = {
     keymap = {

@@ -1,24 +1,24 @@
--- Native LSP Configuration (Neovim 0.11+)
 return {
   {
-    -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
-    -- used for completion, annotations and signatures of Neovim apis
+    name = 'native-lsp',
+    dir = vim.fn.stdpath('config') .. '/lua/lsp',
+    config = function()
+      require('lsp').setup()
+    end,
+  },
+  {
     'folke/lazydev.nvim',
-
     opts = {
       library = {
-        -- Load luvit types when the `vim.uv` word is found
         { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
       },
     },
   },
   {
-    -- Mason for tool installation (keeping this for convenience)
     'williamboman/mason.nvim',
     opts = {},
   },
   {
-    -- Tool installer for LSP servers and formatters
     'WhoIsSethDaniel/mason-tool-installer.nvim',
     dependencies = { 'williamboman/mason.nvim' },
     opts = {
@@ -35,15 +35,13 @@ return {
         'stylelint-lsp',
         'graphql-language-service-cli',
         'stylua',
-        'marksman', -- Markdown language server
-        'cucumber-language-server', -- Cucumber/Gherkin language server
+        'marksman',
+        'cucumber-language-server',
       },
     },
   },
   {
-    -- Useful status updates for LSP.
     'j-hui/fidget.nvim',
     opts = {},
   },
 }
--- vim: ts=2 sts=2 sw=2 et
