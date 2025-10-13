@@ -55,7 +55,7 @@ function M.setup()
         table.insert(formatted_diags, copy)
       end
 
-      vim.diagnostic.show(ns, bufnr, formatted_diags, { virtual_lines = true })
+      vim.diagnostic.show(ns, bufnr, formatted_diags, { virtual_text = true })
     end
   end
 
