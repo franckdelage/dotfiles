@@ -5,48 +5,6 @@
 --  See `:help hlsearch`
 vim.keymap.set('n', '<leader>h', '<cmd>nohlsearch<CR>', { desc = 'Clear Highlight' })
 
--- LSP: TypeScript add missing imports (ts_ls)
-vim.keymap.set('n', '<leader>lm', function()
-  -- Only run for TypeScript related filetypes
-  local ft = vim.bo.filetype
-  if ft ~= 'typescript' and ft ~= 'typescriptreact' and ft ~= 'tsx' then
-    vim.notify('Add missing imports only available in TypeScript buffers', vim.log.levels.WARN)
-    return
-  end
-  -- Request the specific code action from tsserver/typescript-language-server
-  -- Build an explicit context including current diagnostics to satisfy LuaLS typing
-  local ctx = {
-    only = { 'source.addMissingImports.ts' },
-    diagnostics = vim.diagnostic.get(0),
-  }
-  -- The action kind 'source.addMissingImports.ts' is provided by typescript-language-server even if not in the default spec
-  ---@diagnostic disable-next-line: param-type-mismatch
-  vim.lsp.buf.code_action {
-    context = ctx,
-    apply = true,
-  }
-end, { desc = 'Add missing imports' })
-
--- LSP: TypeScript remove unused imports (ts_ls)
-vim.keymap.set('n', '<leader>lx', function()
-  -- Only run for TypeScript related filetypes
-  local ft = vim.bo.filetype
-  if ft ~= 'typescript' and ft ~= 'typescriptreact' and ft ~= 'tsx' then
-    vim.notify('Remove unused imports only available in TypeScript buffers', vim.log.levels.WARN)
-    return
-  end
-  -- Request the specific code action from tsserver/typescript-language-server
-  local ctx = {
-    only = { 'source.removeUnused.ts' },
-    diagnostics = vim.diagnostic.get(0),
-  }
-  ---@diagnostic disable-next-line: param-type-mismatch
-  vim.lsp.buf.code_action {
-    context = ctx,
-    apply = true,
-  }
-end, { desc = 'Remove unused imports' })
-
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -113,5 +71,8 @@ vim.keymap.set('n', '<leader>pa', '<cmd>Vscss<cr>', { desc = 'Stylesheet' })
 vim.keymap.set('n', '<leader>gba', '<cmd>Git blame<cr>', { desc = 'Blame all file' })
 
 vim.keymap.set('n', '<leader>kf', '<cmd>TestFile<cr>', { desc = 'Test file' })
+
+vim.keymap.set('n', '<leader>Nl', '<cmd>Lazy<cr>', { desc = 'Open Lazy' })
+vim.keymap.set('n', '<leader>Nm', '<cmd>Mason<cr>', { desc = 'Open Mason' })
 
 -- vim: ts=2 sts=2 sw=2 et

@@ -94,6 +94,46 @@ function M.setup()
         end
       end, 'ESLint Autofix')
 
+      -- LSP: TypeScript add missing imports (ts_ls)
+      map('<leader>lm', function()
+        local ft = vim.bo[event.buf].filetype
+        if ft ~= 'typescript' and ft ~= 'javascript' then
+          vim.notify('Add missing imports only available in TypeScript/JavaScript buffers', vim.log.levels.WARN)
+          return
+        end
+        -- Request the specific code action from tsserver/typescript-language-server
+        -- Build an explicit context including current diagnostics to satisfy LuaLS typing
+        local ctx = {
+          only = { 'source.addMissingImports.ts' },
+          diagnostics = vim.diagnostic.get(event.buf),
+        }
+        -- The action kind 'source.addMissingImports.ts' is provided by typescript-language-server even if not in the default spec
+        ---@diagnostic disable-next-line: param-type-mismatch
+        vim.lsp.buf.code_action {
+          context = ctx,
+          apply = true,
+        }
+      end, 'Add missing imports')
+
+      -- LSP: TypeScript remove unused imports (ts_ls)
+      map('<leader>lx', function()
+        local ft = vim.bo[event.buf].filetype
+        if ft ~= 'typescript' and ft ~= 'javascript' then
+          vim.notify('Remove unused imports only available in TypeScript/JavaScript buffers', vim.log.levels.WARN)
+          return
+        end
+        -- Request the specific code action from tsserver/typescript-language-server
+        local ctx = {
+          only = { 'source.removeUnused.ts' },
+          diagnostics = vim.diagnostic.get(event.buf),
+        }
+        ---@diagnostic disable-next-line: param-type-mismatch
+        vim.lsp.buf.code_action {
+          context = ctx,
+          apply = true,
+        }
+      end, 'Remove unused imports')
+
       -- Workspace folders
       map('<leader>lwa', vim.lsp.buf.add_workspace_folder, 'Add Workspace Folder')
       map('<leader>lwr', vim.lsp.buf.remove_workspace_folder, 'Remove Workspace Folder')
