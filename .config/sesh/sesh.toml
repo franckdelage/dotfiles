@@ -19,7 +19,7 @@ name = "✈️ Blueweb"
 path = "~/Developer/bw-blueweb"
 startup_command = "tmux rename-window 'Vim' && vim"
 preview_command = "eza --all --git --icons --color=always {}"
-windows = ["Whatever" , "Opencode"]
+windows = ["Tests"]
 
 [[session]]
 name = "🖥️ BW-Servers"
@@ -33,15 +33,10 @@ name = "⚙️ Dotfiles"
 path = "~/dotfiles"
 startup_command = "tmux rename-window 'Vim' && vim"
 preview_command = "eza --all --git --icons --color=always {}"
-windows = ["Whatever"]
 
 [[window]]
-name = "Whatever"
+name = "Tests"
 startup_script = "clear"
-
-[[window]]
-name = "Vim"
-startup_script = "vim"
 
 [[window]]
 name = "Opencode"
