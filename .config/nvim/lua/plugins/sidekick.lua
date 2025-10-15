@@ -1,6 +1,8 @@
 return {
   "folke/sidekick.nvim",
-  event = { "BufRead", "BufNew" },
+  dependencies = { "zbirenbaum/copilot.lua" },
+  enabled = true,
+  lazy = true,
   opts = {
     -- add any options here
     cli = {
@@ -9,6 +11,9 @@ return {
         enabled = true,
       },
     },
+    nes = {
+      enabled = true,
+    }
   },
   keys = {
     {
