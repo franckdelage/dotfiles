@@ -68,6 +68,8 @@ vim.opt.confirm = true
 
 vim.opt.laststatus = 3
 
+vim.o.winborder = 'rounded'
+
 vim.filetype.add {
   pattern = {
     ['.*%.component%.html'] = 'htmlangular',
