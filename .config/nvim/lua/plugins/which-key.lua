@@ -64,6 +64,7 @@ return {
       spec = {
         { '<leader>s', group = 'Search' },
         { '<leader>t', group = 'Toggle' },
+        { '<leader>x', group = 'Trouble' },
         { '<leader>g', group = 'Git' },
         { '<leader>gb', group = 'Blame' },
         { '<leader>gh', group = 'Hunks' },
