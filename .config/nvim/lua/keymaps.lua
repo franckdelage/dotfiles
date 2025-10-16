@@ -68,8 +68,6 @@ vim.keymap.set('n', '<leader>pc', '<cmd>Vcomponent<cr>', { desc = 'Component' })
 vim.keymap.set('n', '<leader>ps', '<cmd>Vspec<cr>', { desc = 'Spec' })
 vim.keymap.set('n', '<leader>pa', '<cmd>Vscss<cr>', { desc = 'Stylesheet' })
 
-vim.keymap.set('n', '<leader>gba', '<cmd>Git blame<cr>', { desc = 'Blame all file' })
-
 vim.keymap.set('n', '<leader>kf', '<cmd>TestFile<cr>', { desc = 'Test file' })
 
 vim.keymap.set('n', '<leader>Nl', '<cmd>Lazy<cr>', { desc = 'Open Lazy' })
