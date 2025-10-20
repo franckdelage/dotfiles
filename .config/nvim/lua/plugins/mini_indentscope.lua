@@ -1,5 +1,5 @@
 return {
-  'echasnovski/mini.indentscope',
+  'nvim-mini/mini.indentscope',
   config = function()
     require('mini.indentscope').setup {
       symbol = '│',

@@ -1,5 +1,5 @@
 return {
-  'echasnovski/mini.move',
+  'nvim-mini/mini.move',
   config = function()
     require('mini.move').setup {
       mappings = {
