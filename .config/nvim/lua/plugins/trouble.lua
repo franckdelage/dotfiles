@@ -72,12 +72,12 @@ return {
     },
     {
       "<leader>xs",
-      "<cmd>Trouble symbols toggle focus=false<cr>",
+      "<cmd>Trouble symbols toggle<cr>",
       desc = "Symbols",
     },
     {
       "<leader>xl",
-      "<cmd>Trouble lsp toggle focus=false<cr>",
+      "<cmd>Trouble lsp toggle<cr>",
       desc = "LSP",
     },
     {
