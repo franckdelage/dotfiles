@@ -1,8 +1,6 @@
 return {
   "folke/sidekick.nvim",
-  dependencies = { "zbirenbaum/copilot.lua" },
-  enabled = true,
-  lazy = true,
+  lazy = false,
   opts = {
     -- add any options here
     cli = {
@@ -11,9 +9,6 @@ return {
         enabled = true,
       },
     },
-    nes = {
-      enabled = true,
-    }
   },
   keys = {
     {
@@ -26,6 +21,18 @@ return {
       end,
       expr = true,
       desc = "Goto/Apply Next Edit Suggestion",
+    },
+    {
+      "<leader>mm",
+      "Sidekick nes update",
+      mode = { "n" },
+      desc = "Update NES Suggestions",
+    },
+    {
+      "<leader>mx",
+      "Sidekick nes clear",
+      mode = { "n", "i", "x", "t" },
+      desc = "Clear NES Suggestions",
     },
     {
       "<c-.>",
