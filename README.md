@@ -2,264 +2,343 @@
 
 <!--toc:start-->
 - [Dotfiles](#dotfiles)
-  - [🚀 Quick Start](#🚀-quick-start)
-    - [What is GNU Stow?](#what-is-gnu-stow)
-  - [🛠 Core Tools](#🛠-core-tools)
+  - [What is GNU Stow?](#what-is-gnu-stow)
+  - [Quick Start](#quick-start)
+  - [Repository Structure](#repository-structure)
+  - [Core Tools](#core-tools)
     - [Shell & Terminal](#shell-terminal)
     - [Development Tools](#development-tools)
     - [Productivity Tools](#productivity-tools)
-    - [Window Management (macOS)](#window-management-macos)
-  - [📁 Repository Structure (GNU Stow Compatible)](#📁-repository-structure-gnu-stow-compatible)
-  - [⚙️ Key Features](#️-key-features)
-    - [Zsh Configuration](#zsh-configuration)
+    - [Window Management & macOS-Specific](#window-management-macos-specific)
+  - [Key Features](#key-features)
+    - [Modular Zsh Configuration](#modular-zsh-configuration)
     - [Neovim Setup](#neovim-setup)
     - [Tmux Configuration](#tmux-configuration)
     - [Development Workflow](#development-workflow)
-  - [🎨 Theming](#🎨-theming)
-  - [🔧 Installation Requirements](#🔧-installation-requirements)
-  - [📝 Managing Configurations with Stow](#📝-managing-configurations-with-stow)
+  - [Theming](#theming)
+  - [Installation Requirements](#installation-requirements)
+    - [All Unix Systems](#all-unix-systems)
+    - [macOS (Optional)](#macos-optional)
+  - [Managing Configurations](#managing-configurations)
     - [Install All Configurations](#install-all-configurations)
-    - [Selective Installation](#selective-installation)
-    - [Remove Configurations](#remove-configurations)
-    - [Check What Would Be Linked](#check-what-would-be-linked)
-  - [📝 Customization](#📝-customization)
-    - [Adding New Configurations](#adding-new-configurations)
-    - [Modifying Existing Configs](#modifying-existing-configs)
-    - [Adding New Aliases](#adding-new-aliases)
-    - [Modifying Tmux](#modifying-tmux)
-    - [Neovim Plugins](#neovim-plugins)
-  - [🚨 Notes](#🚨-notes)
-  - [📖 Useful Commands](#📖-useful-commands)
+    - [Remove All Symlinks](#remove-all-symlinks)
+    - [Dry Run (Preview Changes)](#dry-run-preview-changes)
+    - [Restow (Update Symlinks)](#restow-update-symlinks)
+    - [Conflicts](#conflicts)
+  - [Editing Configurations](#editing-configurations)
+  - [Adding New Configurations](#adding-new-configurations)
+  - [Customization](#customization)
+    - [Zsh](#zsh)
+    - [Tmux](#tmux)
+    - [Neovim](#neovim)
+  - [Useful Commands](#useful-commands)
+  - [Notes](#notes)
+  - [License](#license)
 <!--toc:end-->
 
-Personal dotfiles for macOS development environment with a focus on terminal-based productivity tools. Organized for [GNU Stow](https://www.gnu.org/software/stow/) symlink management.
+Personal dotfiles for Unix-based systems, organized for [GNU Stow](https://www.gnu.org/software/stow/) symlink management. Developed on macOS but compatible with Linux and other Unix systems.
 
-## 🚀 Quick Start
+## What is GNU Stow?
+
+GNU Stow creates symbolic links from this repository to your home directory. When you run `stow .` from this directory, it symlinks all files and directories to `~/`, maintaining the same structure. This allows you to:
+
+- Version control all configs in one place
+- Apply/remove configs atomically
+- Edit files directly (changes sync via symlinks)
+- Maintain clean separation between different tool configs
+
+## Quick Start
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
+git clone https://github.com/franckdelage/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 
-# Install Homebrew dependencies
-brew bundle
+# Install dependencies
+# macOS (Homebrew)
+brew bundle --file=Brewfile
+
+# Linux (example with apt)
+sudo apt install zsh tmux neovim git fzf ripgrep bat eza zoxide stow
 
 # Backup existing configs (recommended)
-mv ~/.zshrc ~/.zshrc.backup
-mv ~/.config ~/.config.backup 2>/dev/null || true
+mv ~/.zshrc ~/.zshrc.backup 2>/dev/null
+mv ~/.config ~/.config.backup 2>/dev/null
 
-# Use GNU Stow to create symlinks
+# Create symlinks with GNU Stow
 stow .
-
-# Alternatively, stow specific packages only:
-# stow config zsh tmux
 ```
 
-### What is GNU Stow?
+After stowing, all dotfiles are symlinked:
+- `~/dotfiles/.zshrc` → `~/.zshrc`
+- `~/dotfiles/.config/nvim/` → `~/.config/nvim/`
+- `~/dotfiles/.tmux/` → `~/.tmux/`
+- etc.
 
-[GNU Stow](https://www.gnu.org/software/stow/) is a symlink farm manager that creates symbolic links from a central dotfiles directory to your home directory. This allows you to:
-
-- Keep all configs in one git repository
-- Selectively enable/disable configurations
-- Easily manage multiple environments
-- Maintain clean separation between different tool configs
-
-## 🛠 Core Tools
-
-### Shell & Terminal
-- **Zsh** with [Zinit](https://github.com/zdharma-continuum/zinit) plugin manager
-- **Starship** prompt with Catppuccin Mocha theme
-- **Tmux** with custom keybindings and appearance
-- **Wezterm** / **Ghostty** / **Kitty** terminal emulators
-
-### Development Tools
-- **Neovim** with Lua configuration and lazy.nvim
-- **Git** with delta for diff highlighting
-- **Node.js** with NVM auto-switching
-- **Python** with pyenv
-- **Ruby** with rbenv
-
-### Productivity Tools
-- **fzf** - Fuzzy file finder
-- **ripgrep** - Fast text search
-- **eza** - Modern ls replacement
-- **bat** - Cat with syntax highlighting
-- **zoxide** - Smart directory jumping
-- **atuin** - Shell history replacement
-
-### Window Management (macOS)
-- **yabai** - Tiling window manager
-- **skhd** - Hotkey daemon
-- **Aerospace** - Alternative window manager
-- **Karabiner Elements** - Keyboard customization
-
-## 📁 Repository Structure (GNU Stow Compatible)
-
-This repository is organized as a Stow package, where each top-level directory represents files that will be symlinked to your home directory:
+## Repository Structure
 
 ```
 dotfiles/
-├── .config/            # → ~/.config/
-│   ├── nvim/           #   → ~/.config/nvim/
-│   ├── aerospace/      #   → ~/.config/aerospace/
-│   ├── yabai/          #   → ~/.config/yabai/
-│   ├── skhd/           #   → ~/.config/skhd/
-│   ├── kitty/          #   → ~/.config/kitty/
-│   ├── ghostty/        #   → ~/.config/ghostty/
-│   ├── wezterm/        #   → ~/.config/wezterm/
-│   ├── bat/            #   → ~/.config/bat/
-│   ├── atuin/          #   → ~/.config/atuin/
-│   ├── karabiner/      #   → ~/.config/karabiner/
-│   ├── tmuxinator/     #   → ~/.config/tmuxinator/
-│   ├── yazi/           #   → ~/.config/yazi/
-│   └── ranger/         #   → ~/.config/ranger/
-├── .tmux/              # → ~/.tmux/
-├── .oh-my-zsh-custom/  # → ~/.oh-my-zsh-custom/
-├── keyboard/           # → ~/keyboard/
-├── .zshrc              # → ~/.zshrc
-├── .wezterm.lua        # → ~/.wezterm.lua
-├── starship.toml       # → ~/.config/starship.toml
-└── Brewfile            # → ~/Brewfile
-
-# When you run `stow .`, these paths are symlinked to your home directory
+├── .config/              # XDG config directory
+│   ├── nvim/             # Neovim configuration (Lua-based, lazy.nvim)
+│   ├── aerospace/        # Aerospace window manager config
+│   ├── yazi/             # Yazi file manager config
+│   ├── atuin/            # Atuin shell history config
+│   ├── bat/              # Bat (cat replacement) themes
+│   ├── karabiner/        # Karabiner Elements keyboard config
+│   ├── wezterm/          # Wezterm terminal themes
+│   ├── markdownlint/     # Markdown linting config
+│   ├── opencode/         # OpenCode config
+│   ├── ranger/           # Ranger file manager config
+│   ├── sesh/             # Sesh session manager config
+│   └── starship.toml     # Starship prompt configuration
+│
+├── .tmux/                # Tmux configuration (modular split)
+│   ├── tmux.conf         # Main config
+│   ├── appearance.conf   # Colors & status bar
+│   ├── keybindings.conf  # Key mappings
+│   ├── plugins.conf      # Plugin configuration
+│   └── *.sh              # Helper scripts
+│
+├── .zsh/                 # Zsh configuration modules
+│   ├── aliases.zsh       # Command aliases
+│   ├── completion.zsh    # Completion settings
+│   ├── env.zsh           # Environment variables
+│   ├── fzf.zsh           # FZF configuration
+│   ├── history.zsh       # History settings
+│   ├── keybindings.zsh   # Key bindings
+│   ├── languages.zsh     # Language-specific configs (node, python, ruby)
+│   ├── plugins.zsh       # Plugin loading
+│   ├── tools.zsh         # Tool configurations
+│   └── work.zsh          # Work-specific settings
+│
+├── .oh-my-zsh-custom/    # Oh-My-Zsh custom plugins and themes
+│   ├── plugins/          # Custom plugins
+│   │   ├── aliases/      # Custom alias plugin
+│   │   ├── zsh-autosuggestions/
+│   │   ├── zsh-exa/
+│   │   └── zsh-syntax-highlighting/
+│   └── themes/           # Custom themes
+│       └── powerlevel10k/
+│
+├── .zshrc                # Main Zsh configuration file
+├── .zshrc.local          # Local machine-specific settings
+├── .wezterm.lua          # Wezterm configuration
+├── Brewfile              # Homebrew dependencies
+├── keyboard/             # Keyboard configs (via files)
+└── archive/              # Archived configurations
 ```
 
-## ⚙️ Key Features
+## Core Tools
 
-### Zsh Configuration
-- **Plugin Management**: Zinit for fast plugin loading
-- **Auto-suggestions**: Smart command completion
-- **Syntax Highlighting**: Real-time syntax validation
-- **History Search**: Atuin for enhanced history with sync
-- **Vi Mode**: Vi-style command line editing
-- **Smart Aliases**: Productivity shortcuts and git aliases
+### Shell & Terminal
+- **Zsh** - Default shell with modular configuration
+- **Starship** - Fast, customizable prompt (Catppuccin theme)
+- **Tmux** - Terminal multiplexer with custom bindings
+- **Wezterm** - GPU-accelerated terminal emulator
+
+### Development Tools
+- **Neovim** - Lua-based config with lazy.nvim, LSP, Treesitter
+- **Git** - With delta for diffs
+- **Node.js** - Via nvm with auto-switching
+- **Python** - Via pyenv
+- **Ruby** - Via rbenv
+
+### Productivity Tools
+- **fzf** - Fuzzy finder for files, history, processes
+- **ripgrep** (rg) - Fast recursive grep
+- **eza** - Modern ls replacement with icons
+- **bat** - Cat with syntax highlighting
+- **zoxide** - Smart cd replacement (learns from usage)
+- **atuin** - Enhanced shell history with sync
+
+### Window Management & macOS-Specific
+- **Aerospace** - Tiling window manager (macOS only)
+- **Karabiner Elements** - Advanced keyboard customization (macOS only)
+
+## Key Features
+
+### Modular Zsh Configuration
+Configuration split into logical modules in `.zsh/`:
+- Auto-loading of all `.zsh` files via `.zshrc`
+- Plugin management with Oh-My-Zsh
+- Smart completions and syntax highlighting
+- Vi mode with enhanced keybindings
+- FZF integration for fuzzy searching
 
 ### Neovim Setup
-- **Package Manager**: lazy.nvim for fast startup
-- **LSP Integration**: Language server support
-- **Treesitter**: Advanced syntax highlighting
-- **Custom Keybindings**: Vim-style navigation and shortcuts
+- **lazy.nvim** - Fast plugin manager
+- **LSP** - Built-in language server support
+- **Treesitter** - Advanced syntax highlighting
+- **DAP** - Debug adapter protocol
+- Modular configuration in `lua/` directory
 
 ### Tmux Configuration
-- **Modular Config**: Split into appearance, keybindings, and plugins
-- **SSH Awareness**: Different configurations for local/remote sessions
-- **Mouse Support**: Click and scroll support
-- **Custom Status Bar**: Git-aware status line
+Modular split for maintainability:
+- `tmux.conf` - Sources other config files
+- `appearance.conf` - Colors, status bar, theme
+- `keybindings.conf` - All key mappings
+- `plugins.conf` - TPM plugin configuration
+- Mouse support, vim-style navigation
 
 ### Development Workflow
-- **Auto Node.js Switching**: NVM integration with .nvmrc support
-- **Git Integration**: Delta for diffs, custom aliases
-- **Project Templates**: Tmuxinator for quick project setup
-- **Code Formatting**: Prettier, StyLua integration
+- **Auto version switching** - nvm, pyenv, rbenv with auto-load
+- **Git integration** - Delta for diffs, custom aliases
+- **Unified theme** - Catppuccin across all tools
+- **FZF everywhere** - File finding, history search, process management
 
-## 🎨 Theming
+## Theming
 
-Using **Catppuccin** theme across all applications:
+Consistent **Catppuccin** theme across tools:
 - Starship prompt (Mocha variant)
-- Bat syntax highlighting
+- Bat syntax highlighting (Catppuccin Frappe/Latte/Macchiato/Mocha)
 - Atuin history viewer
 - Yazi file manager
 - Terminal color schemes
 
-## 🔧 Installation Requirements
+## Installation Requirements
 
-- macOS (tested on recent versions)
-- **GNU Stow** (`brew install stow`) - For symlink management
-- Homebrew package manager
-- Git for version control
+### All Unix Systems
+- **GNU Stow** - Symlink manager
+  - macOS: `brew install stow`
+  - Debian/Ubuntu: `apt install stow`
+  - Arch: `pacman -S stow`
+  - Fedora: `dnf install stow`
+- **Git** - Version control
+- **Zsh** - Shell (optional, but recommended)
 
-## 📝 Managing Configurations with Stow
+### macOS (Optional)
+- **Homebrew** - Package manager, includes Brewfile for dependencies
+
+## Managing Configurations
 
 ### Install All Configurations
 ```bash
-# Symlink all dotfiles
+cd ~/dotfiles
 stow .
 ```
 
-### Selective Installation
-```bash
-# Install only specific configurations
-stow config      # Only .config/ directory
-stow zsh         # Only .zshrc and .oh-my-zsh-custom/
-stow tmux        # Only .tmux/ directory
-```
+This symlinks everything to your home directory.
 
-### Remove Configurations
+### Remove All Symlinks
 ```bash
-# Remove all symlinks
+cd ~/dotfiles
 stow -D .
-
-# Remove specific configurations
-stow -D config
-stow -D zsh
 ```
 
-### Check What Would Be Linked
+### Dry Run (Preview Changes)
 ```bash
-# Dry run to see what would be created
-stow -n .
-stow -n config
+stow -n .     # See what would be linked
+stow -nv .    # Verbose output
 ```
 
-## 📝 Customization
-
-### Adding New Configurations
-1. Create the directory structure that mirrors your home directory
-2. Add your configuration files
-3. Run `stow .` to create symlinks
-
-### Modifying Existing Configs
-Since files are symlinked, edit them directly in the repository:
-
+### Restow (Update Symlinks)
 ```bash
-# Edit configurations in the repo, changes apply immediately
-vim ~/.zshrc                    # Actually editing ~/dotfiles/.zshrc
-vim ~/.config/nvim/init.lua     # Actually editing ~/dotfiles/.config/nvim/init.lua
+stow -R .     # Useful after adding/removing files
 ```
 
-### Adding New Aliases
-Edit `.zshrc` or create files in `.oh-my-zsh-custom/plugins/aliases/`
+### Conflicts
+If stow reports conflicts (existing files that aren't symlinks):
+```bash
+# Backup and remove conflicting files
+mv ~/.zshrc ~/.zshrc.backup
+mv ~/.config/nvim ~/.config/nvim.backup
 
-### Modifying Tmux
-Edit files in `.tmux/` directory:
-- `appearance.conf` - Colors and status bar
-- `keybindings.conf` - Key mappings
-- `plugins.conf` - Plugin configuration
+# Then stow again
+stow .
+```
 
-### Neovim Plugins
-Add plugins in `.config/nvim/lua/lazy-plugins.lua`
+## Editing Configurations
 
-## 🚨 Notes
-
-- **GNU Stow Compatible**: Repository structure designed for stow symlink management
-- Contains personal API keys and work-specific configurations
-- Review and modify paths, usernames, and credentials before use
-- Backup existing configurations before applying these dotfiles
-- Some configurations are macOS-specific
-- Use `stow -D .` to safely remove all symlinks if needed
-
-## 📖 Useful Commands
+Since files are symlinked, edit them directly:
 
 ```bash
-# Reload zsh configuration
-sc
-
-# Edit zsh configuration
-ec
-
-# Start tmux session
-mux
-
-# Create new tmux workspace
-bw
-
-# Search command history
-# Press Ctrl+R in terminal
-
-# Navigate directories
-cd <partial-name>  # Uses zoxide smart jumping
+# These edit the files in ~/dotfiles/
+vim ~/.zshrc
+vim ~/.config/nvim/init.lua
+vim ~/.tmux/tmux.conf
 ```
+
+Changes are immediately tracked by git.
+
+## Adding New Configurations
+
+1. Add files to this repo matching home directory structure:
+   ```bash
+   # Example: Add ghostty config
+   mkdir -p .config/ghostty
+   echo "theme = catppuccin-mocha" > .config/ghostty/config
+   ```
+
+2. Restow to create new symlinks:
+   ```bash
+   stow -R .
+   ```
+
+3. Commit changes:
+   ```bash
+   git add .config/ghostty
+   git commit -m "Add ghostty configuration"
+   ```
+
+## Customization
+
+### Zsh
+- **Add aliases**: Edit `.zsh/aliases.zsh`
+- **Add functions**: Create new files in `.zsh/`
+- **Environment variables**: Edit `.zsh/env.zsh`
+- **Local overrides**: Use `.zshrc.local` (not tracked)
+
+### Tmux
+- **Appearance**: Edit `.tmux/appearance.conf`
+- **Keybindings**: Edit `.tmux/keybindings.conf`
+- **Plugins**: Edit `.tmux/plugins.conf`
+
+### Neovim
+- **Plugins**: Add to `.config/nvim/lua/plugins/`
+- **LSP servers**: Configure in `.config/nvim/lua/lsp/`
+- **Keymaps**: Edit `.config/nvim/lua/keymaps.lua`
+
+## Useful Commands
+
+```bash
+# Reload zsh
+source ~/.zshrc
+
+# Reload tmux config
+tmux source ~/.tmux/tmux.conf
+
+# Check stow would link
+stow -nv .
+
+# Update packages
+# macOS
+brew bundle --file=~/dotfiles/Brewfile
+
+# Linux (example)
+sudo apt update && sudo apt upgrade
+
+# Search history with fzf
+Ctrl+R
+
+# Smart directory navigation
+z <partial-name>    # Uses zoxide
+```
+
+## Notes
+
+- **Cross-platform**: Developed on macOS, compatible with Linux and Unix systems
+- **macOS-specific configs**: Aerospace and Karabiner configs are macOS-only (ignored on other systems)
+- **Brewfile**: Homebrew package list for macOS; use your distro's package manager on Linux
+- **Review before use**: Contains personal settings and paths
+- **Backup first**: Always backup existing configs
+- **Local settings**: Use `.zshrc.local` for machine-specific config (gitignored)
+- **Safe removal**: `stow -D .` cleanly removes all symlinks
+
+## License
+
+Personal dotfiles - feel free to use as reference or starting point.
 
 ---
 
-*These dotfiles represent a terminal-centric development workflow optimized for productivity and aesthetics. Managed with GNU Stow for clean, reversible symlink installation.*
+*Terminal-centric development environment managed with GNU Stow for clean, reversible configuration management.*
