@@ -24,13 +24,13 @@ return {
     },
     {
       "<leader>mm",
-      "Sidekick nes update",
+      "<cmd>Sidekick nes update<cr>",
       mode = { "n" },
       desc = "Update NES Suggestions",
     },
     {
       "<leader>mx",
-      "Sidekick nes clear",
+      "<cmd>Sidekick nes clear<cr>",
       mode = { "n", "i", "x", "t" },
       desc = "Clear NES Suggestions",
     },
