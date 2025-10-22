@@ -75,11 +75,8 @@ return {
       "<cmd>Trouble symbols toggle<cr>",
       desc = "Symbols",
     },
-    {
-      "<leader>xl",
-      "<cmd>Trouble lsp toggle<cr>",
-      desc = "LSP",
-    },
+    { "<leader>xl", "<cmd>Trouble lsp toggle<cr>", desc = "LSP all" },
+    { "<leader>xr", "<cmd>Trouble lsp_references toggle<cr>", desc = "LSP references" },
     {
       "<leader>xn",
       "<cmd>Trouble snacks toggle<cr>",
