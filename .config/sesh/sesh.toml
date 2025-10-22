@@ -1,6 +1,5 @@
 blacklist = [
 	"scratch",
-	"opencode"
 ]
 
 sort_order = [
