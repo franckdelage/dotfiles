@@ -73,6 +73,8 @@ vim.o.winborder = 'rounded'
 vim.filetype.add {
   pattern = {
     ['.*%.component%.html'] = 'htmlangular',
+    ['%.env%..*'] = 'sh',
+    ['.*%.tmux/.*%.conf'] = 'tmux',
   },
   extension = {
     mdx = 'markdown',
