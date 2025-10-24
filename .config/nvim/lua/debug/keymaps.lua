@@ -1,7 +1,7 @@
 -- Debug keymaps for DAP
 return {
   {
-    '<leader>dc',
+    '<leader>dd',
     function()
       require('dap').continue()
     end,
@@ -41,6 +41,13 @@ return {
       require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
     end,
     desc = 'Set Conditional Breakpoint',
+  },
+  {
+    '<leader>dc',
+    function()
+      require('dap').clear_breakpoints()
+    end,
+    desc = 'Clear Breakpoints',
   },
   {
     '<leader>dt',
