@@ -50,6 +50,7 @@ return {
         cvs = false,
         telescopeprompt = false,
       },
+      copilot_model = 'claude-sonnet-4.5',
     }
   end,
   keys = {
