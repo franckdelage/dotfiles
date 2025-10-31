@@ -17,37 +17,8 @@ function M.setup()
       -- Execute a code action
       map('<leader>la', vim.lsp.buf.code_action, 'Goto Code Action', { 'n', 'x' })
 
-      -- Find references for the word under your cursor.
-      map('grr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-
-      -- Jump to the implementation of the word under your cursor.
-      map('gri', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-
-      -- Jump to the definition of the word under your cursor.
-      map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-
-      -- Goto Declaration
-      map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-
-      -- Fuzzy find all the symbols in your current document.
-      map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
-
       -- Fuzzy find all the symbols in your current workspace.
-      map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
-
-      -- Jump to the type of the word under your cursor.
-      map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
-
-      -- Show signature help
-      -- map('<C-k>', vim.lsp.buf.signature_help, 'Signature Help', { 'n', 'i' })
-
-      -- Format document or selection
-      -- map('<leader>lf', function()
-      --   vim.lsp.buf.format({ async = true })
-      -- end, 'Format Document')
-      -- map('<leader>lf', function()
-      --   vim.lsp.buf.format({ async = true })
-      -- end, 'Format Selection', 'v')
+      map('grW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
 
       -- Diagnostic navigation
       map('[d', function()
