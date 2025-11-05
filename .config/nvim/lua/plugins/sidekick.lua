@@ -35,6 +35,12 @@ return {
       desc = "Clear NES Suggestions",
     },
     {
+      "xx",
+      "<cmd>Sidekick nes clear<cr>",
+      mode = { "n", "i", "x", "t" },
+      desc = "Clear NES Suggestions",
+    },
+    {
       "<c-.>",
       function() require("sidekick.cli").toggle() end,
       desc = "Sidekick Toggle",
