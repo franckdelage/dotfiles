@@ -47,9 +47,7 @@ function M.setup()
             }, { bufnr = event.buf })
           end)
 
-          if success and result then
-            vim.notify('ESLint autofix applied', vim.log.levels.INFO)
-          else
+          if not success or not result then
             -- Fallback to code action approach
             vim.lsp.buf.code_action {
               context = {
@@ -58,7 +56,6 @@ function M.setup()
               },
               apply = true,
             }
-            vim.notify('ESLint fixes applied via code action', vim.log.levels.INFO)
           end
         else
           vim.notify('ESLint LSP not attached to this buffer', vim.log.levels.WARN)
@@ -68,49 +65,95 @@ function M.setup()
       -- LSP: TypeScript add missing imports (ts_ls)
       map('<leader>lm', function()
         local ft = vim.bo[event.buf].filetype
-        if ft ~= 'typescript' and ft ~= 'javascript' then
+        if ft ~= 'typescript' and ft ~= 'javascript' and ft ~= 'typescriptreact' and ft ~= 'javascriptreact' then
           vim.notify('Add missing imports only available in TypeScript/JavaScript buffers', vim.log.levels.WARN)
           return
         end
-        -- Request the specific code action from tsserver/typescript-language-server
-        -- Build an explicit context including current diagnostics to satisfy LuaLS typing
-        local ctx = {
-          only = { 'source.addMissingImports.ts' },
-          diagnostics = vim.diagnostic.get(event.buf),
+
+        local range_params = vim.lsp.util.make_range_params(0, "utf-8")
+        local params = {
+          textDocument = range_params.textDocument,
+          range = range_params.range,
+          context = {
+            only = { 'source.addMissingImports.ts' },
+            diagnostics = {},
+          },
         }
-        -- The action kind 'source.addMissingImports.ts' is provided by typescript-language-server even if not in the default spec
-        ---@diagnostic disable-next-line: param-type-mismatch
-        vim.lsp.buf.code_action {
-          context = ctx,
-          apply = true,
-        }
+
+        vim.lsp.buf_request(event.buf, 'textDocument/codeAction', params, function(err, actions)
+          if err then
+            vim.notify('Error requesting code actions: ' .. vim.inspect(err), vim.log.levels.ERROR)
+            return
+          end
+
+          if not actions then
+            return
+          end
+
+          -- Apply the first matching action
+          for _, action in ipairs(actions) do
+            if action.kind and action.kind:match 'addMissingImports' then
+              if action.edit then
+                vim.lsp.util.apply_workspace_edit(action.edit, 'utf-8')
+              elseif action.command then
+                local command = action.command
+                vim.lsp.buf_request(event.buf, 'workspace/executeCommand', command, function() end)
+              end
+              return
+            end
+          end
+        end)
       end, 'Add missing imports')
 
       -- LSP: TypeScript remove unused imports (ts_ls)
       map('<leader>lx', function()
         local ft = vim.bo[event.buf].filetype
-        if ft ~= 'typescript' and ft ~= 'javascript' then
+        if ft ~= 'typescript' and ft ~= 'javascript' and ft ~= 'typescriptreact' and ft ~= 'javascriptreact' then
           vim.notify('Remove unused imports only available in TypeScript/JavaScript buffers', vim.log.levels.WARN)
           return
         end
-        -- Request the specific code action from tsserver/typescript-language-server
-        local ctx = {
-          only = { 'source.removeUnused.ts' },
-          diagnostics = vim.diagnostic.get(event.buf),
+
+        local range_params = vim.lsp.util.make_range_params(0, "utf-8")
+        local params = {
+          textDocument = range_params.textDocument,
+          range = range_params.range,
+          context = {
+            only = { 'source.removeUnused.ts' },
+            diagnostics = {},
+          },
         }
-        ---@diagnostic disable-next-line: param-type-mismatch
-        vim.lsp.buf.code_action {
-          context = ctx,
-          apply = true,
-        }
+
+        vim.lsp.buf_request(event.buf, 'textDocument/codeAction', params, function(err, actions)
+          if err then
+            vim.notify('Error requesting code actions: ' .. vim.inspect(err), vim.log.levels.ERROR)
+            return
+          end
+
+          if not actions then
+            return
+          end
+
+          -- Apply the first matching action
+          for _, action in ipairs(actions) do
+            if action.kind and action.kind:match 'removeUnused' then
+              if action.edit then
+                vim.lsp.util.apply_workspace_edit(action.edit, 'utf-8')
+              elseif action.command then
+                local command = action.command
+                vim.lsp.buf_request(event.buf, 'workspace/executeCommand', command, function() end)
+              end
+              return
+            end
+          end
+        end)
       end, 'Remove unused imports')
 
       -- Workspace folders
-      map('<leader>lwa', vim.lsp.buf.add_workspace_folder, 'Add Workspace Folder')
-      map('<leader>lwr', vim.lsp.buf.remove_workspace_folder, 'Remove Workspace Folder')
-      map('<leader>lwl', function()
-        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-      end, 'List Workspace Folders')
+      -- map('<leader>lwa', vim.lsp.buf.add_workspace_folder, 'Add Workspace Folder')
+      -- map('<leader>lwr', vim.lsp.buf.remove_workspace_folder, 'Remove Workspace Folder')
+      -- map('<leader>lwl', function()
+      --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+      -- end, 'List Workspace Folders')
 
       -- Document highlight setup
       local client = vim.lsp.get_client_by_id(event.data.client_id)
