@@ -23,24 +23,14 @@ return {
         }, markdownlint.args or {})
       end
 
-      lint.linters.luacheck = {
-        cmd = 'luacheck',
-        name = 'luacheck',
-        stdin = true,
-        args = {
-          '--globals',
-          'vim',
-          'lvim',
-          'Snacks',
-          'reload',
-          '--',
-        },
-        stream = 'stdout',
-        ignore_exitcode = true,
-        parser = require('lint.parser').from_errorformat('%f:%l:%c: %m', {
-          source = 'luacheck',
-        }),
-      }
+      -- Configure luacheck to use .luacheckrc file from nvim config directory
+      local luacheck = lint.linters.luacheck
+      if luacheck then
+        luacheck.args = vim.list_extend({
+          '--config',
+          vim.fn.stdpath('config') .. '/.luacheckrc',
+        }, luacheck.args or {})
+      end
 
       -- Debug function
       vim.api.nvim_create_user_command('LintDebug', function()
