@@ -29,7 +29,7 @@ return {
     ---@type trouble.Window.opts
     win = {
       type = 'split',
-      position = 'right',
+      position = 'bottom',
       size = 0.2,
     },
     modes = {
