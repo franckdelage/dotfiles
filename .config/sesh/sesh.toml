@@ -6,7 +6,6 @@ blacklist = [
 sort_order = [
 	"tmux",
 	"config",
-	"tmuxinator",
 	"zoxide",
 ]
 
@@ -16,11 +15,16 @@ name = "🏠 Home"
 startup_command = "tmux rename-window 'Yazi' && yazi"
 
 [[session]]
-name = "✈️ Blueweb"
+name = "🛫 Blueweb"
 path = "~/Developer/bw-blueweb"
 startup_command = "tmux rename-window 'Vim' && vim"
 preview_command = "eza --all --git --icons --color=always {}"
-windows = ["Tests"]
+
+[[session]]
+name = "🧪 Blueweb Specs"
+path = "~/Developer/bw-blueweb"
+startup_command = "tmux rename-window 'Tests' && clear"
+preview_command = "eza --all --git --icons --color=always {}"
 
 [[session]]
 name = "🖥️ BW-Servers"
@@ -30,18 +34,10 @@ preview_command = "eza --all --git --icons --color=always {}"
 windows = ["Application" , "Graphql"]
 
 [[session]]
-name = "⚙️ Dotfiles"
+name = "👷 Dotfiles"
 path = "~/dotfiles"
 startup_command = "tmux rename-window 'Vim' && vim"
 preview_command = "eza --all --git --icons --color=always {}"
-
-[[window]]
-name = "Tests"
-startup_script = "clear"
-
-[[window]]
-name = "Opencode"
-startup_script = "opencode"
 
 [[window]]
 name = "Application"
