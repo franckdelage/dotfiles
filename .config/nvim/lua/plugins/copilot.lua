@@ -33,7 +33,7 @@ return {
         trigger_on_accept = true,
         keymap = {
           accept = '<C-h>',
-          accept_word = '<C-l>',
+          accept_word = '<M-w>',
           accept_line = '<M-i>',
           next = '<C-k>',
           prev = '<C-j>',
