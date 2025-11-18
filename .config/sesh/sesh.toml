@@ -39,6 +39,12 @@ path = "~/dotfiles"
 startup_command = "tmux rename-window 'Vim' && vim"
 preview_command = "eza --all --git --icons --color=always {}"
 
+[[session]]
+name = "📝 Quick Note"
+path = "~/"
+startup_command = "tmux rename-window 'Vim' && vim message.md"
+preview_command = "eza --all --git --icons --color=always {}"
+
 [[window]]
 name = "Application"
 startup_script = "appstart"
