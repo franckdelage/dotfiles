@@ -55,11 +55,14 @@ return {
   end,
   keys = {
     {
-      '<leader>ct',
-      function()
-        require('copilot.suggestion').toggle_auto_trigger()
-      end,
-      desc = 'Toggle Copilot',
+      '<leader>cc',
+      '<cmd>Copilot enable<cr>',
+      desc = 'Copilot Start',
+    },
+    {
+      '<leader>cx',
+      '<cmd>Copilot disable<cr>',
+      desc = 'Copilot Stop',
     },
     {
       '<leader>cp',
