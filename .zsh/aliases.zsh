@@ -17,3 +17,5 @@ alias com='git commit'
 
 alias -g wch='--watch'
 alias -g noCov='--coverage false'
+
+alias zad='eza -D1 --icons=never | xargs -I {} zoxide add {}'
