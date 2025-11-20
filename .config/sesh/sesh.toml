@@ -45,6 +45,12 @@ path = "~/"
 startup_command = "tmux rename-window 'Vim' && vim message.md"
 preview_command = "eza --all --git --icons --color=always {}"
 
+[[session]]
+name = "🌐 Chrome"
+path = "~/"
+startup_command = "tmux rename-window 'Chrome' && /Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --disable-features=ExtensionManifestV2Unsupported,ExtensionManifestV2Disabled"
+preview_command = "eza --all --git --icons --color=always {}"
+
 [[window]]
 name = "Application"
 startup_script = "appstart"
