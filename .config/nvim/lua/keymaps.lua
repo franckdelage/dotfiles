@@ -59,6 +59,7 @@ vim.keymap.set('n', '<leader>W', '<cmd>wall<cr>', { desc = 'Save all' })
 vim.keymap.set('n', '<leader>X', '<cmd>xall<cr>', { desc = 'Save all and quit' })
 
 vim.keymap.set('n', '<leader>tc', '<cmd>tabnew<cr>', { desc = 'Tab new' })
+vim.keymap.set('n', '<leader>td', '<cmd>tabclose<cr>', { desc = 'Tab close' })
 vim.keymap.set('n', '<leader>tl', '<cmd>tabmove -1<cr>', { desc = 'Tab move left' })
 vim.keymap.set('n', '<leader>tr', '<cmd>tabmove 1<cr>', { desc = 'Tab move right' })
 vim.keymap.set('n', 'tg', 'gT', { desc = 'Previous tab' })
