@@ -3,6 +3,7 @@ return {
   priority = 1000,
   lazy = false,
   dependencies = { "rmagatti/auto-session" },
+  ---@class snacks.Config
   opts = {
     animate = { enabled = true },
     bigfile = { enabled = false },
@@ -17,6 +18,10 @@ return {
     },
     git = { enabled = true },
     gitbrowse = { enabled = true },
+    ---@class snacks.indent.Config
+    indent = {
+      enabled = true,
+    },
     input = { enabled = false },
     lazygit = { enabled = true },
     notifier = { enabled = false },
@@ -32,7 +37,7 @@ return {
     scratch = { enabled = true },
     scroll = { enabled = true },
     statuscolumn = { enabled = true },
-    toggle = { enabled = true },
+    toggle = { },
     words = { enabled = true },
     zen = { enabled = true },
     dashboard = {
@@ -78,7 +83,8 @@ return {
     { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
     -- { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notification History" },
     { "<leader>e", function() Snacks.explorer() end, desc = "File Explorer" },
-    -- { "<leader>d", function() Snacks.dim() end, desc = "Dim" },
+    { "<leader>ud", function() Snacks.dim.enable() end, desc = "Dim" },
+    { "<leader>uu", function() Snacks.dim.disable() end, desc = "Undim" },
     -- find
     { "<leader>bf", function() Snacks.picker.buffers() end, desc = "Buffers" },
     { "<leader>sn", function() Snacks.picker.files { cwd = vim.fn.stdpath "config" } end, desc = "Find Neovim File" },
@@ -139,6 +145,8 @@ return {
     { "<leader>S", function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
     { "<leader>nh", function() Snacks.notifier.show_history() end, desc = "Notification History" },
     { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer" },
+    { "<leader>bx", function() Snacks.bufdelete.other() end, desc = "Delete Other Buffers" },
+    { "<leader>ba", function() Snacks.bufdelete.all() end, desc = "Delete All Buffers" },
     { "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Rename File" },
     { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Git Browse", mode = { "n", "v" } },
     { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },

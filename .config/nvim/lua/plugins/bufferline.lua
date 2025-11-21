@@ -32,8 +32,8 @@ return {
       },
     }
 
-    vim.keymap.set('n', '<leader>bx', '<cmd>BufferLineCloseOthers<cr>', { desc = 'Close others' })
-    vim.keymap.set('n', '<leader>bj', '<cmd>BufferLinePick<cr>', { desc = 'Pick' })
-    vim.keymap.set('n', '<leader>be', '<cmd>BufferLinePickClose<cr>', { desc = 'Pick and close' })
+    vim.keymap.set('n', '<leader>bo', '<cmd>BufferLineCloseOthers<cr>', { desc = 'Close others (bufferline)' })
+    vim.keymap.set('n', '<leader>bj', '<cmd>BufferLinePick<cr>', { desc = 'Pick (bufferline)' })
+    vim.keymap.set('n', '<leader>be', '<cmd>BufferLinePickClose<cr>', { desc = 'Pick and close (bufferline)' })
   end,
 }
