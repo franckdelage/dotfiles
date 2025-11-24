@@ -21,6 +21,14 @@ return {
     ---@class snacks.indent.Config
     indent = {
       enabled = true,
+      indent = {
+        enabled = true,
+        only_scope = true,
+      },
+      scope = {
+        enabled = true,
+        show_end = false,
+      },
     },
     input = { enabled = false },
     lazygit = { enabled = true },
