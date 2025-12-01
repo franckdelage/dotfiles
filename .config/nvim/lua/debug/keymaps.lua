@@ -52,7 +52,7 @@ return {
   {
     '<leader>dt',
     function()
-      require('dapui').toggle()
+      require('dap-view').toggle()
     end,
     desc = 'Toggle UI',
   },
@@ -78,42 +78,17 @@ return {
     desc = 'Stop',
   },
   {
-    '<leader>de',
+    '<leader>dw',
     function()
-      require('dapui').eval()
+      require('dap-view').add_expr()
     end,
-    desc = 'Evaluate',
+    desc = 'Watch Expression',
     mode = { 'n', 'v' },
-  },
-  {
-    '<leader>dh',
-    function()
-      require('dap.ui.widgets').hover()
-    end,
-    desc = 'Hover',
-    mode = { 'n', 'v' },
-  },
-  {
-    '<leader>dp',
-    function()
-      require('dap.ui.widgets').preview()
-    end,
-    desc = 'Preview',
-    mode = { 'n', 'v' },
-  },
-  {
-    '<leader>df',
-    function()
-      local widgets = require 'dap.ui.widgets'
-      widgets.centered_float(widgets.frames)
-    end,
-    desc = 'Frames',
   },
   {
     '<leader>ds',
     function()
-      local widgets = require 'dap.ui.widgets'
-      widgets.centered_float(widgets.scopes)
+      require("dap-view").jump_to_view("scopes")
     end,
     desc = 'Scopes',
   },

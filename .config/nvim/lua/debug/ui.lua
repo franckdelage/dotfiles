@@ -1,54 +1,19 @@
 -- DAP UI and Virtual Text configuration
 local M = {}
 
-function M.setup_ui(dap, dapui)
-  -- Setup DAP UI
-  dapui.setup {
-    icons = { expanded = '▾', collapsed = '▸', current_frame = '▸' },
-    mappings = {
-      expand = { '<CR>', '<2-LeftMouse>' },
-      open = 'o',
-      remove = 'd',
-      edit = 'e',
-      repl = 'r',
-      toggle = 't',
-    },
-    layouts = {
-      {
-        elements = {
-          { id = 'scopes', size = 0.25 },
-          { id = 'breakpoints', size = 0.25 },
-          { id = 'stacks', size = 0.25 },
-          { id = 'watches', size = 0.25 },
-        },
-        size = 80,
-        position = 'left',
-      },
-      {
-        elements = {
-          { id = 'repl', size = 0.5 },
-          { id = 'console', size = 0.5 },
-        },
-        size = 22,
-        position = 'bottom',
+function M.setup_ui(dap, dapview)
+  ---@module 'dap-view'
+  ---@type dapview.Config
+  dapview.setup {
+    winbar = {
+      controls = {
+        enabled = true,
       },
     },
-    controls = {
-      enabled = true,
-      element = 'repl',
+    windows = {
+      height = 0.3,
     },
-    floating = {
-      max_height = nil,
-      max_width = nil,
-      border = 'single',
-      mappings = {
-        close = { 'q', '<Esc>' },
-      },
-    },
-    windows = { indent = 1 },
-    render = {
-      max_type_length = nil,
-    },
+    auto_toggle = true,
   }
 
   -- Setup virtual text
@@ -75,17 +40,6 @@ function M.setup_ui(dap, dapui)
     virt_lines = false,
     virt_text_win_col = nil,
   }
-
-  -- Auto open/close DAP UI
-  dap.listeners.after.event_initialized['dapui_config'] = function()
-    dapui.open()
-  end
-  dap.listeners.before.event_terminated['dapui_config'] = function()
-    dapui.close()
-  end
-  dap.listeners.before.event_exited['dapui_config'] = function()
-    dapui.close()
-  end
 end
 
 function M.setup_icons()
