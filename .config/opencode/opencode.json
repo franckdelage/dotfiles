@@ -20,6 +20,11 @@
       "type": "local",
       "command": ["npx", "-y", "mcp-remote", "https://mcp.atlassian.com/v1/sse"],
       "enabled": true
+    },
+    "angular": {
+      "type": "local",
+      "command": ["npx", "-y", "@angular/cli", "mcp", "--experimental-tool", "modernize"],
+      "enabled": true
     }
   } 
 }
