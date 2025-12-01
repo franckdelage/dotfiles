@@ -12,7 +12,8 @@ config.hide_tab_bar_if_only_one_tab = true
 config.window_decorations = "RESIZE"
 
 config.window_background_opacity = 1
-config.color_scheme = 'Tokyo Night Moon'
+-- config.color_scheme = 'Tokyo Night Moon'
+config.color_scheme = 'Kanagawa (Gogh)'
 
 config.colors = {
   cursor_bg = 'magenta',
