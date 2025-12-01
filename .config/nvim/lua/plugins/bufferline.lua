@@ -30,6 +30,12 @@ return {
         color_icons = true,
         separator_style = 'slant',
       },
+      highlights = {
+        tab_selected = {
+          fg = '#C34043',
+          bold = true,
+        },
+      }
     }
 
     vim.keymap.set('n', '<leader>bo', '<cmd>BufferLineCloseOthers<cr>', { desc = 'Close others (bufferline)' })
