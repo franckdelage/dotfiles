@@ -11,7 +11,7 @@ sort_order = [
 
 [[session]]
 name = "🏠 Home"
-# startup_command = "tmux split-window -h \\; select-pane -L \\; send-keys 'yazi' C-m"
+path = "~/"
 startup_command = "tmux rename-window 'Yazi' && yazi"
 
 [[session]]

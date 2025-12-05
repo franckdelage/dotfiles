@@ -7,7 +7,7 @@ return {
       undercurl = true,
       commentStyle = { italic = true },
       functionStyle = { bold = true },
-      keywordStyle = { italic = true, bold = true },
+      keywordStyle = { italic = true },
       statementStyle = { bold = true },
       dimInactive = true,
       theme = "wave",

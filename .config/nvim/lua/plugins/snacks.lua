@@ -65,7 +65,6 @@ return {
         { section = "recent_files", limit = 8, padding = 1 },
         { title = "MRU ", file = vim.fn.fnamemodify(".", ":~"), padding = 1 },
         { section = "recent_files", cwd = true, limit = 8, padding = 1 },
-        { title = "Sessions", padding = 1 },
         { title = "Bookmarks", padding = 1 },
         { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
         { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
