@@ -37,33 +37,8 @@ function M.setup()
       -- Add diagnostics to location list
       map('<leader>lq', vim.diagnostic.setloclist, 'Add Diagnostics to Location List')
 
-      -- ESLint autofix
-      map('<leader>lc', function()
-        local clients = vim.lsp.get_clients { bufnr = event.buf, name = 'eslint' }
-        if #clients > 0 then
-          local client = clients[1]
-          -- Use ESLint's executeAutofix command with the new API
-          local success, result = pcall(function()
-            return client:exec_cmd({
-              command = 'eslint.executeAutofix',
-              arguments = { { uri = vim.uri_from_bufnr(event.buf) } },
-            }, { bufnr = event.buf })
-          end)
-
-          if not success or not result then
-            -- Fallback to code action approach
-            vim.lsp.buf.code_action {
-              context = {
-                only = { 'source.fixAll' },
-                diagnostics = vim.diagnostic.get(event.buf),
-              },
-              apply = true,
-            }
-          end
-        else
-          vim.notify('ESLint LSP not attached to this buffer', vim.log.levels.WARN)
-        end
-      end, 'ESLint Autofix')
+      -- Note: <leader>lf now handles unified fix (ESLint + TS + Format) via conform.lua
+      -- Keeping granular TS import commands below for specific operations
 
       -- LSP: TypeScript add missing imports (ts_ls)
       map('<leader>lm', function()

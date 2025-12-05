@@ -11,11 +11,12 @@ M.servers = {
   stylelint = {
     cmd = { 'stylelint-lsp', '--stdio' },
     filetypes = { 'scss', 'sass', 'css' },
-    root_patterns = { '.stylelintrc', 'package.json', '.git' },
+    root_patterns = { '.stylelintrc', '.stylelintrc.json', '.stylelintrc.js', 'stylelint.config.js', 'package.json', '.git' },
     name = 'stylelint_lsp',
     settings = {
       stylelintplus = {
         autoFixOnFormat = true,
+        autoFixOnSave = true,
       },
     },
   },
