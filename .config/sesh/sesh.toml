@@ -34,6 +34,12 @@ preview_command = "eza --all --git --icons --color=always {}"
 windows = ["Application" , "Graphql"]
 
 [[session]]
+name = "💺 Altea"
+path = "~/Developer/bw-blueweb/tools/altea-macros/"
+startup_command = "altea --login=w40396380:cFdujfntXHBClU0lgA2b"
+preview_command = "eza --all --git --icons --color=always {}"
+
+[[session]]
 name = "👷 Dotfiles"
 path = "~/dotfiles"
 startup_command = "tmux rename-window 'Vim' && vim"
