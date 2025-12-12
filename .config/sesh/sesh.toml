@@ -9,49 +9,49 @@ sort_order = [
 ]
 
 [[session]]
-name = "🏠 Home"
+name = " Home"
 path = "~/"
 startup_command = "tmux rename-window 'Yazi' && yazi"
 
 [[session]]
-name = "🛫 Blueweb"
+name = " Blueweb"
 path = "~/Developer/bw-blueweb"
-startup_command = "tmux rename-window 'Vim' && vim"
+startup_command = "tmux rename-window '' && vim"
 preview_command = "eza --all --git --icons --color=always {}"
 
 [[session]]
-name = "🧪 Blueweb Specs"
+name = "󰙨 Blueweb Specs"
 path = "~/Developer/bw-blueweb"
 startup_command = "tmux rename-window 'Tests' && clear"
 preview_command = "eza --all --git --icons --color=always {}"
 
 [[session]]
-name = "🖥️ BW-Servers"
+name = "󰒍 BW-Servers"
 path = "~/Developer/bw-blueweb"
 startup_command = "tmux rename-window 'MitmProxy' && apirequests"
 preview_command = "eza --all --git --icons --color=always {}"
 windows = ["Application" , "Graphql"]
 
 [[session]]
-name = "💺 Altea"
+name = "󰳃 Altea"
 path = "~/Developer/bw-blueweb/tools/altea-macros/"
 startup_command = "altea --login=w40396380:# Altea login removed after credential exposure"
 preview_command = "eza --all --git --icons --color=always {}"
 
 [[session]]
-name = "👷 Dotfiles"
+name = " Dotfiles"
 path = "~/dotfiles"
-startup_command = "tmux rename-window 'Vim' && vim"
+startup_command = "tmux rename-window '' && vim"
 preview_command = "eza --all --git --icons --color=always {}"
 
 [[session]]
-name = "📝 Quick Note"
+name = " Quick Note"
 path = "~/"
 startup_command = "tmux rename-window 'Vim' && vim message.md"
 preview_command = "eza --all --git --icons --color=always {}"
 
 [[session]]
-name = "🌐 Chrome"
+name = " Chrome"
 path = "~/"
 startup_command = "tmux rename-window 'Chrome' && /Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --disable-features=ExtensionManifestV2Unsupported,ExtensionManifestV2Disabled"
 preview_command = "eza --all --git --icons --color=always {}"
