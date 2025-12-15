@@ -70,7 +70,7 @@ return {
       return vim.snippet.active { direction = -1 } and vim.snippet.jump(-1)
     end, { silent = true })
 
-    vim.keymap.set({ 'i' }, '<c-l>', function()
+    vim.keymap.set({ 'i' }, '<c-n>', function()
       if ls.choice_active() then
         ls.change_choice(1)
       end
