@@ -2,7 +2,6 @@ return {
   "folke/snacks.nvim",
   priority = 1000,
   lazy = false,
-  dependencies = { "rmagatti/auto-session" },
   ---@class snacks.Config
   opts = {
     animate = { enabled = true },
@@ -34,7 +33,7 @@ return {
     lazygit = { enabled = true },
     notifier = { enabled = false },
     picker = {
-      enabled = false,
+      enabled = true,
       formatters = {
         file = {
           filename_first = false,
