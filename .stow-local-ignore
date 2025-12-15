@@ -1,0 +1,27 @@
+# Stow Local Ignore
+# Files and directories that should NOT be symlinked to home directory
+
+# Documentation
+README.md
+AGENTS.md
+LICENSE
+LICENSE.md
+
+# Installation files
+Brewfile
+install.sh
+uninstall.sh
+
+# Git files
+\.git
+\.gitignore
+\.gitmodules
+
+# Archived configs
+archive
+
+# Keyboard configs (managed separately)
+keyboard
+
+# Any markdown files in root
+.*\.md$
