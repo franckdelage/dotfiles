@@ -1,6 +1,6 @@
 return {
   'pwntester/octo.nvim',
-  commit = 'a6297cf215405c140c9e8f6a01b8e5d9aca794f2',
+  -- commit = 'a6297cf215405c140c9e8f6a01b8e5d9aca794f2',
   dependencies = {
     'nvim-lua/plenary.nvim',
     'nvim-telescope/telescope.nvim',
