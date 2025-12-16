@@ -6,6 +6,13 @@ local M = {}
 ---@return string root_dir The found root directory or current working directory as fallback
 function M.find_root(patterns, start_path)
   local path = start_path or vim.fn.getcwd()
+
+  -- If start_path is a file, use its directory
+  local stat = vim.uv and vim.uv.fs_stat and vim.uv.fs_stat(path) or vim.loop.fs_stat(path)
+  if stat and stat.type == 'file' then
+    path = vim.fs.dirname(path)
+  end
+
   for _, pattern in ipairs(patterns) do
     local found = vim.fs.find(pattern, { path = path, upward = true })
     if #found > 0 then
@@ -32,7 +39,8 @@ end
 ---@param server_config table Server configuration table with fields: name, cmd, root_patterns, settings, init_options
 ---@param bufnr number Buffer number to attach the LSP server to
 function M.start_lsp_server(server_config, bufnr)
-  local root_dir = M.find_root(server_config.root_patterns)
+  local bufname = vim.api.nvim_buf_get_name(bufnr)
+  local root_dir = M.find_root(server_config.root_patterns, bufname ~= '' and bufname or nil)
 
   -- Special handling for ESLint - only start if config files exist
   if server_config.name == 'eslint' then
