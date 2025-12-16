@@ -10,7 +10,6 @@ return {
       'nvim-treesitter/nvim-treesitter',
       'nvim-neotest/nvim-nio',
       'antoinemadec/FixCursorHold.nvim',
-      'folke/noice.nvim', -- For notifications
     },
     keys = {
       {
@@ -85,14 +84,8 @@ return {
       },
     },
     config = function()
-      local noice_ok, noice = pcall(require, 'noice')
-
-      local function notify(msg, level)
-        if noice_ok then
-          noice.notify(msg, level or 'info', { title = 'Neotest' })
-        else
-          vim.notify(msg, vim.log.levels.INFO)
-        end
+      local function notify(msg)
+        vim.notify(msg, vim.log.levels.INFO)
       end
 
       local function find_nx_project(path)
@@ -129,7 +122,7 @@ return {
             jestCommand = function(path)
               local project = find_nx_project(path)
               if project then
-                notify('🚀 Running tests in project: ' .. project, 'info')
+                notify('🚀 Running tests in project: ' .. project)
                 return string.format('yarn nx run %s:test %s', project, path)
               end
               return 'yarn jest --' .. path

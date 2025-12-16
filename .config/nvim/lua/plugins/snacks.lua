@@ -29,9 +29,9 @@ return {
         show_end = false,
       },
     },
-    input = { enabled = false },
+    input = { enabled = true },
     lazygit = { enabled = true },
-    notifier = { enabled = false },
+    notifier = { enabled = true },
     picker = {
       enabled = true,
       formatters = {
