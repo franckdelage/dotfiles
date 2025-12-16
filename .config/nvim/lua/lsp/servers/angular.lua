@@ -3,21 +3,31 @@ local M = {}
 -- Angular language server
 M.servers = {
   angular = {
-    cmd = {
-      'ngserver',
-      '--stdio',
-      '--tsProbeLocations',
-      '/Users/franckdelage/.nvm/current/lib/node_modules/typescript/lib',
-      '--ngProbeLocations',
-      '/Users/franckdelage/.nvm/current/lib/node_modules/@angular/language-server/bin',
-    },
+    cmd = function()
+      local root_dir = vim.fn.getcwd()
+      local local_ngserver = root_dir .. '/node_modules/@angular/language-service/bin/ngserver'
+      local ngserver = vim.loop.fs_stat(local_ngserver) and local_ngserver or 'ngserver'
+
+      return {
+        ngserver,
+        '--stdio',
+        '--tsProbeLocations',
+        root_dir .. '/node_modules/typescript/lib',
+        '--ngProbeLocations',
+        root_dir .. '/node_modules/@angular/language-service',
+        '--includeCompletionsWithSnippetText',
+        '--includeAutomaticOptionalChainCompletions',
+        '--experimental-ivy',
+        '--acceptNewSyntax',
+      }
+    end,
     filetypes = { 'html', 'htmlangular' },
-    root_patterns = { 'angular.json', 'nx.json' },
+    root_patterns = { 'nx.json', 'angular.json', 'project.json' },
     name = 'angularls',
     settings = {
       angular = {
         log = 'verbose',
-        forceStrictTemplates = true,
+        forceStrictTemplates = false,  -- Match project setting to avoid conflicts
         enableBlockSyntax = true,
         experimental = {
           enableTemplateDiagnosticsInControlFlow = true,
@@ -31,12 +41,33 @@ M.servers = {
         preferences = {
           includePackageJsonAutoImports = 'on',
           importModuleSpecifierPreference = 'non-relative',
+          includeCompletionsForModuleExports = true,
+          includeCompletionsWithInsertText = true,
         },
       },
     },
     on_new_config = function(config, root_dir)
+      -- Update tsdk to use project-local TypeScript
       config.init_options.typescript.tsdk = root_dir .. '/node_modules/typescript/lib'
+
+      local local_ngserver = root_dir .. '/node_modules/@angular/language-service/bin/ngserver'
+      local ngserver = vim.loop.fs_stat(local_ngserver) and local_ngserver or 'ngserver'
+
+      -- Update cmd to use project-local Angular language server
+      config.cmd = {
+        ngserver,
+        '--stdio',
+        '--tsProbeLocations',
+        root_dir .. '/node_modules/typescript/lib',
+        '--ngProbeLocations',
+        root_dir .. '/node_modules/@angular/language-service',
+        '--includeCompletionsWithSnippetText',
+        '--includeAutomaticOptionalChainCompletions',
+        '--experimental-ivy',
+        '--acceptNewSyntax',
+      }
     end,
+
   },
 }
 
