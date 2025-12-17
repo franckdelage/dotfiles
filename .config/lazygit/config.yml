@@ -1,0 +1,9 @@
+customCommands:
+  - key: 'n'
+    context: 'files'
+    description: 'Git commit amend no edit'
+    command: 'git commit --verbose --all --no-edit --amend'
+    prompts:
+      - type: 'confirm'
+        title: 'Git commit amend no edit'
+        body: 'Are you sure?'
