@@ -66,6 +66,7 @@ return {
         { "<leader>t", group = "Toggle" },
         { "<leader>g", group = "Git" },
         { "<leader>gb", group = "Blame" },
+        { "<leader>gl", group = "Log" },
         { "<leader>gh", group = "Hunks" },
         { "<leader>b", group = "Buffer" },
         { "<leader>o", group = "Octo" },
