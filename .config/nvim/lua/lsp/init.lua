@@ -12,9 +12,12 @@ function M.setup()
   -- Setup keymaps and LspAttach autocmd
   keymaps.setup()
 
+  local augroup = vim.api.nvim_create_augroup('LspAutocmds', { clear = true })
+
   -- Create autocmds for each server based on filetype
   for _, server_config in pairs(servers.servers) do
     vim.api.nvim_create_autocmd("FileType", {
+      group = augroup,
       pattern = server_config.filetypes,
       callback = function(event)
         -- Check if this server is already running for this buffer
@@ -26,6 +29,7 @@ function M.setup()
 
   -- Special handling for eslint - enable it explicitly
   vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+    group = augroup,
     pattern = { "*.ts", "*.js", "*.tsx", "*.jsx", "*.html" },
     callback = function(event)
       local clients = vim.lsp.get_clients { bufnr = event.buf, name = "eslint" }
@@ -35,6 +39,7 @@ function M.setup()
 
   -- Autocmd to handle file renames in Oil
   vim.api.nvim_create_autocmd("User", {
+    group = augroup,
     pattern = "OilActionsPost",
     callback = function(event)
       if event.data.actions[1].type == "move" then
@@ -46,6 +51,7 @@ function M.setup()
   ---@type table<number, {token:lsp.ProgressToken, msg:string, done:boolean}[]>
   local progress = vim.defaulttable()
   vim.api.nvim_create_autocmd("LspProgress", {
+    group = augroup,
     ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
     callback = function(ev)
       local client = vim.lsp.get_client_by_id(ev.data.client_id)
