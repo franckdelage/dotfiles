@@ -7,20 +7,6 @@ return {
     'nvim-tree/nvim-web-devicons', -- or echasnovski/mini.icons
     'zbirenbaum/copilot.lua', -- for providers='copilot'
     {
-      'HakonHarnes/img-clip.nvim',
-      event = 'VeryLazy',
-      opts = {
-        default = {
-          embed_image_as_base64 = false,
-          prompt_for_file_name = false,
-          drag_and_drop = {
-            insert_mode = true,
-          },
-          use_absolute_path = true,
-        },
-      },
-    },
-    {
       'MeanderingProgrammer/render-markdown.nvim',
       opts = {
         file_types = { 'markdown', 'Avante' },
@@ -28,17 +14,9 @@ return {
       ft = { 'markdown', 'Avante' },
     },
   },
-  build = function()
-    -- conditionally use the correct build system for the current OS
-    if vim.fn.has 'win32' == 1 then
-      return 'powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false'
-    else
-      return 'make'
-    end
-  end,
+  build = 'make',
   event = 'VeryLazy',
   version = false,
-  mode = 'agentic',
   ---@module 'avante'
   opts = {
     auto_suggestions_provider = 'copilot',
@@ -46,13 +24,9 @@ return {
     providers = {
       copilot = {
         endpoint = 'https://api.github.com/copilot',
-        model = 'gpt-5',
-        timeout = 30000, -- Timeout in milliseconds
+        model = 'claude-sonnet-4.5',
       },
     },
-    format_on_save = true, -- Auto-formatting feature using Prettier
-    enable_debugging = true, -- Flag for enabling debugging tools
-    enable_testing = true, -- Flag for enabling testing framework
     windows = {
       input = {
         height = 12,
