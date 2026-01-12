@@ -11,7 +11,7 @@ function M.setup_ui(dap, dapview)
       },
     },
     windows = {
-      height = 0.3,
+      size = 0.3,
     },
     auto_toggle = true,
   }
