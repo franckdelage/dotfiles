@@ -22,7 +22,7 @@ preview_command = "eza --all --git --icons --color=always {}"
 [[session]]
 name = "󰙨 Blueweb Specs"
 path = "~/Developer/bw-blueweb"
-startup_command = "tmux rename-window 'Tests' && clear"
+startup_command = "tmux rename-window '' && clear"
 preview_command = "eza --all --git --icons --color=always {}"
 
 [[session]]
