@@ -5,6 +5,10 @@
 --
 -- Use the `dependencies` key to specify the dependencies of a particular plugin
 
+-- NOTE: Telescope is kept primarily for features that Snacks picker doesn't support yet,
+-- particularly the custom ts_select_dir_for_grep function and menufacture integration.
+-- Most file/buffer/git pickers use Snacks (see snacks.lua).
+
 return {
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
