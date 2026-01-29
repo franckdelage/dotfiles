@@ -11,6 +11,11 @@ sort_order = [
 [[session]]
 name = " Home"
 path = "~/"
+startup_command = "tmux rename-window ''"
+
+[[session]]
+name = " Yazi"
+path = "~/"
 startup_command = "tmux rename-window 'Yazi' && yazi"
 
 [[session]]
