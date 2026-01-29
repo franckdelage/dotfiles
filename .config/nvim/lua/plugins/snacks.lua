@@ -95,6 +95,9 @@ return {
         width = 120,
         height = 35,
       },
+      zen = {
+        width = 180,
+      },
     },
   },
   keys = {
