@@ -83,6 +83,7 @@ return {
         { "<leader>n", group = "Nx and notifications" },
         { "<leader>a", group = "Sidekick" },
         { "<leader>N", group = "Neovim" },
+        { "<leader>r", group = "Focus" },
       },
     },
   },
