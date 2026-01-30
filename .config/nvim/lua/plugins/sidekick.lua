@@ -5,8 +5,12 @@ return {
     -- add any options here
     cli = {
       mux = {
-        backend = "tmux",
         enabled = true,
+        backend = "tmux",
+        create = "split",
+        split = {
+          size = 0.25,
+        },
       },
     },
   },
