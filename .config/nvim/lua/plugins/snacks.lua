@@ -34,6 +34,29 @@ return {
     notifier = { enabled = true },
     picker = {
       enabled = true,
+      sources = {
+        harpoon = {
+          finder = function(opts, ctx)
+            local harpoon = require("harpoon"):list()
+            local files = {}
+            local cwd = vim.loop.cwd()
+            for idx, item in ipairs(harpoon.items) do
+              table.insert(files,
+                {
+                  cwd = cwd,
+                  text = item.value,
+                  file = item.value,
+                  idx = idx
+                }
+              )
+            end
+            return files
+          end,
+          format = "text",
+          preview = "file",
+          confirm = "jump",
+        }
+      },
       formatters = {
         file = {
           filename_first = false,
@@ -114,6 +137,9 @@ return {
     { "<leader>f", function() Snacks.picker.git_files() end, desc = "Find Git Files" },
     { "<leader>sP", function() Snacks.picker.projects() end, desc = "Projects" },
     { "<leader>sr", function() Snacks.picker.recent() end, desc = "Recent" },
+    -- custom
+    ---@diagnostic disable-next-line: undefined-field
+    { "<leader>vv", function() Snacks.picker.harpoon() end, desc = "Harpoon" },
     -- git
     { "<leader>gr", function() Snacks.picker.git_branches() end, desc = "Git Branches" },
     { "<leader>glf", function() Snacks.picker.git_log_file() end, desc = "Git Log File" },
