@@ -51,7 +51,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
   end,
 })
 
-local ignore_filetypes = { 'neo-tree' }
+local ignore_filetypes = { 'neo-tree', 'neotest-summary' }
 local ignore_buftypes = { 'nofile', 'prompt', 'popup' }
 
 local focusgroup =
