@@ -139,6 +139,9 @@ return {
           max_width = 0.7,
           border = 'rounded',
         },
+        summary = {
+          open = "botright vsplit | vertical resize 70",
+        },
       }
     end,
   },
