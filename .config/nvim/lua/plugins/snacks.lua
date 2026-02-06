@@ -1,3 +1,31 @@
+local function grep_in_target_dir()
+  Snacks.picker.files {
+    title = "Select Target Directory",
+    cmd = "fd",
+    -- Inclus les dossiers cachés, exclut le dossier .git
+    args = { "--type", "d", "--hidden", "--exclude", ".git" },
+    matcher = { fuzzy = true },
+    actions = {
+      confirm = function(picker, item)
+        picker:close()
+        if item then
+          -- Si un fichier est sélectionné, on prend son dossier parent
+          local target_dir = vim.fn.isdirectory(item.file) == 1 and item.file or vim.fn.fnamemodify(item.file, ":h")
+
+          local pretty_path = vim.fn.fnamemodify(target_dir, ":~:.")
+
+          Snacks.picker.grep {
+            cwd = target_dir,
+            title = "Grep in: " .. pretty_path,
+            -- Recherche aussi dans les fichiers cachés du dossier cible
+            args = { "--hidden" },
+          }
+        end
+      end,
+    },
+  }
+end
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
@@ -41,21 +69,19 @@ return {
             local files = {}
             local cwd = vim.loop.cwd()
             for idx, item in ipairs(harpoon.items) do
-              table.insert(files,
-                {
-                  cwd = cwd,
-                  text = item.value,
-                  file = item.value,
-                  idx = idx
-                }
-              )
+              table.insert(files, {
+                cwd = cwd,
+                text = item.value,
+                file = item.value,
+                idx = idx,
+              })
             end
             return files
           end,
           format = "text",
           preview = "file",
           confirm = "jump",
-        }
+        },
       },
       formatters = {
         file = {
@@ -64,9 +90,7 @@ return {
         },
       },
       actions = {
-        sidekick_send = function (...)
-          return require("sidekick.cli.picker.snacks").send(...)
-        end,
+        sidekick_send = function(...) return require("sidekick.cli.picker.snacks").send(...) end,
       },
       win = {
         input = {
@@ -82,7 +106,7 @@ return {
     scratch = { enabled = true },
     scroll = { enabled = true },
     statuscolumn = { enabled = true },
-    toggle = { },
+    toggle = {},
     words = { enabled = true },
     zen = { enabled = true },
     dashboard = {
@@ -140,6 +164,7 @@ return {
     -- custom
     ---@diagnostic disable-next-line: undefined-field
     { "<leader>vv", function() Snacks.picker.harpoon() end, desc = "Harpoon" },
+    { "<leader>st", grep_in_target_dir, desc = "Grep in Target Directory" },
     -- git
     { "<leader>gr", function() Snacks.picker.git_branches() end, desc = "Git Branches" },
     { "<leader>glf", function() Snacks.picker.git_log_file() end, desc = "Git Log File" },
@@ -158,8 +183,8 @@ return {
     -- Grep
     { "<leader>sb", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
     { "<leader>sB", function() Snacks.picker.grep_buffers() end, desc = "Grep Open Buffers" },
-    { "<leader>sg", function() Snacks.picker.grep({ hidden = true }) end, desc = "Grep" },
-    { "<leader>sw", function() Snacks.picker.grep_word({ args = { "--hidden", "--word-regexp" } }) end, desc = "Visual selection or word", mode = { "n", "x" } },
+    { "<leader>sg", function() Snacks.picker.grep { hidden = true } end, desc = "Grep" },
+    { "<leader>sw", function() Snacks.picker.grep_word { args = { "--hidden", "--word-regexp" } } end, desc = "Visual selection or word", mode = { "n", "x" } },
     -- search
     { '<leader>s"', function() Snacks.picker.registers() end, desc = "Registers" },
     { "<leader>s/", function() Snacks.picker.search_history() end, desc = "Search History" },

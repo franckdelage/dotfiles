@@ -3,13 +3,12 @@ return {
   -- commit = 'a6297cf215405c140c9e8f6a01b8e5d9aca794f2',
   dependencies = {
     'nvim-lua/plenary.nvim',
-    'nvim-telescope/telescope.nvim',
     'nvim-tree/nvim-web-devicons',
   },
   opts = {
     enable_builtin = true,
     default_merge_method = 'squash',
-    picker = 'snacks',
+    picker = 'sn',
     default_remote = { 'github', 'origin' },
     suppress_missing_scope = {
       projects_v2 = true,

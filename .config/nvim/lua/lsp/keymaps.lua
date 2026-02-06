@@ -20,9 +20,6 @@ function M.setup()
       -- Execute a code action
       map('<leader>la', vim.lsp.buf.code_action, 'Goto Code Action', { 'n', 'x' })
 
-      -- Fuzzy find all the symbols in your current workspace.
-      map('grW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
-
       -- Diagnostic navigation
       map('[d', function()
         vim.diagnostic.jump { count = -1, float = true }
