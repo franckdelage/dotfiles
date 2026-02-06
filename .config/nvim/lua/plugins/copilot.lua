@@ -48,7 +48,6 @@ return {
         hgcommit = false,
         svn = false,
         cvs = false,
-        telescopeprompt = false,
       },
       copilot_model = 'claude-sonnet-4.5',
     }
