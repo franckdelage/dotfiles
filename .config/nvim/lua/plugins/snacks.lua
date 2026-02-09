@@ -2,14 +2,16 @@ local function grep_in_target_dir()
   Snacks.picker.files {
     title = "Select Target Directory",
     cmd = "fd",
-    -- Inclus les dossiers cachés, exclut le dossier .git
-    args = { "--type", "d", "--hidden", "--exclude", ".git" },
+    args = { "--type", "d" },
     matcher = { fuzzy = true },
+    hidden = true,
+    transform = function (item)
+      return vim.fn.isdirectory(item.file) == 1
+    end,
     actions = {
       confirm = function(picker, item)
         picker:close()
         if item then
-          -- Si un fichier est sélectionné, on prend son dossier parent
           local target_dir = vim.fn.isdirectory(item.file) == 1 and item.file or vim.fn.fnamemodify(item.file, ":h")
 
           local pretty_path = vim.fn.fnamemodify(target_dir, ":~:.")
@@ -17,7 +19,6 @@ local function grep_in_target_dir()
           Snacks.picker.grep {
             cwd = target_dir,
             title = "Grep in: " .. pretty_path,
-            -- Recherche aussi dans les fichiers cachés du dossier cible
             args = { "--hidden" },
           }
         end
