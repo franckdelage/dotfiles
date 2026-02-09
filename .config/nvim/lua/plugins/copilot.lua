@@ -49,7 +49,7 @@ return {
         svn = false,
         cvs = false,
       },
-      copilot_model = 'claude-sonnet-4.5',
+      -- copilot_model = 'claude-sonnet-4.5',
     }
   end,
   keys = {
