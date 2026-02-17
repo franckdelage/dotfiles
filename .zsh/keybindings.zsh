@@ -20,6 +20,6 @@ function sesh-sessions() {
 }
 
 zle     -N             sesh-sessions
-bindkey -M emacs '^G' sesh-sessions
-bindkey -M vicmd '^G' sesh-sessions
-bindkey -M viins '^G' sesh-sessions
+bindkey -M emacs '^F' sesh-sessions
+bindkey -M vicmd '^F' sesh-sessions
+bindkey -M viins '^F' sesh-sessions
