@@ -20,9 +20,10 @@ local lua_servers = require 'lsp.servers.lua'
 local styling = require 'lsp.servers.styling'
 local markdown = require 'lsp.servers.markdown'
 local graphql = require 'lsp.servers.graphql'
+local json = require 'lsp.servers.json'
 local testing = require 'lsp.servers.testing'
 
 -- Combine all servers
-M.servers = merge_servers(typescript, html, angular, eslint, lua_servers, styling, markdown, graphql, testing)
+M.servers = merge_servers(typescript, html, angular, eslint, lua_servers, styling, markdown, graphql, json, testing)
 
 return M
