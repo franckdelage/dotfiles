@@ -23,3 +23,16 @@ zle     -N             sesh-sessions
 bindkey -M emacs '^F' sesh-sessions
 bindkey -M vicmd '^F' sesh-sessions
 bindkey -M viins '^F' sesh-sessions
+
+# Copy selection to clipboard in vi mode
+function zsh-copy-region-to-clipboard() {
+  if [[ -z $REGION_ACTIVE ]]; then
+    echo "Nothing selected"
+    return
+  fi
+  echo -n "$CUTBUFFER" | pbcopy
+  zle kill-region
+}
+
+zle -N zsh-copy-region-to-clipboard
+bindkey -M vicmd 'y' zsh-copy-region-to-clipboard
