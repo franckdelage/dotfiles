@@ -40,6 +40,10 @@ end
 ---@param bufnr number Buffer number to attach the LSP server to
 function M.start_lsp_server(server_config, bufnr)
   local bufname = vim.api.nvim_buf_get_name(bufnr)
+
+  -- Don't attach LSP to CodeDiff virtual buffers (codediff:// URIs cause URI parse errors)
+  if bufname:match("^codediff://") then return end
+
   local root_dir = M.find_root(server_config.root_patterns, bufname ~= '' and bufname or nil)
 
   -- Special handling for ESLint - only start if config files exist
