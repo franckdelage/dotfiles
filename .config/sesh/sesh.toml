@@ -33,9 +33,15 @@ preview_command = "eza --all --git --icons --color=always {}"
 [[session]]
 name = "󰒍 BW-Servers"
 path = "~/Developer/bw-blueweb"
+startup_command = "tmux rename-window 'Application' && appstart"
+preview_command = "eza --all --git --icons --color=always {}"
+windows = ["Graphql"]
+
+[[session]]
+name = " Api Requests"
+path = "~/Developer/bw-blueweb"
 startup_command = "tmux rename-window 'MitmProxy' && apirequests"
 preview_command = "eza --all --git --icons --color=always {}"
-windows = ["Application" , "Graphql"]
 
 [[session]]
 name = "󰳃 Altea"
