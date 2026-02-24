@@ -68,6 +68,7 @@ return {
         { "<leader>gb", group = "Blame" },
         { "<leader>gl", group = "Log" },
         { "<leader>gh", group = "Hunks" },
+        { "<leader>gc", group = "CodeDiff" },
         { "<leader>b", group = "Buffer" },
         { "<leader>o", group = "Octo" },
         { "<leader>j", group = "Split/Join" },
