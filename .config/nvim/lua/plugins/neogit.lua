@@ -15,4 +15,13 @@ return {
   keys = {
     { "<leader>gn", "<cmd>Neogit<cr>", desc = "Show Neogit UI" },
   },
+  config = function()
+    require("neogit").setup {
+      integrations = {
+        codediff = true,
+        snacks = true,
+      },
+      diff_viewer = "codediff",
+    }
+  end,
 }
