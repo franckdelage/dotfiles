@@ -1,6 +1,12 @@
 return {
   "esmuellert/codediff.nvim",
   cmd = "CodeDiff",
+  keys = {
+    { "<leader>gcd", "<cmd>CodeDiff<cr>", desc = "Show git diff" },
+    { "<leader>gcD", "<cmd>CodeDiff HEAD~1<cr>", desc = "Show git diff against HEAD~1" },
+    { "<leader>gch", "<cmd>CodeDiff history %<cr>", desc = "Show git history for current file" },
+    { "<leader>gcH", "<cmd>CodeDiff history<cr>", desc = "Show git history for all files" },
+  },
   opts = {
     -- Explorer panel configuration
     explorer = {
