@@ -4,6 +4,15 @@ return {
   config = function()
     require("focus").setup {}
 
+    local focus_disable_group = vim.api.nvim_create_augroup("FocusDisable", { clear = true })
+
+    -- Disable focus for Octo buffers
+    vim.api.nvim_create_autocmd("FileType", {
+      group = focus_disable_group,
+      pattern = { "octo", "octo_panel", "codediff-explorer" },
+      callback = function() vim.b.focus_disable = true end,
+    })
+
     vim.keymap.set("n", "<leader>rf", function() require("focus").focus_toggle() end, { desc = "Toggle Focus Mode" })
     vim.keymap.set("n", "<leader>re", function() require("focus").focus_equalise() end, { desc = "Equalize" })
     vim.keymap.set("n", "<leader>rs", function() require("focus").split_nicely() end, { desc = "Split Nicely" })
