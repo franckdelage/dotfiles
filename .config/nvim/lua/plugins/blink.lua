@@ -3,6 +3,7 @@ return {
   dependencies = {
     'rafamadriz/friendly-snippets',
     'mikavilpas/blink-ripgrep.nvim',
+    "fang2hou/blink-copilot",
   },
   version = '*',
   opts_extend = { 'sources.default' },
@@ -33,7 +34,7 @@ return {
       },
       ['<c-d>'] = {
         function()
-          require('blink.cmp').show { providers = { 'lsp' } }
+          require('blink.cmp').show { providers = { 'lsp', 'copilot' } }
         end,
       },
       ['<c-t>'] = {
@@ -97,8 +98,15 @@ return {
       end,
     },
     sources = {
-      default = { 'snippets', 'lsp', 'path', 'buffer' },
+      default = { "copilot", 'snippets', 'lsp', 'path', 'buffer' },
       providers = {
+        copilot = {
+          name = "copilot",
+          module = "blink-copilot",
+          score_offset = 100,
+          async = true,
+          kind_hl = 'CopilotSuggestion',
+        },
         ripgrep = {
           module = 'blink-ripgrep',
           name = 'Ripgrep',
