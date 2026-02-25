@@ -13,7 +13,7 @@ return {
   },
   cmd = "Neogit",
   keys = {
-    { "<leader>gn", "<cmd>Neogit<cr>", desc = "Show Neogit UI" },
+    { "<leader>gg", "<cmd>Neogit<cr>", desc = "Show Neogit UI" },
   },
   config = function()
     require("neogit").setup {
@@ -22,6 +22,7 @@ return {
         snacks = true,
       },
       diff_viewer = "codediff",
+      graph_style = "unicode",
     }
   end,
 }

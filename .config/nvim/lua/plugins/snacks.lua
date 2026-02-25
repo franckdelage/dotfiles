@@ -177,7 +177,7 @@ return {
     { "<leader>gS", function() Snacks.picker.git_stash() end, desc = "Git Stash" },
     { "<leader>gd", function() Snacks.picker.git_diff() end, desc = "Git Diff (Hunks)" },
     { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Git Browse", mode = { "n", "v" } },
-    { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },
+    { "<leader>gn", function() Snacks.lazygit() end, desc = "Lazygit" },
     -- gh
     { "<leader>gp", function() Snacks.picker.gh_pr() end, desc = "GitHub Pull Requests (open)" },
     { "<leader>gP", function() Snacks.picker.gh_pr { state = "all" } end, desc = "GitHub Pull Requests (all)" },
