@@ -14,7 +14,7 @@ return {
       width = 60, -- Width when position is "left" (columns)
       height = 15, -- Height when position is "bottom" (lines)
       indent_markers = true, -- Show indent markers in tree view (│, ├, └)
-      initial_focus = "explorer", -- Initial focus: "explorer", "original", or "modified"
+      initial_focus = "modified", -- Initial focus: "explorer", "original", or "modified"
       icons = {
         folder_closed = "", -- Nerd Font folder icon (customize as needed)
         folder_open = "", -- Nerd Font folder-open icon
