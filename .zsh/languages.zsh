@@ -1,8 +1,3 @@
-export NVM_COMPLETION=true
-export NVM_SYMLINK_CURRENT="true"
-export NVM_AUTO_USE=true
-
-export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 autoload -U add-zsh-hook
@@ -34,9 +29,3 @@ if command -v pyenv 1>/dev/null 2>&1; then
 fi
 
 eval "$(rbenv init - zsh)"
-
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-export PATH="$HOME/.deno/bin:$PATH"
