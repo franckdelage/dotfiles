@@ -149,7 +149,7 @@ return {
     },
   },
   keys = {
-    { "<leader>,", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
+    { "<leader>f", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
     { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
     { "<leader>nn", function() Snacks.picker.notifications() end, desc = "Notification History Search" },
     { "<leader>e", function() Snacks.explorer() end, desc = "File Explorer" },
@@ -159,7 +159,7 @@ return {
     { "<leader>bf", function() Snacks.picker.buffers() end, desc = "Buffers" },
     { "<leader>sn", function() Snacks.picker.files { cwd = vim.fn.stdpath "config" } end, desc = "Find Neovim File" },
     { "<leader>sf", function() Snacks.picker.files { hidden = true } end, desc = "Find Files" },
-    { "<leader>f", function() Snacks.picker.git_files() end, desc = "Find Git Files" },
+    { "<leader>,", function() Snacks.picker.git_files() end, desc = "Find Git Files" },
     { "<leader>sP", function() Snacks.picker.projects() end, desc = "Projects" },
     { "<leader>sr", function() Snacks.picker.recent() end, desc = "Recent" },
     -- custom
