@@ -44,6 +44,12 @@ startup_command = "tmux rename-window 'MitmProxy' && apirequests"
 preview_command = "eza --all --git --icons --color=always {}"
 
 [[session]]
+name = " Github PRs"
+path = "~/Developer/bw-blueweb"
+startup_command = "tmux rename-window '' && gh dash"
+preview_command = "eza --all --git --icons --color=always {}"
+
+[[session]]
 name = "󰳃 Altea"
 path = "~/Developer/bw-blueweb/tools/altea-macros/"
 startup_command = "altea --login=w40396380:cFdujfntXHBClU0lgA2b"
