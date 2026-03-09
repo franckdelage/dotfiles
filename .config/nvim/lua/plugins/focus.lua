@@ -2,7 +2,11 @@ return {
   "nvim-focus/focus.nvim",
   version = false,
   config = function()
-    require("focus").setup {}
+    require("focus").setup {
+      autoresize = {
+        enable = false,
+      },
+    }
 
     local focus_disable_group = vim.api.nvim_create_augroup("FocusDisable", { clear = true })
 
