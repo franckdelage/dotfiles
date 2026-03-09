@@ -143,6 +143,7 @@ return {
         json = { "jq" },
         jsonc = { "jq" },
         lua = { "stylua" },
+        yaml = { "prettierd" },
       },
     },
   },
