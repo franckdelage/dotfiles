@@ -2,6 +2,39 @@ local wezterm = require 'wezterm'
 
 local config = wezterm.config_builder()
 
+config.quick_select_patterns = {
+  'Bearer\\s([a-zA-Z0-9]+)',
+}
+
+config.leader = { key = 'b', mods = 'CTRL', timeout_milliseconds = 2000 }
+config.keys = {
+  {
+    key = 'q',
+    mods = 'LEADER',
+    action = wezterm.action.QuitApplication,
+  },
+  {
+    key = 'b',
+    mods = 'LEADER|CTRL',
+    action = wezterm.action.SendKey { key = 'b', mods = 'CTRL' },
+  },
+  {
+    key = 'x',
+    mods = 'LEADER',
+    action = wezterm.action.ActivateCopyMode,
+  },
+  {
+    key = 'w',
+    mods = 'LEADER',
+    action = wezterm.action.QuickSelect,
+  },
+  {
+    key = 'p',
+    mods = 'LEADER',
+    action = wezterm.action.ActivateCommandPalette,
+  },
+}
+
 config.font = wezterm.font("JetBrainsMono Nerd Font Mono")
 
 -- config.font_size = 15
