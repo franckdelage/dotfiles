@@ -7,6 +7,8 @@ prSections:
     filters: is:open involves:@me -author:@me
   - title: Discuss
     filters: is:open label:bw-discuss
+  - title: Free Search
+    filters: is:open
 issuesSections:
   - title: My Issues
     filters: is:open author:@me
