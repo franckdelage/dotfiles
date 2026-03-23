@@ -4,7 +4,7 @@ local config = wezterm.config_builder()
 
 config.quick_select_patterns = {
   'Bearer\\s([a-zA-Z0-9]+)',
-  '\\s([A-Z0-9]{6})$',
+  '([A-Z0-9]{6})$',
 }
 
 config.leader = { key = 'b', mods = 'CTRL', timeout_milliseconds = 2000 }
