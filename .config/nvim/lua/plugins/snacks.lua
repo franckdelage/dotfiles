@@ -22,6 +22,12 @@ local function pick_rg_types(callback)
   Snacks.picker {
     title = "Filter by Filetype (multi-select: <Tab>)",
     items = items,
+    focus = "input",
+    on_show = function()
+      vim.schedule(function()
+        vim.cmd("startinsert!")
+      end)
+    end,
     format = function(item)
       return {
         { item.label, hl = "SnacksPickerLabel" },
@@ -164,7 +170,7 @@ return {
           finder = function(opts, ctx)
             local harpoon = require("harpoon"):list()
             local files = {}
-            local cwd = vim.loop.cwd()
+            local cwd = vim.uv.cwd()
             for idx, item in ipairs(harpoon.items) do
               table.insert(files, {
                 cwd = cwd,
@@ -280,7 +286,6 @@ return {
     { "<leader>gp", function() Snacks.picker.gh_pr() end, desc = "GitHub Pull Requests (open)" },
     { "<leader>gP", function() Snacks.picker.gh_pr { state = "all" } end, desc = "GitHub Pull Requests (all)" },
     -- Grep
-    { "<leader>sb", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
     { "<leader>sB", function() Snacks.picker.grep_buffers() end, desc = "Grep Open Buffers" },
     { "<leader>sg", function() Snacks.picker.grep { hidden = true } end, desc = "Grep" },
     { "<leader>sw", function() Snacks.picker.grep_word { args = { "--hidden", "--word-regexp" } } end, desc = "Visual selection or word", mode = { "n", "x" } },

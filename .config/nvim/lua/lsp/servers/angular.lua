@@ -6,7 +6,7 @@ M.servers = {
     cmd = function()
       local root_dir = vim.fn.getcwd()
       local local_ngserver = root_dir .. '/node_modules/@angular/language-service/bin/ngserver'
-      local ngserver = vim.loop.fs_stat(local_ngserver) and local_ngserver or 'ngserver'
+      local ngserver = vim.uv.fs_stat(local_ngserver) and local_ngserver or 'ngserver'
 
       return {
         ngserver,
@@ -51,7 +51,7 @@ M.servers = {
       config.init_options.typescript.tsdk = root_dir .. '/node_modules/typescript/lib'
 
       local local_ngserver = root_dir .. '/node_modules/@angular/language-service/bin/ngserver'
-      local ngserver = vim.loop.fs_stat(local_ngserver) and local_ngserver or 'ngserver'
+      local ngserver = vim.uv.fs_stat(local_ngserver) and local_ngserver or 'ngserver'
 
       -- Update cmd to use project-local Angular language server
       config.cmd = {
