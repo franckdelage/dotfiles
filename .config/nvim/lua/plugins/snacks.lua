@@ -1,3 +1,99 @@
+--- Parse `rg --type-list` output into a list of {text, label, detail} items.
+local function rg_type_items()
+  local raw = vim.fn.systemlist "rg --type-list"
+  local items = {}
+  for _, line in ipairs(raw) do
+    local name, exts = line:match "^(%S+):%s*(.+)$"
+    if name then
+      table.insert(items, {
+        text = name,
+        label = name,
+        detail = exts,
+      })
+    end
+  end
+  return items
+end
+
+--- Open a Snacks picker with all rg types (multi-select).
+--- Calls callback(type_names_list) with a list of selected type name strings.
+local function pick_rg_types(callback)
+  local items = rg_type_items()
+  Snacks.picker {
+    title = "Filter by Filetype (multi-select: <Tab>)",
+    items = items,
+    format = function(item)
+      return {
+        { item.label, hl = "SnacksPickerLabel" },
+        { "  " .. item.detail, hl = "SnacksPickerComment" },
+      }
+    end,
+    confirm = function(picker, item)
+      picker:close()
+      local selected = picker:selected { fallback = true }
+      local types = {}
+      for _, sel in ipairs(selected) do
+        table.insert(types, sel.label)
+      end
+      if #types > 0 then
+        callback(types)
+      end
+    end,
+  }
+end
+
+--- Build rg args from a list of type name strings.
+local function type_args(types)
+  local args = { "--hidden" }
+  for _, t in ipairs(types) do
+    table.insert(args, "--type")
+    table.insert(args, t)
+  end
+  return args
+end
+
+--- Grep in workspace root filtered by filetype(s).
+local function grep_with_workspace_type_filter()
+  pick_rg_types(function(types)
+    Snacks.picker.grep {
+      title = "Grep [" .. table.concat(types, ", ") .. "]",
+      args = type_args(types),
+    }
+  end)
+end
+
+--- Grep chained: pick directory → pick filetype(s) → grep.
+local function grep_with_type_filter()
+  Snacks.picker.files {
+    title = "Select Target Directory",
+    cmd = "fd",
+    args = { "--type", "d" },
+    matcher = { fuzzy = true },
+    hidden = true,
+    transform = function(item)
+      return vim.fn.isdirectory(item.file) == 1
+    end,
+    actions = {
+      confirm = function(picker, item)
+        picker:close()
+        if not item then
+          return
+        end
+        local target_dir = vim.fn.isdirectory(item.file) == 1 and item.file
+          or vim.fn.fnamemodify(item.file, ":h")
+        local pretty_path = vim.fn.fnamemodify(target_dir, ":~:.")
+        pick_rg_types(function(types)
+          Snacks.picker.grep {
+            cwd = target_dir,
+            title = "Grep [" .. table.concat(types, ", ") .. "] in: " .. pretty_path,
+            args = type_args(types),
+          }
+        end)
+      end,
+    },
+  }
+end
+
 local function grep_in_target_dir()
   Snacks.picker.files {
     title = "Select Target Directory",
@@ -166,6 +262,8 @@ return {
     ---@diagnostic disable-next-line: undefined-field
     { "<leader>vv", function() Snacks.picker.harpoon() end, desc = "Harpoon" },
     { "<leader>st", grep_in_target_dir, desc = "Grep in Target Directory" },
+    { "<leader>sT", grep_with_type_filter, desc = "Grep in Target Directory + Filetype" },
+    { "<leader>sG", grep_with_workspace_type_filter, desc = "Grep Workspace by Filetype" },
     -- git
     { "<leader>gr", function() Snacks.picker.git_branches() end, desc = "Git Branches" },
     { "<leader>glf", function() Snacks.picker.git_log_file() end, desc = "Git Log File" },
