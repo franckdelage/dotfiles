@@ -6,9 +6,6 @@ return {
     'rcarriga/nvim-notify',
   },
   opts = {
-    messages = {
-      enabled = false,
-    },
     presets = {
       bottom_search = false, -- use a classic bottom cmdline for search
       command_palette = true, -- position the cmdline and popupmenu together
