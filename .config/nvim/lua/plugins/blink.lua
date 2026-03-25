@@ -24,14 +24,14 @@ return {
       },
       ['<Enter>'] = { 'accept', 'fallback' },
       ['<C-e>'] = { 'cancel', 'fallback' },
-      ['<C-k>'] = { 'scroll_documentation_up', 'fallback' },
-      ['<C-j>'] = { 'scroll_documentation_down', 'fallback' },
+      ['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
+      ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
       ['<C-s>'] = {
         function()
           require('blink.cmp').show { providers = { 'snippets' } }
         end,
       },
-      ['<c-d>'] = {
+      ['<C-l>'] = {
         function()
           require('blink.cmp').show { providers = { 'lsp' } }
         end,

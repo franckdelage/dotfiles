@@ -87,8 +87,8 @@ return {
         map('n', '<leader>gbb', gitsigns.blame_line, { desc = 'Blame line' })
         map('n', '<leader>gbB', function() require('gitsigns').blame_line { full = true } end, { desc = 'Blame line full' })
         map('n', '<leader>gbt', gitsigns.toggle_current_line_blame, { desc = 'Toggle git show blame line' })
-        map('n', '<leader>gd', gitsigns.diffthis, { desc = 'Diff against index' })
-        map('n', '<leader>gD', function() gitsigns.diffthis '@' end, { desc = 'Diff against last commit' })
+        map('n', '<leader>gi', gitsigns.diffthis, { desc = 'Diff file against index' })
+        map('n', '<leader>gI', function() gitsigns.diffthis '@' end, { desc = 'Diff file against last commit' })
       end,
     },
   },

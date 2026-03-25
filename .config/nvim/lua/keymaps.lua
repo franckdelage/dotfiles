@@ -48,9 +48,27 @@ vim.keymap.set('n', '<leader>pc', '<cmd>Vcomponent<cr>', { desc = 'Component' })
 vim.keymap.set('n', '<leader>ps', '<cmd>Vspec<cr>', { desc = 'Spec' })
 vim.keymap.set('n', '<leader>pa', '<cmd>Vscss<cr>', { desc = 'Stylesheet' })
 
-vim.keymap.set('n', '<leader>kf', '<cmd>TestFile<cr>', { desc = 'Test file' })
 
 vim.keymap.set('n', '<leader>Nl', '<cmd>Lazy<cr>', { desc = 'Open Lazy' })
 vim.keymap.set('n', '<leader>Nm', '<cmd>Mason<cr>', { desc = 'Open Mason' })
+
+-- Copy file name / path
+vim.keymap.set('n', '<leader>yn', function()
+  local name = vim.fn.expand '%:t'
+  vim.fn.setreg('+', name)
+  vim.notify('Copied: ' .. name, vim.log.levels.INFO)
+end, { desc = 'Copy file name' })
+
+vim.keymap.set('n', '<leader>yp', function()
+  local path = vim.fn.expand '%:p'
+  vim.fn.setreg('+', path)
+  vim.notify('Copied: ' .. path, vim.log.levels.INFO)
+end, { desc = 'Copy file path (absolute)' })
+
+vim.keymap.set('n', '<leader>yr', function()
+  local path = vim.fn.expand '%:~:.'
+  vim.fn.setreg('+', path)
+  vim.notify('Copied: ' .. path, vim.log.levels.INFO)
+end, { desc = 'Copy file path (relative)' })
 
 -- vim: ts=2 sts=2 sw=2 et
