@@ -23,30 +23,24 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- Ensure leader key is properly set after session restoration
-local function ensure_leader()
-  if vim.g.mapleader ~= ' ' then
-    vim.g.mapleader = ' '
-    vim.g.maplocalleader = ' '
-  end
-end
-
--- Re-establish leader key after session restoration
-vim.api.nvim_create_autocmd('SessionLoadPost', {
-  desc = 'Ensure leader key is set after session load',
-  group = vim.api.nvim_create_augroup('FixLeaderAfterSession', { clear = true }),
-  callback = ensure_leader,
-})
-
--- Backup: also check on BufEnter in case SessionLoadPost doesn't fire
-vim.api.nvim_create_autocmd('BufEnter', {
-  desc = 'Ensure leader key is set on buffer enter (backup)',
-  group = vim.api.nvim_create_augroup('FixLeaderBackup', { clear = true }),
-  callback = function()
-    -- Only run once per session to avoid overhead
-    if not vim.g.leader_fixed then
-      ensure_leader()
-      vim.g.leader_fixed = true
-    end
+-- Fix which-key trigger race condition on LspAttach.
+--
+-- which-key clears its trigger keymaps for a buffer synchronously inside its
+-- own LspAttach handler (which-key/state.lua). At that exact moment Neovim's
+-- mode API can still report the previous mode, so which-key re-attaches
+-- triggers against a stale mode and the leader key stops working for that
+-- buffer. Clearing the which-key buffer state one tick later (via
+-- vim.schedule) gives Neovim time to settle, so which-key re-reads the
+-- correct mode when it rebuilds the trigger keymaps.
+vim.api.nvim_create_autocmd('LspAttach', {
+  desc = 'Re-attach which-key triggers after LSP attach (race condition fix)',
+  group = vim.api.nvim_create_augroup('WhichKeyLspFix', { clear = true }),
+  callback = function(event)
+    vim.schedule(function()
+      local ok, buf = pcall(require, 'which-key.buf')
+      if ok then
+        buf.clear({ buf = event.buf })
+      end
+    end)
   end,
 })
