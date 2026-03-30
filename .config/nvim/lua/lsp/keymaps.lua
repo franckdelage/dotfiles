@@ -14,9 +14,6 @@ function M.setup()
       -- Rename the variable under your cursor.
       map('<leader>ln', vim.lsp.buf.rename, 'Rename')
 
-      -- Restart LSP server
-      map('<leader>lR', '<cmd>LspRestart<CR>', 'Restart LSP Server', { 'n' })
-
       -- Execute a code action
       map('<leader>la', vim.lsp.buf.code_action, 'Goto Code Action', { 'n', 'x' })
 
