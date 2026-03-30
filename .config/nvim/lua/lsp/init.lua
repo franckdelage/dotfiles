@@ -137,63 +137,6 @@ function M.setup()
 
     vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = buf, silent = true })
   end, { desc = "Show LSP client information" })
-
-  vim.api.nvim_create_user_command("LspRestart", function()
-    local buf = vim.api.nvim_get_current_buf()
-    local buf_clients = vim.lsp.get_clients { bufnr = buf }
-
-    if #buf_clients == 0 then
-      vim.notify("No LSP clients attached to this buffer", vim.log.levels.WARN)
-      return
-    end
-
-    -- Check if copilot was running
-    local has_copilot = false
-    for _, client in ipairs(buf_clients) do
-      if client.name == "copilot" then
-        has_copilot = true
-        break
-      end
-    end
-
-    local client_names = {}
-    for _, client in ipairs(buf_clients) do
-      table.insert(client_names, client.name)
-    end
-
-    -- Stop all clients
-    for _, client in ipairs(buf_clients) do
-      vim.lsp.stop_client(client.id)
-    end
-
-    vim.notify(string.format("Restarting LSP clients: %s", table.concat(client_names, ", ")), vim.log.levels.INFO)
-
-    -- Restart servers for this buffer
-    vim.schedule(function()
-      local filetype = vim.bo[buf].filetype
-      for _, server_config in pairs(servers.servers) do
-        for _, ft in ipairs(server_config.filetypes) do
-          if ft == filetype then
-            utils.start_lsp_server(server_config, buf)
-            break
-          end
-        end
-      end
-
-      -- Handle eslint specially if it's a relevant filetype
-      if vim.tbl_contains({
-        "typescript",
-        "javascript",
-        "typescriptreact",
-        "javascriptreact",
-        "html",
-        "htmlangular",
-      }, filetype) then utils.start_lsp_server(servers.servers.eslint, buf) end
-
-      -- Restart copilot if it was running
-      if has_copilot then vim.defer_fn(function() vim.cmd "Copilot enable" end, 100) end
-    end)
-  end, { desc = "Restart LSP clients for current buffer" })
 end
 
 return M
