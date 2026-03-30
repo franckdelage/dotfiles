@@ -90,6 +90,7 @@ function M.start_lsp_server(server_config, bufnr)
     capabilities = capabilities,
     settings = server_config.settings,
     init_options = server_config.init_options,
+    get_language_id = server_config.get_language_id,
   }
 
   vim.lsp.start(config, { bufnr = bufnr })
