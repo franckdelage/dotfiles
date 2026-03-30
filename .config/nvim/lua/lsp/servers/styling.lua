@@ -9,14 +9,13 @@ M.servers = {
     name = 'emmet_language_server',
   },
   stylelint = {
-    cmd = { 'stylelint-lsp', '--stdio' },
+    cmd = { 'stylelint-language-server', '--stdio' },
     filetypes = { 'scss', 'sass', 'css' },
-    root_patterns = { '.stylelintrc', '.stylelintrc.json', '.stylelintrc.js', 'stylelint.config.js', 'package.json', '.git' },
+    root_patterns = { '.stylelintrc', '.stylelintrc.json', '.stylelintrc.js', 'stylelint.config.js', 'package.json', '.git', '.nx.json' },
     name = 'stylelint_lsp',
     settings = {
-      stylelintplus = {
-        autoFixOnFormat = true,
-        autoFixOnSave = true,
+      stylelint = {
+        validate = { 'css', 'scss', 'sass', 'postcss' },
       },
     },
   },
