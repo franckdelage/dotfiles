@@ -1,6 +1,5 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "copilot/claude-sonnet-4.5",
   "formatter": {
     "prettier": {
       "disabled": true

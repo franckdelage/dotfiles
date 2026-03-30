@@ -2,7 +2,7 @@ local M = {}
 
 M.servers = {
   jsonls = {
-    cmd = { 'vscode-json-languageserver', '--stdio' },
+    cmd = { 'vscode-json-language-server', '--stdio' },
     filetypes = { 'json', 'jsonc' },
     root_patterns = { '.git' },
     name = 'jsonls',
