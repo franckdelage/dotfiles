@@ -8,7 +8,7 @@ function M.find_root(patterns, start_path)
   local path = start_path or vim.fn.getcwd()
 
   -- If start_path is a file, use its directory
-  local stat = vim.uv and vim.uv.fs_stat and vim.uv.fs_stat(path) or vim.loop.fs_stat(path)
+  local stat = vim.uv.fs_stat(path)
   if stat and stat.type == 'file' then
     path = vim.fs.dirname(path)
   end
@@ -20,19 +20,6 @@ function M.find_root(patterns, start_path)
     end
   end
   return vim.fn.getcwd()
-end
-
---- Helper function for checking LSP method support (0.11+ compatibility)
----@param client table LSP client object
----@param method string LSP method name (e.g., "textDocument/formatting")
----@param bufnr number|nil Buffer number to check method support for
----@return boolean supports Whether the client supports the specified method
-function M.client_supports_method(client, method, bufnr)
-  if vim.fn.has 'nvim-0.11' == 1 then
-    return client:supports_method(method, bufnr)
-  else
-    return client.supports_method(method, { bufnr = bufnr })
-  end
 end
 
 --- Function to start LSP server with proper configuration

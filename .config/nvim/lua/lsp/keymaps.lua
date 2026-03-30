@@ -19,10 +19,10 @@ function M.setup()
 
       -- Diagnostic navigation
       map('[d', function()
-        vim.diagnostic.jump { count = -1, float = true }
+        vim.diagnostic.jump { count = -1, float = false }
       end, 'Go to Previous Diagnostic')
       map(']d', function()
-        vim.diagnostic.jump { count = 1, float = true }
+        vim.diagnostic.jump { count = 1, float = false }
       end, 'Go to Next Diagnostic')
 
       -- Show line diagnostics in floating window
@@ -41,40 +41,13 @@ function M.setup()
           vim.notify('Add missing imports only available in TypeScript/JavaScript buffers', vim.log.levels.WARN)
           return
         end
-
-        local range_params = vim.lsp.util.make_range_params(0, "utf-8")
-        local params = {
-          textDocument = range_params.textDocument,
-          range = range_params.range,
+        vim.lsp.buf.code_action {
+          apply = true,
           context = {
             only = { 'source.addMissingImports.ts' },
             diagnostics = {},
           },
         }
-
-        vim.lsp.buf_request(event.buf, 'textDocument/codeAction', params, function(err, actions)
-          if err then
-            vim.notify('Error requesting code actions: ' .. vim.inspect(err), vim.log.levels.ERROR)
-            return
-          end
-
-          if not actions then
-            return
-          end
-
-          -- Apply the first matching action
-          for _, action in ipairs(actions) do
-            if action.kind and action.kind:match 'addMissingImports' then
-              if action.edit then
-                vim.lsp.util.apply_workspace_edit(action.edit, 'utf-8')
-              elseif action.command then
-                local command = action.command
-                vim.lsp.buf_request(event.buf, 'workspace/executeCommand', command, function() end)
-              end
-              return
-            end
-          end
-        end)
       end, 'Add missing imports')
 
       -- LSP: TypeScript remove unused imports (ts_ls)
@@ -84,40 +57,13 @@ function M.setup()
           vim.notify('Remove unused imports only available in TypeScript/JavaScript buffers', vim.log.levels.WARN)
           return
         end
-
-        local range_params = vim.lsp.util.make_range_params(0, "utf-8")
-        local params = {
-          textDocument = range_params.textDocument,
-          range = range_params.range,
+        vim.lsp.buf.code_action {
+          apply = true,
           context = {
             only = { 'source.removeUnused.ts' },
             diagnostics = {},
           },
         }
-
-        vim.lsp.buf_request(event.buf, 'textDocument/codeAction', params, function(err, actions)
-          if err then
-            vim.notify('Error requesting code actions: ' .. vim.inspect(err), vim.log.levels.ERROR)
-            return
-          end
-
-          if not actions then
-            return
-          end
-
-          -- Apply the first matching action
-          for _, action in ipairs(actions) do
-            if action.kind and action.kind:match 'removeUnused' then
-              if action.edit then
-                vim.lsp.util.apply_workspace_edit(action.edit, 'utf-8')
-              elseif action.command then
-                local command = action.command
-                vim.lsp.buf_request(event.buf, 'workspace/executeCommand', command, function() end)
-              end
-              return
-            end
-          end
-        end)
       end, 'Remove unused imports')
 
       -- Workspace folders
@@ -129,7 +75,7 @@ function M.setup()
 
       -- Document highlight setup
       local client = vim.lsp.get_client_by_id(event.data.client_id)
-      if client and utils.client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
+      if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
         local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
         vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
           buffer = event.buf,
@@ -153,7 +99,7 @@ function M.setup()
       end
 
       -- Inlay hints toggle
-      if client and utils.client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
+      if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
         -- Enable inlay hints by default
         vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })
 
