@@ -51,6 +51,7 @@ vim.keymap.set('n', '<leader>pa', '<cmd>Vscss<cr>', { desc = 'Stylesheet' })
 
 vim.keymap.set('n', '<leader>Nl', '<cmd>Lazy<cr>', { desc = 'Open Lazy' })
 vim.keymap.set('n', '<leader>Nm', '<cmd>Mason<cr>', { desc = 'Open Mason' })
+vim.keymap.set('n', '<leader>Nn', '<cmd>restart<cr>', { desc = 'Restart Neovim' })
 
 -- Copy file name / path
 vim.keymap.set('n', '<leader>yn', function()
