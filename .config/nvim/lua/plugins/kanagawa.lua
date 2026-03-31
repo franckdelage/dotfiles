@@ -20,9 +20,6 @@ return {
           all = {
             ui = {
               bg_gutter = "none",
-              float = {
-                bg = "none",
-              }
             },
           },
         },
@@ -36,9 +33,7 @@ return {
         end
 
         return {
-          NormalFloat = { bg = "none" },
-          FloatBorder = { bg = "none" },
-          FloatTitle = { bg = "none" },
+          FloatBorder = { fg = "#7AA89F" },
 
           -- Save an hlgroup with dark background and dimmed foreground
           -- so that you can use it where your still want darker windows.
