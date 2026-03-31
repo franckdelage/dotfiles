@@ -11,6 +11,9 @@ function M.setup()
         vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
       end
 
+      -- Hover documentation
+      map('K', vim.lsp.buf.hover, 'Hover Documentation')
+
       -- Rename the variable under your cursor.
       map('<leader>ln', vim.lsp.buf.rename, 'Rename')
 

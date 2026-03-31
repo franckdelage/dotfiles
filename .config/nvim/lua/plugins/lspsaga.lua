@@ -30,7 +30,6 @@ return {
     { 'gd', '<cmd>Lspsaga peek_definition<cr>', desc = 'Peek Definition' },
     { 'gD', '<cmd>Lspsaga goto_definition<cr>', desc = 'Go to Definition' },
     { 'gy', '<cmd>Lspsaga goto_type_definition<cr>', desc = 'Go to type Definition' },
-    { 'K', '<cmd>Lspsaga hover_doc<cr>', desc = 'Hover Documentation' },
     { 'gl', '<cmd>Lspsaga diagnostic_jump_next<cr>', desc = 'Next Diagnostic' },
     { 'gL', '<cmd>Lspsaga diagnostic_jump_prev<cr>', desc = 'Previous Diagnostic' },
     { 'gb', '<cmd>Lspsaga show_buf_diagnostics<cr>', desc = 'Buffer Diagnostics' },
