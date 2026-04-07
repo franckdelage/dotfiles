@@ -11,8 +11,8 @@ function M.setup()
         vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
       end
 
-      -- Hover documentation
-      map('K', vim.lsp.buf.hover, 'Hover Documentation')
+      -- Hover documentation is handled globally by nvim-ufo's K mapping,
+      -- which peeks folds first and falls back to vim.lsp.buf.hover().
 
       -- Rename the variable under your cursor.
       map('<leader>ln', vim.lsp.buf.rename, 'Rename')

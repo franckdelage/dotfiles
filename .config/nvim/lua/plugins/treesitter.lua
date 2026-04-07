@@ -36,9 +36,6 @@ return {
         group = vim.api.nvim_create_augroup('nvim-treesitter-ft', { clear = true }),
         callback = function()
           pcall(vim.treesitter.start)
-          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-          vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-          vim.wo[0][0].foldmethod = 'expr'
         end,
       })
     end,
