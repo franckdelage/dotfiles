@@ -84,6 +84,30 @@ return {
       },
     },
     config = function()
+      -- Patch: add_to_rtp is called in client/init.lua but is missing from
+      -- subprocess.lua on origin/master (bf9d3a4). It exists on a divergent
+      -- branch that hasn't been merged yet. Remove this once upstream resolves it.
+      local sub = require 'neotest.lib.subprocess'
+      if not sub.add_to_rtp then
+        local Path = require 'plenary.path'
+        local function is_root(p)
+          return p == '/' or p:match '^[A-Z]:\\?$'
+        end
+        sub.add_to_rtp = function(to_add)
+          local rtp = sub.request('nvim_get_option_value', 'runtimepath', {})
+          for _, func in ipairs(to_add) do
+            local source = Path:new(debug.getinfo(func).source:sub(2))
+            while not is_root(source.filename) and not vim.endswith(source.filename, Path.path.sep .. 'lua') do
+              source = source:parent()
+            end
+            if not is_root(source.filename) then
+              rtp = rtp .. ',' .. source:parent().filename
+            end
+          end
+          sub.request('nvim_set_option_value', 'runtimepath', rtp, {})
+        end
+      end
+
       local function notify(msg)
         vim.notify(msg, vim.log.levels.INFO)
       end
