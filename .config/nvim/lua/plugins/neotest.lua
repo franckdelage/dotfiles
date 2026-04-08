@@ -118,10 +118,12 @@ return {
         while current_dir ~= nil and current_dir ~= '/' and current_dir ~= '' do
           local project_json_path = current_dir .. '/project.json'
 
-          if vim.fn.filereadable(project_json_path) == 1 then
-            local content = vim.fn.readfile(project_json_path)
-            local json_data = vim.fn.json_decode(content)
-            if json_data and json_data.name then
+          local f = io.open(project_json_path, 'r')
+          if f then
+            local raw = f:read '*a'
+            f:close()
+            local ok, json_data = pcall(vim.json.decode, raw)
+            if ok and json_data and json_data.name then
               return json_data.name
             end
           end
@@ -135,6 +137,35 @@ return {
 
         return nil
       end
+
+      -- Returns the lib root directory (the one containing vitest-base.config.ts)
+      -- if the file belongs to a vitest-migrated lib, otherwise returns nil.
+      local function find_vitest_lib_root(path)
+        local current_dir = vim.fs.dirname(path)
+
+        while current_dir ~= nil and current_dir ~= '/' and current_dir ~= '' do
+          local f = io.open(current_dir .. '/vitest-base.config.ts', 'r')
+          if f then
+            f:close()
+            return current_dir
+          end
+
+          local parent_dir = vim.fs.dirname(current_dir)
+          if parent_dir == current_dir then
+            break
+          end
+          current_dir = parent_dir
+        end
+
+        return nil
+      end
+
+      -- Resolve wrapper script path relative to this lua file:
+      -- this file is at <nvim-config>/lua/plugins/neotest.lua
+      -- wrapper is at   <nvim-config>/scripts/nx-vitest-wrapper.sh
+      local this_file = debug.getinfo(1, 'S').source:sub(2) -- strip leading '@'
+      local nvim_config_root = vim.fn.fnamemodify(this_file, ':h:h:h')
+      local wrapper_script = nvim_config_root .. '/scripts/nx-vitest-wrapper.sh'
 
       require('neotest').setup {
         discovery = {
@@ -151,9 +182,39 @@ return {
               end
               return 'yarn jest --' .. path
             end,
-            jest_config_file = 'jest.config.ts',
+            jestConfigFile = 'jest.config.ts',
             env = { CI = true },
             cwd = function(path)
+              return vim.fn.getcwd()
+            end,
+            isTestFile = function(path)
+              -- Exclude files that belong to vitest-migrated libs
+              if find_vitest_lib_root(path) then
+                return false
+              end
+              return path:match '%.spec%.[jt]sx?$' ~= nil or path:match '%.test%.[jt]sx?$' ~= nil
+            end,
+          },
+          require 'neotest-vitest' {
+            -- Only claim files in libs that have a vitest-base.config.ts
+            is_test_file = function(path)
+              return find_vitest_lib_root(path) ~= nil
+            end,
+            -- Suppress vitest config discovery: vitest-base.config.ts is intentionally
+            -- incomplete and must be run through the nx executor.
+            vitestConfigFile = function()
+              return nil
+            end,
+            vitestCommand = function(path)
+              local project = find_nx_project(path)
+              if project then
+                notify('🚀 Running tests in project: ' .. project)
+                return wrapper_script .. ' ' .. project
+              end
+              -- Fallback: should not happen for a vitest lib, but be safe
+              return wrapper_script .. ' unknown'
+            end,
+            cwd = function()
               return vim.fn.getcwd()
             end,
           },
