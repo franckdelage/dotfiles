@@ -13,6 +13,9 @@ function M.setup()
   -- Setup UI and virtual text
   require('debug.ui').setup_ui(dap, dapview)
 
+  -- Enable verbose DAP logging (~/.cache/nvim/dap.log)
+  -- dap.set_log_level 'TRACE'
+
   -- Disable automatic loading of .vscode/launch.json
   dap.ext = dap.ext or {}
   dap.ext.vscode = nil
