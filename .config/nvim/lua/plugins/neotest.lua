@@ -140,14 +140,25 @@ return {
 
       -- Returns the lib root directory (the one containing vitest-base.config.ts)
       -- if the file belongs to a vitest-migrated lib, otherwise returns nil.
+      -- Stops at the project.json boundary: vitest-base.config.ts must be
+      -- co-located with project.json to qualify (prevents matching the workspace
+      -- root vitest-base.config.ts for jest libs).
       local function find_vitest_lib_root(path)
         local current_dir = vim.fs.dirname(path)
 
         while current_dir ~= nil and current_dir ~= '/' and current_dir ~= '' do
-          local f = io.open(current_dir .. '/vitest-base.config.ts', 'r')
-          if f then
-            f:close()
-            return current_dir
+          local f_proj = io.open(current_dir .. '/project.json', 'r')
+          if f_proj then
+            f_proj:close()
+            -- Found the project root. Only qualify as vitest if vitest-base.config.ts
+            -- is also here.
+            local f_vitest = io.open(current_dir .. '/vitest-base.config.ts', 'r')
+            if f_vitest then
+              f_vitest:close()
+              return current_dir
+            end
+            -- project.json found but no vitest-base.config.ts → jest lib, stop walking
+            return nil
           end
 
           local parent_dir = vim.fs.dirname(current_dir)
@@ -195,29 +206,39 @@ return {
               return path:match '%.spec%.[jt]sx?$' ~= nil or path:match '%.test%.[jt]sx?$' ~= nil
             end,
           },
-          require 'neotest-vitest' {
-            -- Only claim files in libs that have a vitest-base.config.ts
-            is_test_file = function(path)
-              return find_vitest_lib_root(path) ~= nil
-            end,
-            -- Suppress vitest config discovery: vitest-base.config.ts is intentionally
-            -- incomplete and must be run through the nx executor.
-            vitestConfigFile = function()
-              return nil
-            end,
-            vitestCommand = function(path)
-              local project = find_nx_project(path)
-              if project then
-                notify('🚀 Running tests in project: ' .. project)
-                return wrapper_script .. ' ' .. project
-              end
-              -- Fallback: should not happen for a vitest lib, but be safe
-              return wrapper_script .. ' unknown'
-            end,
-            cwd = function()
-              return vim.fn.getcwd()
-            end,
-          },
+          (function()
+            local vitest_adapter = require 'neotest-vitest' {
+              -- Only claim files in libs that have a vitest-base.config.ts
+              is_test_file = function(path)
+                return find_vitest_lib_root(path) ~= nil
+              end,
+              -- Suppress vitest config discovery: vitest-base.config.ts is intentionally
+              -- incomplete and must be run through the nx executor.
+              vitestConfigFile = function()
+                return nil
+              end,
+              vitestCommand = function(path)
+                local project = find_nx_project(path)
+                if project then
+                  notify('🚀 Running tests in project: ' .. project)
+                  return wrapper_script .. ' ' .. project
+                end
+                -- Fallback: should not happen for a vitest lib, but be safe
+                return wrapper_script .. ' unknown'
+              end,
+              cwd = function()
+                return vim.fn.getcwd()
+              end,
+            }
+            -- Override root to scope neotest-vitest to the vitest lib directory only.
+            -- The default returns the workspace root (nearest package.json), which causes
+            -- neotest-vitest to register as a top-level adapter and compete with
+            -- neotest-jest across the entire monorepo.
+            vitest_adapter.root = function(path)
+              return find_vitest_lib_root(path)
+            end
+            return vitest_adapter
+          end)(),
         },
         floating = {
           max_height = 0.9,
