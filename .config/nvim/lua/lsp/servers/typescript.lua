@@ -1,5 +1,16 @@
 local M = {}
 
+local ts_inlay_hints = {
+  includeInlayParameterNameHints = 'all',
+  includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+  includeInlayFunctionParameterTypeHints = true,
+  includeInlayVariableTypeHints = true,
+  includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+  includeInlayPropertyDeclarationTypeHints = true,
+  includeInlayFunctionLikeReturnTypeHints = true,
+  includeInlayEnumMemberValueHints = true,
+}
+
 -- TypeScript language server
 M.servers = {
   typescript = {
@@ -15,22 +26,7 @@ M.servers = {
     },
     settings = {
       typescript = {
-        inlayHints = {
-          enumMemberValues = { enabled = true },
-          functionLikeReturnTypes = { enabled = true },
-          parameterNames = { enabled = 'all', suppressWhenArgumentMatchesName = true },
-          parameterTypes = { enabled = true },
-          propertyDeclarationTypes = { enabled = true },
-          variableTypes = { enabled = true, suppressWhenTypeMatchesName = true },
-          -- includeInlayParameterNameHints = 'all',
-          -- includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-          -- includeInlayFunctionParameterTypeHints = true,
-          -- includeInlayVariableTypeHints = true,
-          -- includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-          -- includeInlayPropertyDeclarationTypeHints = true,
-          -- includeInlayFunctionLikeReturnTypeHints = true,
-          -- includeInlayEnumMemberValueHints = true,
-        },
+        inlayHints = ts_inlay_hints,
         suggest = {
           completeFunctionCalls = true,
         },
@@ -40,21 +36,7 @@ M.servers = {
         },
       },
       javascript = {
-        inlayHints = {
-          functionLikeReturnTypes = { enabled = true },
-          parameterNames = { enabled = 'all', suppressWhenArgumentMatchesName = true },
-          parameterTypes = { enabled = true },
-          propertyDeclarationTypes = { enabled = true },
-          variableTypes = { enabled = true, suppressWhenTypeMatchesName = true },
-          -- includeInlayParameterNameHints = 'all',
-          -- includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-          -- includeInlayFunctionParameterTypeHints = true,
-          -- includeInlayVariableTypeHints = true,
-          -- includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-          -- includeInlayPropertyDeclarationTypeHints = true,
-          -- includeInlayFunctionLikeReturnTypeHints = true,
-          -- includeInlayEnumMemberValueHints = true,
-        },
+        inlayHints = ts_inlay_hints,
         suggest = {
           completeFunctionCalls = true,
         },
