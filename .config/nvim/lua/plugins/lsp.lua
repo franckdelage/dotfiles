@@ -27,23 +27,23 @@ return {
       -- vtsls re-throws TypeScriptServerError on failed tsserver responses,
       -- killing the process. VSCode's equivalent code path logs and continues.
       -- See: scripts/patch-vtsls.py for details.
-      vim.api.nvim_create_autocmd('User', {
-        pattern = 'MasonToolsUpdateCompleted',
-        callback = function()
-          local script = vim.fn.stdpath('config') .. '/scripts/patch-vtsls.py'
-          vim.system({ 'python3', script }, { text = true }, function(result)
-            if result.code ~= 0 then
-              vim.schedule(function()
-                vim.notify('vtsls patch failed:\n' .. (result.stderr or ''), vim.log.levels.WARN)
-              end)
-            end
-          end)
-        end,
-      })
+      -- vim.api.nvim_create_autocmd('User', {
+      --   pattern = 'MasonToolsUpdateCompleted',
+      --   callback = function()
+      --     local script = vim.fn.stdpath('config') .. '/scripts/patch-vtsls.py'
+      --     vim.system({ 'python3', script }, { text = true }, function(result)
+      --       if result.code ~= 0 then
+      --         vim.schedule(function()
+      --           vim.notify('vtsls patch failed:\n' .. (result.stderr or ''), vim.log.levels.WARN)
+      --         end)
+      --       end
+      --     end)
+      --   end,
+      -- })
     end,
     opts = {
       ensure_installed = {
-        'vtsls',
+        -- 'vtsls',
         'angular-language-server',
         'lua-language-server',
         'eslint-lsp',
