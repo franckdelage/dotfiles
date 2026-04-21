@@ -10,7 +10,7 @@ function M.setup()
       local client = vim.lsp.get_client_by_id(ctx.client_id)
       if client and client.name == 'angularls' then
         result.diagnostics = vim.tbl_filter(function(d)
-          return d.code ~= -998001
+          return d.code ~= -998001 and d.code ~= -998002
         end, result.diagnostics)
       end
     end
