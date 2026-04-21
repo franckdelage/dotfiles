@@ -64,7 +64,12 @@ function M.start_lsp_server(server_config, bufnr)
 
   local cmd = server_config.cmd
   if type(cmd) == 'function' then
-    cmd = cmd()
+    cmd = cmd(root_dir)
+  end
+
+  local settings = server_config.settings
+  if type(settings) == 'function' then
+    settings = settings(root_dir)
   end
 
   -- Get capabilities from blink.cmp
@@ -75,7 +80,7 @@ function M.start_lsp_server(server_config, bufnr)
     cmd = cmd,
     root_dir = root_dir,
     capabilities = capabilities,
-    settings = server_config.settings,
+    settings = settings,
     init_options = server_config.init_options,
     get_language_id = server_config.get_language_id,
   }

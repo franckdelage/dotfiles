@@ -1,22 +1,36 @@
 local M = {}
 
--- Angular language server
+-- Angular language server — runs alongside vtsls.
+-- vtsls handles TypeScript files and loads @angular/language-service as a TS plugin
+-- for template type-checking and completions. angularls handles HTML-specific
+-- language features in templates (highlights, hover, etc.).
 M.servers = {
   angular = {
-    cmd = function()
-      local root_dir = vim.fn.getcwd()
-      local local_ngserver = root_dir .. '/node_modules/@angular/language-service/bin/ngserver'
+    cmd = function(root_dir)
+      local mason_angularls = vim.fn.stdpath('data') .. '/mason/packages/angular-language-server'
+      local local_ngserver = mason_angularls .. '/node_modules/@angular/language-server/bin/ngserver'
       local ngserver = vim.uv.fs_stat(local_ngserver) and local_ngserver or 'ngserver'
+
+      -- tsProbeLocations expects parent dirs that contain a node_modules/typescript folder.
+      local ts_probe = mason_angularls
+
+      -- Pass both Mason's bundled node_modules AND the workspace root as probe locations,
+      -- mirroring how the VSCode extension passes extensionPath + workspaceFolders.
+      -- ngserver searches each location for @angular/language-service.
+      local mason_ng_probe = mason_angularls .. '/node_modules/@angular/language-server/node_modules'
+      local ng_probe = mason_ng_probe .. ',' .. root_dir .. '/node_modules'
 
       return {
         ngserver,
         '--stdio',
         '--tsProbeLocations',
-        root_dir .. '/node_modules/typescript/lib',
+        ts_probe,
         '--ngProbeLocations',
-        root_dir .. '/node_modules/@angular/language-service',
+        ng_probe,
         '--includeCompletionsWithSnippetText',
         '--includeAutomaticOptionalChainCompletions',
+        '--useClientSideFileWatcher',
+        '--forceStrictTemplates',
       }
     end,
     filetypes = { 'html', 'htmlangular', 'typescript' },
