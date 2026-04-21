@@ -1,6 +1,22 @@
 local M = {}
 
 function M.setup()
+  -- Filter out angularls diagnostics for unknown elements (-998001).
+  -- These are false positives in Nx monorepos where internal libs are not
+  -- installed as real node_modules packages (path aliases only).
+  local orig_handler = vim.lsp.handlers['textDocument/publishDiagnostics']
+  vim.lsp.handlers['textDocument/publishDiagnostics'] = function(err, result, ctx, config)
+    if result and result.diagnostics then
+      local client = vim.lsp.get_client_by_id(ctx.client_id)
+      if client and client.name == 'angularls' then
+        result.diagnostics = vim.tbl_filter(function(d)
+          return d.code ~= -998001
+        end, result.diagnostics)
+      end
+    end
+    orig_handler(err, result, ctx, config)
+  end
+
   -- Diagnostic Configuration
   vim.diagnostic.config {
     severity_sort = true,
