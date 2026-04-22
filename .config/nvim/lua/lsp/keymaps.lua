@@ -104,7 +104,7 @@ function M.setup()
       -- Inlay hints toggle
       if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
         -- Enable inlay hints by default
-        vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })
+        vim.lsp.inlay_hint.enable(false, { bufnr = event.buf })
 
         map('<leader>lh', function()
           vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
