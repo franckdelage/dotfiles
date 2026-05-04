@@ -9,12 +9,9 @@ local ts_js_print_var_statements = {
 return {
   'ThePrimeagen/refactoring.nvim',
   dependencies = {
+    'lewis6991/async.nvim',
   },
   lazy = false,
-  config = function()
-    require('refactoring').setup {
-    }
-  end,
   keys = {
     -- Extract operations (visual mode)
     {
@@ -57,14 +54,20 @@ return {
     {
       '<leader>rp',
       function() return require('refactoring.debug').print_var { output_location = "below" } .. "iw" end,
-      mode = { 'n', 'x' },
+      mode = { 'n' },
+      desc = 'Debug: print variable',
+    },
+    {
+      '<leader>rp',
+      function() return require('refactoring.debug').print_var { output_location = "below" } end,
+      mode = { 'x' },
       desc = 'Debug: print variable',
     },
     {
       '<leader>rP',
       function() return require('refactoring.debug').print_var { output_location = "above" } .. "iw" end,
       mode = 'n',
-      desc = 'Debug: print function',
+      desc = 'Debug: print variable above',
     },
     {
       '<leader>rc',
