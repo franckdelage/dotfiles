@@ -94,8 +94,8 @@ vim.o.softtabstop = 0
 vim.o.shiftwidth = 2
 vim.o.shiftround = true
 
--- Folding — managed by nvim-ufo.
--- foldlevel 99 keeps all folds open on load; ufo re-applies on BufReadPost.
+-- Folding — managed by nvim-origami (LSP + treesitter fallback).
+-- foldmethod/foldexpr are set automatically by origami.
 vim.o.foldcolumn = 'auto:1'
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
