@@ -86,6 +86,7 @@ return {
         { "<leader>N", group = "Neovim" },
         { "<leader>y", group = "Yank file data" },
         { "<leader>r", group = "Refactoring" },
+        { "<leader>rx", group = "Print expression" },
       },
     },
   },
