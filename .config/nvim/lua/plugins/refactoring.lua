@@ -1,17 +1,42 @@
-local ts_js_print_var_statements = {
-  "console.log('[[ DEBUG %s ]]', %s);",
-  "#debug = effect(() => console.log('[[ DEBUG %s ]]', this. %s));",
-  "#debugSignal = effect(() => console.log('[[ DEBUG %s ]]', this. %s()));",
-  "/* %s */ #debugTable = effect(() => console.table(this. %s));",
-  "/* %s */ #debugTableSignal = effect(() => console.table(this. %s()));",
-}
-
 return {
   'ThePrimeagen/refactoring.nvim',
   dependencies = {
     'lewis6991/async.nvim',
   },
   lazy = false,
+  config = function()
+    local function js_print_loc(opts)
+      return ([[console.log("%s %s")]]):format(opts.debug_path, opts.count)
+    end
+    local function js_print_exp(opts)
+      return ([[console.log("%s %s %s:", %s)]]):format(
+        opts.debug_path:gsub('"', '\\"'),
+        opts.expression_str:gsub('"', '\\"'),
+        opts.count,
+        opts.expression
+      )
+    end
+    require('refactoring').setup {
+      debug = {
+        print_loc = {
+          code_generation = {
+            print_loc = {
+              typescript = js_print_loc,
+              typescriptreact = js_print_loc,
+            },
+          },
+        },
+        print_exp = {
+          code_generation = {
+            print_exp = {
+              typescript = js_print_exp,
+              typescriptreact = js_print_exp,
+            },
+          },
+        },
+      },
+    }
+  end,
   keys = {
     -- Extract operations (visual mode)
     {
@@ -50,29 +75,86 @@ return {
       expr = true,
       desc = 'Inline variable',
     },
-    -- Debug statements
+    -- Debug: print variable
     {
       '<leader>rp',
       function() return require('refactoring.debug').print_var { output_location = "below" } .. "iw" end,
-      mode = { 'n' },
-      desc = 'Debug: print variable',
+      mode = 'n',
+      expr = true,
+      desc = 'Debug: print variable below (word)',
     },
     {
       '<leader>rp',
       function() return require('refactoring.debug').print_var { output_location = "below" } end,
-      mode = { 'x' },
-      desc = 'Debug: print variable',
+      mode = 'x',
+      expr = true,
+      desc = 'Debug: print variable below (selection)',
     },
     {
       '<leader>rP',
       function() return require('refactoring.debug').print_var { output_location = "above" } .. "iw" end,
       mode = 'n',
-      desc = 'Debug: print variable above',
+      expr = true,
+      desc = 'Debug: print variable above (word)',
     },
     {
-      '<leader>rc',
-      function() return require('refactoring.debug').cleanup { restore_view = true } end,
+      '<leader>rP',
+      function() return require('refactoring.debug').print_var { output_location = "above" } end,
+      mode = 'x',
+      expr = true,
+      desc = 'Debug: print variable above (selection)',
+    },
+    -- Debug: print expression
+    {
+      '<leader>rxx',
+      function() return require('refactoring.debug').print_exp { output_location = "below" } end,
+      mode = { 'n', 'x' },
+      expr = true,
+      desc = 'Debug: print expression below',
+    },
+    {
+      '<leader>rxX',
+      function() return require('refactoring.debug').print_exp { output_location = "below" } .. "_" end,
       mode = 'n',
+      expr = true,
+      desc = 'Debug: print expression below (line)',
+    },
+    {
+      '<leader>rxa',
+      function() return require('refactoring.debug').print_exp { output_location = "above" } end,
+      mode = { 'n', 'x' },
+      expr = true,
+      desc = 'Debug: print expression above',
+    },
+    {
+      '<leader>rxA',
+      function() return require('refactoring.debug').print_exp { output_location = "above" } .. "_" end,
+      mode = 'n',
+      expr = true,
+      desc = 'Debug: print expression above (line)',
+    },
+    -- Debug: print location
+    {
+      '<leader>rl',
+      function() return require('refactoring.debug').print_loc { output_location = "below" } end,
+      mode = 'n',
+      expr = true,
+      desc = 'Debug: print location below',
+    },
+    {
+      '<leader>rL',
+      function() return require('refactoring.debug').print_loc { output_location = "above" } end,
+      mode = 'n',
+      expr = true,
+      desc = 'Debug: print location above',
+    },
+    -- Debug: cleanup
+    {
+      '<leader>rc',
+      function() return require('refactoring.debug').cleanup { restore_view = true } .. "ag" end,
+      mode = { 'n', 'x' },
+      expr = true,
+      remap = true,
       desc = 'Debug: cleanup print statements',
     },
     -- Picker (all refactors via vim.ui.select)
