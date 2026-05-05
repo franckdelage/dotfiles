@@ -14,53 +14,7 @@ function M.setup()
 
   local augroup = vim.api.nvim_create_augroup('LspAutocmds', { clear = true })
 
-  -- Eagerly warm up angularls on first html buffer attach so the TypeScript
-  -- project is loaded before the user makes their first real LSP request.
-  -- Without this, the first go-to-definition takes 20-30s while the Angular
-  -- compiler parses the entire monorepo tsconfig cold.
-  local angular_warmed_up = false
-  vim.api.nvim_create_autocmd('LspAttach', {
-    group = augroup,
-    callback = function(event)
-      local client = vim.lsp.get_client_by_id(event.data.client_id)
-      if not client or client.name ~= 'angularls' then return end
-      local ft = vim.bo[event.buf].filetype
-      if ft ~= 'html' and ft ~= 'htmlangular' then return end
-      if angular_warmed_up then return end
-      angular_warmed_up = true
-      vim.defer_fn(function()
-        local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
-        local done = false
-        vim.notify('Loading Angular project...', 'info', {
-          id = 'angular_warmup',
-          title = 'angularls',
-          timeout = false,
-          opts = function(notif)
-            if done then
-              notif.icon = ' '
-            else
-              notif.icon = spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
-            end
-          end,
-        })
-        client:request('textDocument/hover', {
-          textDocument = { uri = vim.uri_from_bufnr(event.buf) },
-          position = { line = 0, character = 0 },
-        }, function()
-          done = true
-          vim.notify('Angular project ready', 'info', {
-            id = 'angular_warmup',
-            title = 'angularls',
-            opts = function(notif)
-              notif.icon = ' '
-              notif.timeout = 2000
-            end,
-          })
-        end, event.buf)
-      end, 500)
-    end,
-  })
-
+  -- Create autocmds for each server based on filetype
   for _, server_config in pairs(servers.servers) do
     vim.api.nvim_create_autocmd("FileType", {
       group = augroup,
