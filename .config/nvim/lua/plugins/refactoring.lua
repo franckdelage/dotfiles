@@ -4,39 +4,6 @@ return {
     'lewis6991/async.nvim',
   },
   lazy = false,
-  config = function()
-    local function js_print_loc(opts)
-      return ([[console.log("%s %s")]]):format(opts.debug_path, opts.count)
-    end
-    local function js_print_exp(opts)
-      return ([[console.log("%s %s %s:", %s)]]):format(
-        opts.debug_path:gsub('"', '\\"'),
-        opts.expression_str:gsub('"', '\\"'),
-        opts.count,
-        opts.expression
-      )
-    end
-    require('refactoring').setup {
-      debug = {
-        print_loc = {
-          code_generation = {
-            print_loc = {
-              typescript = js_print_loc,
-              typescriptreact = js_print_loc,
-            },
-          },
-        },
-        print_exp = {
-          code_generation = {
-            print_exp = {
-              typescript = js_print_exp,
-              typescriptreact = js_print_exp,
-            },
-          },
-        },
-      },
-    }
-  end,
   keys = {
     -- Extract operations (visual mode)
     {
