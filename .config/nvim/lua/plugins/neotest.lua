@@ -150,9 +150,9 @@ return {
           local f_proj = io.open(current_dir .. '/project.json', 'r')
           if f_proj then
             f_proj:close()
-            -- Found the project root. Only qualify as vitest if vitest-base.config.ts
+            -- Found the project root. Only qualify as vitest if vitest.config.ts
             -- is also here.
-            local f_vitest = io.open(current_dir .. '/vitest-base.config.ts', 'r')
+            local f_vitest = io.open(current_dir .. '/vitest.config.ts', 'r')
             if f_vitest then
               f_vitest:close()
               return current_dir
@@ -188,7 +188,7 @@ return {
             jestCommand = function(path)
               local project = find_nx_project(path)
               if project then
-                notify('🚀 Running tests in project: ' .. project)
+                notify('🚀 Running jest tests in project: ' .. project)
                 return string.format('yarn nx run %s:test %s', project, path)
               end
               return 'yarn jest --' .. path
@@ -220,7 +220,7 @@ return {
               vitestCommand = function(path)
                 local project = find_nx_project(path)
                 if project then
-                  notify('🚀 Running tests in project: ' .. project)
+                  notify('🚀 Running vitest tests in project: ' .. project)
                   return wrapper_script .. ' ' .. project
                 end
                 -- Fallback: should not happen for a vitest lib, but be safe
