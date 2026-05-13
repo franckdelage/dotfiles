@@ -59,9 +59,12 @@ M.servers = {
             completeFunctionCalls = true,
           },
           preferences = {
-            importModuleSpecifierPreference = 'non-relative',
+            importModuleSpecifierPreference = 'project-relative',
             includePackageJsonAutoImports = 'auto',
+            quoteStyle = 'single',
+            preferTypeOnlyAutoImports = true,
           },
+          preferGoToSourceDefinition = true,
         },
         javascript = {
           inlayHints = js_inlay_hints,
