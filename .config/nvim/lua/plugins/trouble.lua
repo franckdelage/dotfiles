@@ -1,7 +1,7 @@
 return {
-  'folke/trouble.nvim',
+  "folke/trouble.nvim",
   dependencies = {
-    'nvim-tree/nvim-web-devicons',
+    "nvim-tree/nvim-web-devicons",
   },
   specs = {
     "folke/snacks.nvim",
@@ -26,33 +26,91 @@ return {
   cmd = "Trouble",
   opts = {
     focus = true,
+    auto_jump = false,
     ---@type trouble.Window.opts
     win = {
-      type = 'split',
-      position = 'bottom',
+      type = "split",
+      position = "bottom",
       size = 0.2,
     },
+    ---@type trouble.Window.opts
+    preview = {
+      type = "float",
+      relative = "win",
+      border = "rounded",
+      title = "Trouble Preview",
+      title_pos = "center",
+      position = { 0, 0 },
+      anchor = "SW",
+      size = { width = 1, height = 40 },
+      zindex = 200,
+    },
+    ---@type table<string, trouble.Mode>
     modes = {
+      lsp_base = {
+        filter = function(items)
+          local current_ft = vim.bo.filetype
+          return vim.tbl_filter(function(item)
+            local path = item.file or item.filename
+            if not path or type(path) ~= "string" then return true end
+
+            if path:match("%.ngtypecheck%.ts$") then return false end
+
+            if current_ft == "typescript" then
+              if item.client == "angularls" then
+                local is_html = path:match("%.html$") or path:match("%.htmlangular$")
+                if not is_html then
+                  return false
+                end
+              end
+            end
+
+            return true
+          end, items)
+        end,
+      },
       cascade = {
-        mode = 'diagnostics', -- inherit from diagnostics mode
+        mode = "diagnostics", -- inherit from diagnostics mode
         filter = function(items)
           local severity = vim.diagnostic.severity.HINT
           for _, item in ipairs(items) do
             severity = math.min(severity, item.severity)
           end
-          return vim.tbl_filter(function(item)
-            return item.severity == severity
-          end, items)
+          return vim.tbl_filter(function(item) return item.severity == severity end, items)
         end,
       },
       diagnostics_buffer = {
-        mode = 'diagnostics', -- inherit from diagnostics mode
+        mode = "diagnostics", -- inherit from diagnostics mode
         filter = { buf = 0 }, -- filter diagnostics to the current buffer
+      },
+      symbols = {
+        desc = "document symbols",
+        mode = "lsp_document_symbols",
+        win = { position = "right" },
+        preview = {
+          type = "main",
+        },
+        focus = true,
+        filter = {
+          -- remove Package since luals uses it for control flow structures
+          ["not"] = { ft = "lua", kind = "Package" },
+          any = {
+            -- all symbol kinds for help / markdown files
+            ft = { "help", "markdown" },
+            -- default set of symbol kinds
+            kind = {
+              "Class",
+              "Constructor",
+              "Interface",
+              "Method",
+              "Property",
+            },
+          },
+        },
       },
     },
   },
   keys = {
-    ---@diagnostic disable-next-line: missing-parameter
     ---@diagnostic disable-next-line: missing-parameter
     { "grf", function() require("trouble").focus() end, desc = "Focus Trouble" },
     { "gra", "<cmd>Trouble lsp toggle<cr>", desc = "LSP all - Trouble" },
