@@ -12,6 +12,11 @@ return {
           size = 0.25,
         },
       },
+      tools = {
+        caveman = {
+          cmd = { "caveman" },
+        },
+      },
     },
   },
   keys = {
