@@ -44,5 +44,11 @@
       "model": "github-copilot/claude-sonnet-4.6",
       "temperature": 0.3
     }
+  },
+  "permission": {
+    "external_directory": {
+      "~/Work/bw-wiki/**": "allow",
+      "~/dotfiles/**": "allow"
+    }
   }
 }
