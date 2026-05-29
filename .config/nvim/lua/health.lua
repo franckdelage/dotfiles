@@ -1,10 +1,3 @@
---[[
---
--- This file is not required for your own configuration,
--- but helps people determine if their system is setup correctly.
---
---]]
-
 local check_version = function()
   local verstr = tostring(vim.version())
   if not vim.version.ge then
@@ -19,19 +12,29 @@ local check_version = function()
   end
 end
 
-local check_executables = function(title, executables)
+local function report_missing(level, message)
+  if level == 'error' then
+    vim.health.error(message)
+  elseif level == 'warn' then
+    vim.health.warn(message)
+  else
+    vim.health.info(message)
+  end
+end
+
+local check_executables = function(title, executables, missing_level)
   vim.health.start(title)
   for _, exe in ipairs(executables) do
     local is_executable = vim.fn.executable(exe) == 1
     if is_executable then
       vim.health.ok(string.format("Found executable: '%s'", exe))
     else
-      vim.health.warn(string.format("Could not find executable: '%s'", exe))
+      report_missing(missing_level or 'warn', string.format("Could not find executable: '%s'", exe))
     end
   end
 end
 
-local check_any_executable = function(title, executables)
+local check_any_executable = function(title, executables, missing_level)
   vim.health.start(title)
 
   for _, exe in ipairs(executables) do
@@ -41,7 +44,10 @@ local check_any_executable = function(title, executables)
     end
   end
 
-  vim.health.warn(string.format("Could not find any executable: '%s'", table.concat(executables, "', '")))
+  report_missing(
+    missing_level or 'warn',
+    string.format("Could not find any executable: '%s'", table.concat(executables, "', '"))
+  )
 end
 
 local check_vtsls_patch = function()
@@ -69,12 +75,11 @@ local check_vtsls_patch = function()
 end
 
 local check_external_reqs = function()
-  check_executables('Core executables', { 'git', 'make', 'unzip', 'rg', 'fd' })
-  check_executables('Node/web executables', { 'node', 'yarn' })
-  check_executables('Format/lint executables', { 'jq', 'stylua', 'luacheck', 'markdownlint', 'stylelint' })
-  check_any_executable('Prettier executable', { 'prettierd', 'prettier' })
-  check_executables('Git UI executables', { 'gh', 'lazygit' })
-  check_executables('AI/session/debug executables', { 'tmux', 'python3' })
+  check_executables('Required executables', { 'git', 'make', 'unzip', 'rg', 'fd', 'node', 'yarn' }, 'warn')
+  check_any_executable('Required formatter executable', { 'prettierd', 'prettier' }, 'warn')
+  check_executables('Feature executables', { 'jq', 'stylua', 'luacheck', 'markdownlint', 'stylelint' }, 'info')
+  check_executables('Optional Git UI executables', { 'gh', 'lazygit' }, 'info')
+  check_executables('Optional AI/session/debug executables', { 'tmux', 'python3' }, 'info')
   check_vtsls_patch()
 
   return true
@@ -82,13 +87,10 @@ end
 
 return {
   check = function()
-    vim.health.start 'kickstart.nvim'
+    vim.health.start 'personal.nvim'
 
-    vim.health.info [[NOTE: Not every warning is a 'must-fix' in `:checkhealth`
-
-  Fix only warnings for plugins and languages you intend to use.
-    Mason will give warnings for languages that are not installed.
-    You do not need to install, unless you want to use those languages!]]
+    vim.health.info [[Required warnings affect core editing/search/JS formatting.
+Feature and optional entries are informational unless you use that workflow.]]
 
     local uv = vim.uv or vim.loop
     vim.health.info('System Information: ' .. vim.inspect(uv.os_uname()))
