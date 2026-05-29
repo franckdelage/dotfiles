@@ -87,8 +87,8 @@ vim.opt.swapfile = false
 
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
-vim.wo.wrap = true
-vim.wo.linebreak = true
+vim.opt.wrap = true
+vim.opt.linebreak = true
 vim.o.tabstop = 2
 vim.o.softtabstop = 0
 vim.o.shiftwidth = 2

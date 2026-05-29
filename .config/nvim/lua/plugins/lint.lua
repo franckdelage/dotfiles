@@ -10,7 +10,6 @@ return {
         css = { 'stylelint' },
         scss = { 'stylelint' },
         json = { 'jsonlint' },
-        jsonc = { 'jsonlint' },
         lua = { 'luacheck' },
       }
 
