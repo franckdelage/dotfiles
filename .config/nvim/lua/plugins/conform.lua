@@ -9,123 +9,151 @@ return {
         function()
           local bufnr = vim.api.nvim_get_current_buf()
           local ft = vim.bo[bufnr].filetype
+          local is_ts = ft == "typescript" or ft == "javascript" or ft == "typescriptreact" or ft == "javascriptreact"
+          local is_style = ft == "css" or ft == "scss" or ft == "sass"
 
-          -- Step 1: Linter autofix
-          -- ESLint autofix for JS/TS/HTML files
-          local eslint_clients = vim.lsp.get_clients { bufnr = bufnr, name = "eslint" }
-          if #eslint_clients > 0 then
-            local client = eslint_clients[1]
-            local success, result = pcall(
-              function()
-                return client:exec_cmd({
-                  command = "eslint.executeAutofix",
-                  arguments = { { uri = vim.uri_from_bufnr(bufnr) } },
-                }, { bufnr = bufnr })
-              end
-            )
-
-            if not success or not result then
-              -- Fallback to code action approach
-              local range_params = vim.lsp.util.make_range_params(0, "utf-8")
-              local params = {
-                textDocument = range_params.textDocument,
-                range = range_params.range,
-                context = {
-                  only = { "source.fixAll.eslint" },
-                  diagnostics = vim.diagnostic.get(bufnr),
-                },
-              }
-
-              vim.lsp.buf_request(bufnr, "textDocument/codeAction", params, function(err, actions)
-                if err or not actions then return end
-
-                for _, action in ipairs(actions) do
-                  if action.kind and action.kind:match "fixAll" then
-                    if action.edit then
-                      vim.lsp.util.apply_workspace_edit(action.edit, "utf-8")
-                    elseif action.command then
-                      vim.lsp.buf_request(bufnr, "workspace/executeCommand", action.command, function() end)
-                    end
-                    break
-                  end
-                end
-              end)
+          local function apply_action(action, done)
+            if action.edit then
+              vim.lsp.util.apply_workspace_edit(action.edit, "utf-8")
             end
-            -- Small delay to let ESLint finish
-            vim.defer_fn(function() vim.cmd "silent! write" end, 100)
+            if action.command then
+              vim.lsp.buf_request(bufnr, "workspace/executeCommand", action.command, function()
+                done()
+              end)
+              return
+            end
+            done()
           end
 
-          -- Stylelint autofix for CSS/SCSS files via LSP formatting
-          -- Note: We call LSP format first, then Conform will run prettierd after
-          local stylelint_clients = vim.lsp.get_clients { bufnr = bufnr, name = "stylelint_lsp" }
-          local has_stylelint = #stylelint_clients > 0 and (ft == "css" or ft == "scss" or ft == "sass")
+          local function action_matches(action, kind)
+            return action.kind == kind or (action.kind and action.kind:match(kind:gsub("source%.", "")))
+          end
 
-          if has_stylelint then
-            -- Use LSP formatting for stylelint (applies fixes)
+          local function apply_code_action(kind, diagnostics, done)
+            local range_params = vim.lsp.util.make_range_params(0, "utf-8")
+            local params = {
+              textDocument = range_params.textDocument,
+              range = range_params.range,
+              context = {
+                only = { kind },
+                diagnostics = diagnostics or {},
+              },
+            }
+
+            vim.lsp.buf_request(bufnr, "textDocument/codeAction", params, function(err, actions)
+              if err or not actions then
+                done()
+                return
+              end
+
+              for _, action in ipairs(actions) do
+                if action_matches(action, kind) then
+                  apply_action(action, done)
+                  return
+                end
+              end
+              done()
+            end)
+          end
+
+          local function apply_code_action_sync(kind, diagnostics)
+            local range_params = vim.lsp.util.make_range_params(0, "utf-8")
+            local params = {
+              textDocument = range_params.textDocument,
+              range = range_params.range,
+              context = {
+                only = { kind },
+                diagnostics = diagnostics or {},
+              },
+            }
+
+            local results = vim.lsp.buf_request_sync(bufnr, "textDocument/codeAction", params, 2000)
+            if not results then return false end
+
+            local applied = false
+            for _, response in pairs(results) do
+              for _, action in ipairs(response.result or {}) do
+                if action_matches(action, kind) then
+                  if action.edit then
+                    vim.lsp.util.apply_workspace_edit(action.edit, "utf-8")
+                    applied = true
+                  end
+                  if action.command then
+                    vim.lsp.buf_request_sync(bufnr, "workspace/executeCommand", action.command, 2000)
+                    applied = true
+                  end
+                end
+              end
+            end
+
+            return applied
+          end
+
+          local function run_eslint(done)
+            local clients = vim.lsp.get_clients { bufnr = bufnr, name = "eslint" }
+            if #clients == 0 then
+              done()
+              return
+            end
+
+            if apply_code_action_sync("source.fixAll.eslint", vim.diagnostic.get(bufnr)) then
+              done()
+              return
+            end
+
+            local client = clients[1]
+            local ok = pcall(function()
+              client:exec_cmd({
+                command = "eslint.executeAutofix",
+                arguments = { { uri = vim.uri_from_bufnr(bufnr) } },
+              }, { bufnr = bufnr }, function()
+                done()
+              end)
+            end)
+
+            if not ok then done() end
+          end
+
+          local function run_ts_actions(done)
+            if not is_ts then
+              done()
+              return
+            end
+            apply_code_action("source.addMissingImports.ts", {}, function()
+              apply_code_action("source.removeUnused.ts", {}, done)
+            end)
+          end
+
+          local function run_stylelint(done)
+            local clients = vim.lsp.get_clients { bufnr = bufnr, name = "stylelint_lsp" }
+            if not is_style or #clients == 0 then
+              done()
+              return
+            end
+
             vim.lsp.buf.format {
               bufnr = bufnr,
+              async = false,
               timeout_ms = 2000,
               filter = function(client) return client.name == "stylelint_lsp" end,
             }
+            done()
           end
 
-          -- Step 2: TypeScript fixes (add missing + remove unused imports)
-          if ft == "typescript" or ft == "javascript" or ft == "typescriptreact" or ft == "javascriptreact" then
-            vim.defer_fn(function()
-              local actions_to_apply = { "source.addMissingImports.ts", "source.removeUnused.ts" }
-
-              for _, action_kind in ipairs(actions_to_apply) do
-                local range_params = vim.lsp.util.make_range_params(0, "utf-8")
-                local params = {
-                  textDocument = range_params.textDocument,
-                  range = range_params.range,
-                  context = {
-                    only = { action_kind },
-                    diagnostics = {},
-                  },
-                }
-
-                vim.lsp.buf_request(bufnr, "textDocument/codeAction", params, function(err, actions)
-                  if err or not actions then return end
-
-                  for _, action in ipairs(actions) do
-                    if action.kind and action.kind:match(action_kind:gsub("source%.", "")) then
-                      if action.edit then
-                        vim.lsp.util.apply_workspace_edit(action.edit, "utf-8")
-                      elseif action.command then
-                        vim.lsp.buf_request(bufnr, "workspace/executeCommand", action.command, function() end)
-                      end
-                      break
-                    end
-                  end
-                end)
-              end
-
-              -- Step 3: Conform formatting (after TS fixes)
-              vim.defer_fn(function()
-                require("conform").format({
-                  async = true,
-                  lsp_format = "fallback",
-                  bufnr = bufnr,
-                }, function(err)
-                  if err then vim.notify("Formatting error: " .. vim.inspect(err), vim.log.levels.ERROR) end
-                end)
-              end, 200)
-            end, 150)
-          else
-            -- Step 3: Just format if not TS/JS file
-            -- Add extra delay if stylelint was called to let it finish
-            local delay = has_stylelint and 250 or 150
-            vim.defer_fn(function()
-              require("conform").format({
-                async = true,
-                lsp_format = "fallback",
-                bufnr = bufnr,
-              }, function(err)
-                if err then vim.notify("Formatting error: " .. vim.inspect(err), vim.log.levels.ERROR) end
-              end)
-            end, delay)
+          local function run_conform()
+            local ok = require("conform").format({
+              async = false,
+              lsp_format = "fallback",
+              bufnr = bufnr,
+            })
+            if ok == false then vim.notify("Formatting failed", vim.log.levels.ERROR) end
           end
+
+          run_eslint(function()
+            run_ts_actions(function()
+              run_stylelint(run_conform)
+            end)
+          end)
         end,
         mode = "",
         desc = "Fix all (ESLint + TS + Format)",
@@ -141,7 +169,7 @@ return {
         scss = { "prettierd", "prettier", stop_after_first = true },
         graphql = { "prettierd", "prettier", stop_after_first = true },
         json = { "jq" },
-        jsonc = { "jq" },
+        jsonc = { "prettierd", "prettier", stop_after_first = true },
         lua = { "stylua" },
         yaml = { "prettierd" },
       },
