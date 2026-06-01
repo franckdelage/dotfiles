@@ -40,5 +40,8 @@
       "~/Work/bw-wiki/**": "allow",
       "~/dotfiles/**": "allow"
     }
-  }
+  },
+  "plugin": [
+    "openrtk"
+  ]
 }
