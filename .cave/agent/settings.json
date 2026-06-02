@@ -1,0 +1,42 @@
+{
+  "telemetry": {
+    "enabled": false
+  },
+  "onboarding": {
+    "hasCompletedOnboarding": true,
+    "completedAt": "2026-05-20T15:01:34.254Z",
+    "completedVersion": "0.65.2"
+  },
+  "lastChangelogVersion": "0.65.2",
+  "update": {
+    "lastCheckedAt": "2026-06-02T12:48:54.832Z"
+  },
+  "defaultProvider": "github-copilot",
+  "defaultModel": "claude-haiku-4.5",
+  "recentModels": [
+    {
+      "provider": "github-copilot",
+      "id": "gpt-5.5"
+    },
+    {
+      "provider": "github-copilot",
+      "id": "claude-sonnet-4.6"
+    }
+  ],
+  "model": "gpt-5.5",
+  "modes": {
+    "architect": {
+      "model": "gpt-5.5"
+    },
+    "editor": {
+      "model": "claude-haiku-4"
+    }
+  },
+  "defaultThinkingLevel": "medium",
+  "hideThinkingBlock": true,
+  "editorPaddingX": 3,
+  "steeringMode": "one-at-a-time",
+  "followUpMode": "one-at-a-time",
+  "collapseChangelog": false,
+  "treeFilterMode": "default"
+}
