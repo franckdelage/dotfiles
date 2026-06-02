@@ -42,7 +42,6 @@ return {
       },
       filetypes = {
         yaml = false,
-        markdown = false,
         help = false,
         gitrebase = false,
         hgcommit = false,
