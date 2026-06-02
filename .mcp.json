@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "angular": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@angular/cli",
+        "mcp"
+      ],
+      "enabled": true
+    }
+  }
+}
