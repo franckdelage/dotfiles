@@ -21,9 +21,6 @@ return {
       -- delay between pressing a key and opening which-key (milliseconds)
       -- this setting is independent of vim.opt.timeoutlen
       delay = function(ctx) return ctx.plugin and 0 or 200 end,
-      -- Disable which-key trigger mappings. They can corrupt per-buffer mapping
-      -- state; keep which-key as manual documentation UI instead.
-      triggers = {},
       icons = {
         -- set icon mappings to true if you have a Nerd Font
         mappings = vim.g.have_nerd_font,
@@ -90,15 +87,6 @@ return {
         { "<leader>y", group = "Yank file data" },
         { "<leader>r", group = "Refactoring" },
         { "<leader>rx", group = "Print expression" },
-      },
-    },
-    keys = {
-      {
-        "<leader>?",
-        function()
-          require("which-key").show { keys = "<leader>", mode = "n" }
-        end,
-        desc = "Show leader keymaps",
       },
     },
   },
