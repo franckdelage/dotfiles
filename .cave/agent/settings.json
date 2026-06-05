@@ -9,10 +9,12 @@
   },
   "lastChangelogVersion": "0.65.2",
   "update": {
-    "lastCheckedAt": "2026-06-02T12:48:54.832Z"
+    "lastCheckedAt": "2026-06-05T07:00:19.084Z"
   },
   "defaultProvider": "github-copilot",
   "defaultModel": "claude-haiku-4.5",
+  "defaultThinkingLevel": "medium",
+  "hideThinkingBlock": false,
   "recentModels": [
     {
       "provider": "github-copilot",
@@ -23,7 +25,6 @@
       "id": "claude-sonnet-4.6"
     }
   ],
-  "model": "gpt-5.5",
   "modes": {
     "architect": {
       "model": "gpt-5.5"
@@ -32,11 +33,28 @@
       "model": "claude-haiku-4"
     }
   },
-  "defaultThinkingLevel": "medium",
-  "hideThinkingBlock": true,
   "editorPaddingX": 3,
   "steeringMode": "one-at-a-time",
   "followUpMode": "one-at-a-time",
   "collapseChangelog": false,
-  "treeFilterMode": "default"
+  "treeFilterMode": "default",
+  "caveMode": {
+    "enabled": true,
+    "intensity": "ultra",
+    "toolCompression": true
+  },
+  "rtk": {
+    "enabled": true
+  },
+  "prompts": [
+    "~/Developer/bw-blueweb/.github/prompts"
+  ],
+  "skills": [
+    "~/Developer/bw-blueweb/.github/skills"
+  ],
+  "enabledModels": [
+    "claude-haiku-4",
+    "claude-sonnet-4.6",
+    "gpt-5.5"
+  ]
 }
