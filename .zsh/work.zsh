@@ -12,7 +12,7 @@ alias nxgc='yarn nx g @ngneat/spectator:spectator-component'
 alias nxgs='yarn nx g @ngneat/spectator:spectator-service'
 alias nxgd='yarn nx g @ngneat/spectator:spectator-directive'
 
-alias apirequests="cd ~/Developer && mkdir -p mitm-files && cd mitm-files && mitmproxy --listen-port=8080 --set view_filter='!beacon & !pharos' --set console_focus_follow=true --set console_default_contentview='json'"
+alias apirequests="cd ~/Developer && mkdir -p mitm-files && cd mitm-files && mitmproxy --listen-port=8080 --set view_filter='!beacon & !pharos' --set console_focus_follow=true --set console_default_contentview='json' --mode upstream:http://127.0.0.1:8081 --ssl-insecure"
 
 alias appstart='yarn nx run touchpoint-web:serve:ute3'
 alias gqlstart='HTTPS_PROXY=http://localhost:8080 NODE_TLS_REJECT_UNAUTHORIZED=0 FEATURE_ENV=localhost yarn nx run gql:serve:ute3'
@@ -26,3 +26,5 @@ alias serverstartute2='yarn nx run touchpoint-web:server:ute2'
 alias introspect='(cd apps/gql && yarn graphql:introspect)'
 
 alias nxr='clear && yarn nx run'
+
+alias mocksengine="mkdir -p ~/Developer/mitm/mocked-responses && mkdir -p ~/Developer/mitm/scripts && touch ~/Developer/mitm/scripts/save_responses.py && mitmdump -s ~/Developer/mitm/scripts/save_responses.py --listen-port 8081"

@@ -28,7 +28,7 @@ alias nxgc='yarn nx g @ngneat/spectator:spectator-component'
 alias nxgs='yarn nx g @ngneat/spectator:spectator-service'
 alias nxgd='yarn nx g @ngneat/spectator:spectator-directive'
 
-alias apirequests="cd ~/Developer && mkdir -p mitm-files && cd mitm-files && mitmproxy --listen-port=8080 --set view_filter='!beacon & !pharos' --set console_focus_follow=true --set console_default_contentview='json'"
+# alias apirequests="cd ~/Developer && mkdir -p mitm-files && cd mitm-files && mitmproxy --listen-port=8080 --set view_filter='!beacon & !pharos' --set console_focus_follow=true --set console_default_contentview='json'"
 
 alias appstart='yarn nx run touchpoint-web:serve'
 alias gqlstart='HTTPS_PROXY=http://localhost:8080 NODE_TLS_REJECT_UNAUTHORIZED=0 FEATURE_ENV=localhost yarn nx run gql:serve:ute3'
