@@ -27,6 +27,17 @@ function M.setup()
     })
   end
 
+  vim.api.nvim_create_autocmd({ "FileType", "BufWinEnter" }, {
+    group = augroup,
+    pattern = "*",
+    callback = function(event)
+      if vim.bo[event.buf].buftype ~= "quickfix" then return end
+      for _, client in ipairs(vim.lsp.get_clients { bufnr = event.buf }) do
+        vim.lsp.buf_detach_client(event.buf, client.id)
+      end
+    end,
+  })
+
   -- Special handling for eslint - enable it explicitly
   vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
     group = augroup,

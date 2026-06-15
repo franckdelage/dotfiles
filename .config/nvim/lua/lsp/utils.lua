@@ -31,6 +31,9 @@ function M.start_lsp_server(server_config, bufnr)
   -- Don't attach LSP to CodeDiff virtual buffers (codediff:// URIs cause URI parse errors)
   if bufname:match("^codediff://") then return end
 
+  -- quickfix buffers are mutated by setqflist(); LSP incremental sync crashes on those edits.
+  if vim.bo[bufnr].buftype == 'quickfix' then return end
+
   local root_dir = M.find_root(server_config.root_patterns, bufname ~= '' and bufname or nil)
 
   -- Special handling for ESLint - only start if config files exist

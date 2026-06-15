@@ -6,6 +6,11 @@ function M.setup()
   vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
     callback = function(event)
+      if vim.bo[event.buf].buftype == 'quickfix' then
+        pcall(vim.lsp.buf_detach_client, event.buf, event.data.client_id)
+        return
+      end
+
       local map = function(keys, func, desc, mode)
         mode = mode or 'n'
         vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
