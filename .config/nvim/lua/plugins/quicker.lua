@@ -1,6 +1,6 @@
 return {
   "stevearc/quicker.nvim",
-  ft = "qf",
+  event = "VeryLazy",
   config = function()
     vim.keymap.set("n", "<leader>Q", function() require("quicker").toggle() end, { desc = "Toggle quickfix" })
     vim.keymap.set("n", "<leader>L", function() require("quicker").toggle { loclist = true } end, { desc = "Toggle loclist" })
