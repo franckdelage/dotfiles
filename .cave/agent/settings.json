@@ -9,7 +9,7 @@
   },
   "lastChangelogVersion": "0.65.2",
   "update": {
-    "lastCheckedAt": "2026-06-11T07:05:04.547Z"
+    "lastCheckedAt": "2026-06-12T07:28:46.198Z"
   },
   "defaultProvider": "github-copilot",
   "defaultModel": "claude-haiku-4.5",
