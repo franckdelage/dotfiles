@@ -23,6 +23,18 @@ return {
       },
       diff_viewer = "codediff",
       graph_style = "unicode",
+      signs = {
+        -- { CLOSED, OPENED }
+        hunk = { "", "" },
+        item = { "", "" },
+        section= { "", "" },
+      },
+      remember_settings = false,
+      commit_editor = {
+        staged_diff_split_kind = "auto",
+        spell_check = true,
+      },
+      log_pager = { 'delta', '--width', '300' },
     }
   end,
 }
