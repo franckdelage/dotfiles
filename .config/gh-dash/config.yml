@@ -19,7 +19,7 @@ repo:
   prsRefetchIntervalSeconds: 60
 defaults:
   preview:
-    open: false
+    open: true
     width: 70
   prsLimit: 20
   prApproveComment: LGTM
@@ -68,6 +68,12 @@ keybindings:
         tmux new-window -n {{.RepoName}}
         'nvim -c
         ":silent Octo pr edit {{.PrNumber}}"'
+    - key: T
+      name: See Actions
+      command: >-
+        tmux new-window '
+        gh enhance -R {{.RepoName}} {{.PrNumber}}
+        '
 repoPaths: {}
 theme:
   ui:
