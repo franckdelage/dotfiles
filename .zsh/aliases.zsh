@@ -14,6 +14,7 @@ alias ll='eza -l --icons -h'
 alias la='eza -l -a --icons -h'
 
 alias com='git commit'
+alias gdiff='git diff | delta --side-by-side'
 
 alias -g wch='--watch'
 alias -g noCov='--coverage false'
