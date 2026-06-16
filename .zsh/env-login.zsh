@@ -9,3 +9,5 @@ export PATH="$HOME/.local/bin:$PATH"
 export EDITOR=nvim
 
 export BAT_THEME="Catppuccin Frappe"
+
+export ENHANCE_THEME=kanagawa
