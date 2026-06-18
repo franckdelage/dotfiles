@@ -131,7 +131,6 @@ ctrl-alt-shift-v = 'workspace V'
 ctrl-alt-shift-w = 'workspace W'
 ctrl-alt-shift-x = 'workspace X'
 ctrl-alt-shift-y = 'workspace Y'
-ctrl-alt-shift-z = 'workspace Z'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 alt-shift-1 = ['move-node-to-workspace 1', 'workspace 1']
@@ -157,7 +156,8 @@ alt-shift-v = ['move-node-to-workspace V', 'workspace V']
 alt-shift-w = ['move-node-to-workspace W', 'workspace W']
 alt-shift-x = ['move-node-to-workspace X', 'workspace X']
 alt-shift-y = ['move-node-to-workspace Y', 'workspace Y']
-alt-shift-z = ['move-node-to-workspace Z', 'workspace Z']
+
+alt-shift-z = 'fullscreen'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 alt-tab = 'workspace-back-and-forth'
@@ -199,7 +199,6 @@ C = 'asus'
 D = 'asus'
 E = 'asus'
 X = 'asus'
-Z = 'asus'
 
 [[on-window-detected]]
 if.app-id = 'com.github.wez.wezterm'
