@@ -34,7 +34,6 @@ return {
         staged_diff_split_kind = "auto",
         spell_check = true,
       },
-      log_pager = { 'delta' },
     }
   end,
 }
