@@ -5,6 +5,7 @@ alias cd='j'
 alias cdc='j ~ && clear'
 
 alias vim='nvim'
+alias v='nvim'
 
 alias mux='tmuxinator start'
 alias bw='tmuxinator start aviato-workspace'
