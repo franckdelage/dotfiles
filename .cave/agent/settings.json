@@ -9,10 +9,10 @@
   },
   "lastChangelogVersion": "0.65.2",
   "update": {
-    "lastCheckedAt": "2026-06-29T07:14:18.346Z"
+    "lastCheckedAt": "2026-07-02T14:32:51.822Z"
   },
   "defaultProvider": "github-copilot",
-  "defaultModel": "gpt-5.5",
+  "defaultModel": "claude-haiku-4.5",
   "defaultThinkingLevel": "medium",
   "hideThinkingBlock": false,
   "recentModels": [
