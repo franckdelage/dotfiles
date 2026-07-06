@@ -30,20 +30,8 @@ return {
     ---@type trouble.Window.opts
     win = {
       type = "split",
-      position = "bottom",
-      size = 0.2,
-    },
-    ---@type trouble.Window.opts
-    preview = {
-      type = "float",
-      relative = "win",
-      border = "rounded",
-      title = "Trouble Preview",
-      title_pos = "center",
-      position = { 0, 0 },
-      anchor = "SW",
-      size = { width = 1, height = 40 },
-      zindex = 200,
+      position = "right",
+      size = 0.3,
     },
     ---@type table<string, trouble.Mode>
     modes = {
