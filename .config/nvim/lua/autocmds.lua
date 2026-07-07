@@ -22,3 +22,26 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
+
+-- Restart command
+vim.api.nvim_create_user_command("Restart", function()
+  vim.api.nvim_exec_autocmds("User", {
+    pattern = "BeforeRestart",
+  })
+
+  vim.cmd("restart")
+end, {})
+
+-- Hooks
+local beforeRestartGroup = vim.api.nvim_create_augroup(
+  "BeforeRestartHooks",
+  { clear = true }
+)
+
+vim.api.nvim_create_autocmd("User", {
+  group = beforeRestartGroup,
+  pattern = "BeforeRestart",
+  callback = function()
+    vim.cmd("AutoSession save " .. require("auto-session.lib").current_session_name(true))
+  end,
+})
