@@ -15,7 +15,7 @@ return {
         lualine_b = { 'filename', 'branch', 'diff' },
         lualine_c = {
           function()
-            return 'Session: ' .. require('auto-session.lib').current_session_name(true)
+            return 'Session: ' .. (require('auto-session.lib').current_session_name(true) or 'None')
           end,
           '%=',
           'lsp_status',
