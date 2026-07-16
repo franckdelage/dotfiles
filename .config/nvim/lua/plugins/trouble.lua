@@ -35,6 +35,12 @@ return {
     },
     ---@type table<string, trouble.Mode>
     modes = {
+      diagnostics = {
+        win = {
+          position = "bottom",
+          size = 0.3,
+        },
+      },
       lsp_base = {
         filter = function(items)
           local current_ft = vim.bo.filetype
