@@ -9,12 +9,12 @@
   },
   "lastChangelogVersion": "0.65.2",
   "update": {
-    "lastCheckedAt": "2026-07-06T12:31:31.767Z"
+    "lastCheckedAt": "2026-07-15T11:46:49.151Z"
   },
   "defaultProvider": "github-copilot",
-  "defaultModel": "claude-haiku-4.5",
+  "defaultModel": "gpt-5.6-terra",
   "defaultThinkingLevel": "medium",
-  "hideThinkingBlock": false,
+  "hideThinkingBlock": true,
   "recentModels": [
     {
       "provider": "github-copilot",
@@ -27,10 +27,10 @@
   ],
   "modes": {
     "architect": {
-      "model": "gpt-5.5"
+      "model": "gpt-5.6-sol"
     },
     "editor": {
-      "model": "claude-haiku-4"
+      "model": "gpt-5.6-luna"
     }
   },
   "editorPaddingX": 3,
@@ -54,7 +54,8 @@
   ],
   "enabledModels": [
     "claude-haiku-4",
-    "claude-sonnet-4.6",
-    "gpt-5.5"
+    "gpt-5.6-terra",
+    "gpt-5.6-luna",
+    "gpt-5.6-sol"
   ]
 }
