@@ -9,7 +9,7 @@
   },
   "lastChangelogVersion": "0.65.2",
   "update": {
-    "lastCheckedAt": "2026-07-17T06:27:35.588Z"
+    "lastCheckedAt": "2026-07-21T05:57:28.617Z"
   },
   "defaultProvider": "github-copilot",
   "defaultModel": "gpt-5.6-sol",
