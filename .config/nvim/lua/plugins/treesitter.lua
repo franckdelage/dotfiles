@@ -10,6 +10,7 @@ return {
         'bash',
         'c',
         'diff',
+        'dart',
         'html',
         'lua',
         'luadoc',
@@ -25,6 +26,8 @@ return {
         'graphql',
         'css',
         'scss',
+        'sql',
+        'toml',
         'yaml',
       }
 

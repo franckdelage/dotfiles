@@ -56,6 +56,7 @@ return {
         'stylua',
         'marksman',
         'cucumber-language-server',
+        'postgres-language-server',
       },
     },
   },

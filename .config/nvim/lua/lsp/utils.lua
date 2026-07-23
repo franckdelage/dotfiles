@@ -28,6 +28,8 @@ end
 function M.start_lsp_server(server_config, bufnr)
   local bufname = vim.api.nvim_buf_get_name(bufnr)
 
+  if server_config.condition and not server_config.condition(bufname) then return end
+
   -- Don't attach LSP to CodeDiff virtual buffers (codediff:// URIs cause URI parse errors)
   if bufname:match("^codediff://") then return end
 
