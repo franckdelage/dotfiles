@@ -3,9 +3,11 @@ return {
     'nvim-neotest/neotest',
     -- commit = '52fca6717ef972113ddd6ca223e30ad0abb2800c',
     lazy = true,
+    ft = 'dart',
     dependencies = {
       'nvim-neotest/neotest-jest',
       'marilari88/neotest-vitest',
+      'sidlatau/neotest-dart',
       'nvim-lua/plenary.nvim',
       'nvim-treesitter/nvim-treesitter',
       'nvim-neotest/nvim-nio',
@@ -178,11 +180,39 @@ return {
       local nvim_config_root = vim.fn.fnamemodify(this_file, ':h:h:h')
       local wrapper_script = nvim_config_root .. '/scripts/nx-vitest-wrapper.sh'
 
+      local dart_adapter = require('neotest-dart') {
+        command = 'flutter',
+        use_lsp = true,
+      }
+      local dart_build_spec = dart_adapter.build_spec
+      dart_adapter.build_spec = function(args)
+        local spec = dart_build_spec(args)
+        if not spec.stream then return spec end
+
+        local stream = spec.stream
+        spec.stream = function(data)
+          local next_results = stream(data)
+          return function()
+            local results = next_results()
+            for _, result in pairs(results or {}) do
+              -- Streaming output is raw text, but Neotest treats `output` as a file path.
+              if result.output and not vim.uv.fs_stat(result.output) then
+                result.short = result.short or result.output
+                result.output = nil
+              end
+            end
+            return results
+          end
+        end
+        return spec
+      end
+
       require('neotest').setup {
         discovery = {
           enabled = false, -- Disable automatic discovery
         },
         adapters = {
+          dart_adapter,
           require 'neotest-jest' {
             jest_test_discovery = false, -- Disable automatic discovery
             jestCommand = function(path)

@@ -166,6 +166,7 @@ return {
         html = { "eslint", "prettierd" },
         htmlangular = { "eslint", "prettierd" },
         css = { "prettierd", "prettier", stop_after_first = true },
+        dart = { "dart_format" },
         scss = { "prettierd", "prettier", stop_after_first = true },
         graphql = { "prettierd", "prettier", stop_after_first = true },
         json = { "jq" },

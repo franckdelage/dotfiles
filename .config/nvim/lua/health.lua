@@ -5,7 +5,7 @@ local check_version = function()
     return
   end
 
-  if vim.version.ge(vim.version(), '0.10-dev') then
+  if vim.version.ge(vim.version(), '0.12') then
     vim.health.ok(string.format("Neovim version is: '%s'", verstr))
   else
     vim.health.error(string.format("Neovim out of date: '%s'. Upgrade to latest stable or nightly", verstr))
@@ -75,9 +75,11 @@ local check_vtsls_patch = function()
 end
 
 local check_external_reqs = function()
-  check_executables('Required executables', { 'git', 'make', 'unzip', 'rg', 'fd', 'node', 'yarn' }, 'warn')
+  check_executables('Required executables', { 'git', 'make', 'unzip', 'curl', 'tar', 'tree-sitter', 'rg', 'fd', 'node', 'yarn' }, 'warn')
   check_any_executable('Required formatter executable', { 'prettierd', 'prettier' }, 'warn')
   check_executables('Feature executables', { 'jq', 'stylua', 'luacheck', 'markdownlint', 'stylelint' }, 'info')
+  check_executables('Flutter executables', { 'flutter', 'dart' }, 'info')
+  check_executables('Supabase executables', { 'supabase', 'deno', 'docker', 'postgres-language-server' }, 'info')
   check_executables('Optional Git UI executables', { 'gh', 'lazygit' }, 'info')
   check_executables('Optional AI/session/debug executables', { 'tmux', 'python3' }, 'info')
   check_vtsls_patch()

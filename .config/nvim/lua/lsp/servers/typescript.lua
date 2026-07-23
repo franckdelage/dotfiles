@@ -26,6 +26,14 @@ M.servers = {
     filetypes = { 'typescript', 'javascript', 'typescriptreact', 'javascriptreact' },
     root_patterns = { 'nx.json', 'angular.json', 'package.json', 'tsconfig.json' },
     name = 'vtsls',
+    condition = function(path)
+      local start_path = vim.fn.isdirectory(path) == 1 and path or vim.fs.dirname(path)
+      local deno_config = vim.fs.find({ 'deno.json', 'deno.jsonc' }, {
+        path = start_path,
+        upward = true,
+      })
+      return #deno_config == 0
+    end,
     init_options = {
       hostInfo = 'neovim',
     },
