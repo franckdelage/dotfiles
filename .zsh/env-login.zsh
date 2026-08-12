@@ -11,3 +11,5 @@ export EDITOR=nvim
 export BAT_THEME="Catppuccin Frappe"
 
 export ENHANCE_THEME=kanagawa
+
+export CAVE_MEMORY_AUTO_RECORD=1
