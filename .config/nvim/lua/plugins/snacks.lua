@@ -207,7 +207,23 @@ return {
       },
     },
     scratch = { enabled = true },
-    scroll = { enabled = true },
+    scroll = {
+      enabled = true,
+      filter = function(buf)
+        local disabled = vim.g.snacks_scroll == false
+          or vim.b[buf].snacks_scroll == false
+          or vim.bo[buf].buftype == "terminal"
+        if disabled then
+          return false
+        end
+        for _, win in ipairs(vim.fn.win_findbuf(buf)) do
+          if vim.t[vim.api.nvim_win_get_tabpage(win)].codediff_active then
+            return false
+          end
+        end
+        return true
+      end,
+    },
     statuscolumn = { enabled = true },
     toggle = {},
     words = { enabled = true },
