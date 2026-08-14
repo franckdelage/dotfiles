@@ -9,12 +9,12 @@
   },
   "lastChangelogVersion": "0.65.2",
   "update": {
-    "lastCheckedAt": "2026-08-13T06:05:05.362Z"
+    "lastCheckedAt": "2026-08-14T06:10:42.361Z"
   },
   "defaultProvider": "github-copilot",
   "defaultModel": "gpt-5.6-sol",
   "defaultThinkingLevel": "medium",
-  "hideThinkingBlock": false,
+  "hideThinkingBlock": true,
   "recentModels": [
     {
       "provider": "github-copilot",
@@ -35,7 +35,7 @@
   },
   "editorPaddingX": 3,
   "steeringMode": "one-at-a-time",
-  "followUpMode": "one-at-a-time",
+  "followUpMode": "all",
   "collapseChangelog": false,
   "treeFilterMode": "default",
   "caveMode": {
@@ -46,12 +46,6 @@
   "rtk": {
     "enabled": true
   },
-  "prompts": [
-    "~/Developer/bw-blueweb/.github/prompts"
-  ],
-  "skills": [
-    "~/Developer/bw-blueweb/.github/skills"
-  ],
   "enabledModels": [
     "claude-haiku-4",
     "gpt-5.6-terra",
