@@ -1,6 +1,10 @@
 export JIRA_URL="https://jira.devnet.klm.com"
 export JIRA_NAME="T206002"
 
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
 alias smokerecord='clear && yarn nx run e2e:record'
 alias smokereplay='clear && yarn nx run e2e:replay'
 alias smokeheadless='clear && yarn nx run e2e:headless'
