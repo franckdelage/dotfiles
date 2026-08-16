@@ -161,6 +161,7 @@ return {
       },
     },
     input = { enabled = true },
+    image = { enabled = true },
     lazygit = { enabled = true },
     notifier = { enabled = true },
     picker = {
