@@ -17,6 +17,7 @@ return {
       { "<leader>Fo", "<cmd>FlutterOutlineToggle<cr>", desc = "Flutter outline" },
       { "<leader>Ft", "<cmd>FlutterDevTools<cr>", desc = "Start Flutter DevTools" },
       { "<leader>FO", "<cmd>FlutterOpenDevTools<cr>", desc = "Open Flutter DevTools" },
+      { "<leader>Fg", "<cmd>FlutterLogToggle<cr>", desc = "Flutter toggle Log" },
     },
     config = function()
       require("flutter-tools").setup {
@@ -28,7 +29,7 @@ return {
           enabled = true,
         },
         closing_tags = {
-          enabled = true,
+          enabled = false,
         },
         lsp = {
           capabilities = require("blink.cmp").get_lsp_capabilities(),
