@@ -12,11 +12,6 @@ return {
           size = 0.25,
         },
       },
-      tools = {
-        caveman_opencode = {
-          cmd = { "caveman", "opencode" },
-        },
-      },
     },
   },
   keys = {
@@ -55,11 +50,6 @@ return {
       function() require("sidekick.cli").prompt({ filter = { installed = true } }) end,
       mode = { "n", "x" },
       desc = "Sidekick Select Prompt",
-    },
-    {
-      "<leader>ac",
-      function() require("sidekick.cli").toggle({ name = "caveman_opencode", focus = true }) end,
-      desc = "Sidekick Toggle Caveman OpenCode",
     },
     {
       "<leader>ao",
