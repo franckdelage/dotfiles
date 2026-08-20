@@ -33,6 +33,13 @@
         "mcp"
       ],
       "enabled": true
+    },
+    "caveman": {
+      "type": "local",
+      "command": [
+        "/Users/franckdelage/.caveman/bin/caveman-mcp"
+      ],
+      "enabled": true
     }
   },
   "permission": {
@@ -43,5 +50,17 @@
   },
   "plugin": [
     "openrtk"
-  ]
+  ],
+  "provider": {
+    "openai": {
+      "options": {
+        "baseURL": "http://127.0.0.1:8787/w/opencode/openai/v1"
+      }
+    },
+    "anthropic": {
+      "options": {
+        "baseURL": "http://127.0.0.1:8787/w/opencode/anthropic/v1"
+      }
+    }
+  }
 }

@@ -13,8 +13,8 @@ return {
         },
       },
       tools = {
-        caveman = {
-          cmd = { "caveman" },
+        caveman_opencode = {
+          cmd = { "caveman", "opencode" },
         },
       },
     },
@@ -58,8 +58,8 @@ return {
     },
     {
       "<leader>ac",
-      function() require("sidekick.cli").toggle({ name = "caveman", focus = true }) end,
-      desc = "Sidekick Toggle Caveman",
+      function() require("sidekick.cli").toggle({ name = "caveman_opencode", focus = true }) end,
+      desc = "Sidekick Toggle Caveman OpenCode",
     },
     {
       "<leader>ao",
