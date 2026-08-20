@@ -7,8 +7,6 @@ alias cdc='j ~ && clear'
 alias vim='nvim'
 alias v='nvim'
 
-alias opencode='caveman opencode'
-
 alias mux='tmuxinator start'
 alias bw='tmuxinator start aviato-workspace'
 
