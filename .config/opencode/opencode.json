@@ -1,22 +1,27 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "formatter": false,
-  "share": "disabled",
-  "enabled_providers": [
-    "github-copilot"
-  ],
+  "formatter": {
+    "prettier": {
+      "disabled": true
+    }
+  },
   "mcp": {
     "context7": {
       "type": "remote",
       "url": "https://mcp.context7.com/mcp",
       "enabled": true,
       "headers": {
-        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+        "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
       }
     },
     "atlassian": {
-      "type": "remote",
-      "url": "https://mcp.atlassian.com/v1/mcp",
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "mcp-remote",
+        "https://mcp.atlassian.com/v1/mcp"
+      ],
       "enabled": true
     },
     "angular": {
@@ -27,7 +32,7 @@
         "@angular/cli",
         "mcp"
       ],
-      "enabled": false
+      "enabled": true
     },
     "caveman": {
       "type": "local",
@@ -43,10 +48,9 @@
       "~/dotfiles/**": "allow"
     }
   },
-  "compaction": {
-    "auto": true,
-    "prune": true
-  },
+  "plugin": [
+    "openrtk"
+  ],
   "provider": {
     "openai": {
       "options": {
