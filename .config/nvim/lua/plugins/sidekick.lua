@@ -12,11 +12,6 @@ return {
           size = 0.25,
         },
       },
-      tools = {
-        caveman = {
-          cmd = { "caveman" },
-        },
-      },
     },
   },
   keys = {
@@ -34,7 +29,6 @@ return {
     { "<leader>am", "<cmd>Sidekick nes update<cr>", mode = { "n" }, desc = "Update NES Suggestions" },
     { "<leader>ax", "<cmd>Sidekick nes clear<cr>", mode = { "n", "i", "x", "t" }, desc = "Clear NES Suggestions" },
     { "<c-g>", function() require("sidekick.cli").toggle({ filter = { installed = true } }) end, desc = "Sidekick Toggle", mode = { "n", "t", "i", "x" } },
-    { "<leader>aa", function() require("sidekick.cli").toggle({ filter = { installed = true } }) end, desc = "Sidekick Toggle CLI" },
     { "<leader>as", function() require("sidekick.cli").select({ filter = { installed = true } }) end, desc = "Select CLI" },
     { "<leader>ad", function() require("sidekick.cli").close() end, desc = "Detach a CLI Session" },
     { "<leader>af", function() require("sidekick.cli").send({ msg = "{file}", filter = { installed = true } }) end, desc = "Send File" },
@@ -57,9 +51,9 @@ return {
       desc = "Sidekick Select Prompt",
     },
     {
-      "<leader>ac",
-      function() require("sidekick.cli").toggle({ name = "caveman", focus = true }) end,
-      desc = "Sidekick Toggle Caveman",
+      "<leader>aa",
+      function() require("sidekick.cli").toggle({ name = "pi", focus = true }) end,
+      desc = "Sidekick Toggle Pi",
     },
     {
       "<leader>ao",
