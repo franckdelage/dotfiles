@@ -15,8 +15,13 @@
     "npm:pi-kanagawa",
     {
       "source": "git:github.com/tmustier/pi-extensions",
-      "extensions": ["pi-ralph-wiggum/index.ts"],
-      "skills": ["pi-ralph-wiggum/SKILL.md"]
-    }
+      "extensions": [
+        "pi-ralph-wiggum/index.ts"
+      ],
+      "skills": [
+        "pi-ralph-wiggum/SKILL.md"
+      ]
+    },
+    "npm:@narumitw/pi-plan-mode"
   ]
 }
