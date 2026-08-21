@@ -1,0 +1,22 @@
+{
+  "lastChangelogVersion": "0.84.2",
+  "theme": "kanagawa",
+  "defaultProvider": "github-copilot",
+  "defaultModel": "gpt-5.6-sol",
+  "defaultThinkingLevel": "medium",
+  "followUpMode": "all",
+  "enabledModels": [
+    "gpt-5.6-sol",
+    "gpt-5.6-terra",
+    "gpt-5.6-luna"
+  ],
+  "packages": [
+    "npm:@xynogen/pix-optimizer",
+    "npm:pi-kanagawa",
+    {
+      "source": "git:github.com/tmustier/pi-extensions",
+      "extensions": ["pi-ralph-wiggum/index.ts"],
+      "skills": ["pi-ralph-wiggum/SKILL.md"]
+    }
+  ]
+}
