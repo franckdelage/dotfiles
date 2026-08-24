@@ -35,8 +35,29 @@ function M.setup()
       },
     } or {},
     virtual_text = false,
-    virtual_lines = { current_line = true },
+    virtual_lines = false,
   }
+
+  local diagnostic_float_group =
+    vim.api.nvim_create_augroup("PersonalDiagnosticFloat", { clear = true })
+
+  vim.api.nvim_create_autocmd("CursorHold", {
+    desc = "Show line diagnostics in a floating window",
+    group = diagnostic_float_group,
+    callback = function()
+      local bufnr = vim.api.nvim_get_current_buf()
+      if vim.bo[bufnr].buftype ~= "" then return end
+
+      local line = vim.api.nvim_win_get_cursor(0)[1] - 1
+      if #vim.diagnostic.get(bufnr, { lnum = line }) == 0 then return end
+
+      vim.diagnostic.open_float(bufnr, {
+        scope = "line",
+        focusable = false,
+        close_events = { "BufHidden", "CursorMoved", "CursorMovedI", "InsertEnter" },
+      })
+    end,
+  })
 end
 
 return M
