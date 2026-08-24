@@ -11,7 +11,6 @@
     "gpt-5.6-luna"
   ],
   "packages": [
-    "npm:@xynogen/pix-optimizer",
     "npm:pi-kanagawa",
     {
       "source": "git:github.com/tmustier/pi-extensions",
@@ -22,6 +21,7 @@
         "pi-ralph-wiggum/SKILL.md"
       ]
     },
-    "npm:@narumitw/pi-plan-mode"
+    "npm:@narumitw/pi-plan-mode",
+    "npm:@xynogen/pix-core"
   ]
 }
