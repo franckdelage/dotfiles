@@ -1,46 +1,41 @@
-return {
-  { -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
-    branch = 'main',
-    lazy = false,
-    build = ':TSUpdate',
-    config = function()
-      -- Install parsers (no-op if already installed)
-      require('nvim-treesitter').install {
-        'bash',
-        'c',
-        'diff',
-        'dart',
-        'html',
-        'lua',
-        'luadoc',
-        'markdown',
-        'markdown_inline',
-        'query',
-        'vim',
-        'vimdoc',
-        'typescript',
-        'tsx',
-        'javascript',
-        'json',
-        'graphql',
-        'css',
-        'scss',
-        'sql',
-        'toml',
-        'yaml',
-      }
+local parsers = {
+  "bash",
+  "c",
+  "diff",
+  "dart",
+  "html",
+  "lua",
+  "luadoc",
+  "markdown",
+  "markdown_inline",
+  "query",
+  "vim",
+  "vimdoc",
+  "typescript",
+  "tsx",
+  "javascript",
+  "json",
+  "graphql",
+  "css",
+  "scss",
+  "sql",
+  "toml",
+  "yaml",
+}
 
-      -- Enable treesitter highlighting for all filetypes.
-      -- pcall guards against filetypes that have no parser installed.
-      -- Note: treesitter indent (indentexpr) is intentionally not set here —
-      -- it is broken on nvim-treesitter main for TypeScript/JavaScript.
-      -- Waiting for upstream fix: https://github.com/nvim-treesitter/nvim-treesitter
-      vim.api.nvim_create_autocmd('FileType', {
-        group = vim.api.nvim_create_augroup('nvim-treesitter-ft', { clear = true }),
-        callback = function()
-          pcall(vim.treesitter.start)
-        end,
+return {
+  {
+    "nvim-treesitter/nvim-treesitter",
+    branch = "main",
+    lazy = false,
+    build = function() require("nvim-treesitter").install(parsers):wait(300000) end,
+    config = function()
+      -- Parsers are installed only when the plugin is installed or updated. Normal startup
+      -- only enables highlighting for available parsers.
+      vim.api.nvim_create_autocmd("FileType", {
+        desc = "Enable Treesitter highlighting when a parser is available",
+        group = vim.api.nvim_create_augroup("PersonalTreesitter", { clear = true }),
+        callback = function() pcall(vim.treesitter.start) end,
       })
     end,
   },

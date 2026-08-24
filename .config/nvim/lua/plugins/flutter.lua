@@ -1,7 +1,19 @@
 return {
   {
     "nvim-flutter/flutter-tools.nvim",
-    lazy = false,
+    ft = "dart",
+    cmd = {
+      "FlutterRun",
+      "FlutterDevices",
+      "FlutterEmulators",
+      "FlutterReload",
+      "FlutterRestart",
+      "FlutterQuit",
+      "FlutterOutlineToggle",
+      "FlutterDevTools",
+      "FlutterOpenDevTools",
+      "FlutterLogToggle",
+    },
     dependencies = {
       "nvim-lua/plenary.nvim",
       "mfussenegger/nvim-dap",

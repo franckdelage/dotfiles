@@ -12,7 +12,7 @@ function M.setup()
   -- Setup keymaps and LspAttach autocmd
   keymaps.setup()
 
-  local augroup = vim.api.nvim_create_augroup('LspAutocmds', { clear = true })
+  local augroup = vim.api.nvim_create_augroup("LspAutocmds", { clear = true })
 
   -- Create autocmds for each server based on filetype
   for _, server_config in pairs(servers.servers) do
@@ -38,23 +38,19 @@ function M.setup()
     end,
   })
 
-  -- Special handling for eslint - enable it explicitly
-  vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
-    group = augroup,
-    pattern = { "*.ts", "*.js", "*.tsx", "*.jsx", "*.html" },
-    callback = function(event)
-      local clients = vim.lsp.get_clients { bufnr = event.buf, name = "eslint" }
-      if #clients == 0 then utils.start_lsp_server(servers.servers.eslint, event.buf) end
-    end,
-  })
-
-  -- Autocmd to handle file renames in Oil
+  -- Notify LSP clients about every file moved through Oil.
   vim.api.nvim_create_autocmd("User", {
+    desc = "Notify LSP clients after Oil file moves",
     group = augroup,
     pattern = "OilActionsPost",
     callback = function(event)
-      if event.data.actions[1].type == "move" then
-        Snacks.rename.on_rename_file(event.data.actions[1].src_url, event.data.actions[1].dest_url)
+      local actions = event.data and event.data.actions
+      if type(actions) ~= "table" then return end
+
+      for _, action in ipairs(actions) do
+        if action.type == "move" and action.src_url and action.dest_url then
+          Snacks.rename.on_rename_file(action.src_url, action.dest_url)
+        end
       end
     end,
   })
@@ -67,9 +63,7 @@ function M.setup()
     callback = function(ev)
       local client = vim.lsp.get_client_by_id(ev.data.client_id)
       local value = ev.data.params.value --[[@as {percentage?: number, title?: string, message?: string, kind: "begin" | "report" | "end"}]]
-      if not client or type(value) ~= "table" then
-        return
-      end
+      if not client or type(value) ~= "table" then return end
       local p = progress[client.id]
 
       for i = 1, #p + 1 do
@@ -88,9 +82,10 @@ function M.setup()
       end
 
       local msg = {} ---@type string[]
-      progress[client.id] = vim.tbl_filter(function(v)
-        return table.insert(msg, v.msg) or not v.done
-      end, p)
+      progress[client.id] = vim.tbl_filter(
+        function(v) return table.insert(msg, v.msg) or not v.done end,
+        p
+      )
 
       local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
       vim.notify(table.concat(msg, "\n"), "info", {
@@ -98,7 +93,7 @@ function M.setup()
         title = client.name,
         opts = function(notif)
           notif.icon = #progress[client.id] == 0 and " "
-          or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
+            or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
         end,
       })
     end,

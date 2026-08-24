@@ -7,6 +7,7 @@ M.servers = {
     cmd = { "deno", "lsp" },
     filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
     root_patterns = deno_markers,
+    workspace_required = true,
     name = "denols",
     condition = function(path)
       local start_path = vim.fn.isdirectory(path) == 1 and path or vim.fs.dirname(path)

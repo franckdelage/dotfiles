@@ -41,7 +41,8 @@ return {
 
       -- Create autocommand which carries out the actual linting
       local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
-      vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
+      vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost' }, {
+        desc = 'Lint readable buffers after opening and saving',
         group = lint_augroup,
         callback = function()
           if vim.opt_local.modifiable:get() then

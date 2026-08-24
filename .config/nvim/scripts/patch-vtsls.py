@@ -7,19 +7,14 @@ the process on tsserver debug assertion failures (e.g. TS 5.8+/5.9 bug with
 VSCode handles this gracefully by logging and continuing; vtsls re-throws,
 causing an unhandledRejection that exits Node.js with code 1.
 
-Run this after:  :MasonInstall vtsls  or  :MasonUpdate vtsls
+Neovim invokes this after Mason updates and passes the exact installed target path.
+The patch can be removed once upstream vtsls handles TypeScriptServerError without
+terminating the language server.
 """
 
 import os
-import sys
 import shutil
-
-MASON_DATA = os.path.expanduser("~/.local/share/nvim/mason")
-INDEX_PATH = os.path.join(
-    MASON_DATA,
-    "packages/vtsls/node_modules/@vtsls/language-server"
-    "/node_modules/@vtsls/language-service/dist/index.js",
-)
+import sys
 
 OLD = """.catch((err) => {
             if (err instanceof TypeScriptServerError) {
@@ -46,11 +41,16 @@ NEW = """.catch((err) => {
 
 
 def main():
-    if not os.path.exists(INDEX_PATH):
-        print(f"ERROR: vtsls not found at expected path:\n  {INDEX_PATH}", file=sys.stderr)
+    if len(sys.argv) != 2:
+        print(f"Usage: {sys.argv[0]} /path/to/vtsls/language-service/dist/index.js", file=sys.stderr)
+        sys.exit(2)
+
+    index_path = os.path.abspath(sys.argv[1])
+    if not os.path.exists(index_path):
+        print(f"ERROR: vtsls not found at expected path:\n  {index_path}", file=sys.stderr)
         sys.exit(1)
 
-    with open(INDEX_PATH, "r") as f:
+    with open(index_path, "r") as f:
         content = f.read()
 
     if NEW in content:
@@ -62,7 +62,7 @@ def main():
         print(
             "WARNING: patch target not found — vtsls may have been updated and the patch\n"
             "needs to be reviewed. Check the dispatchResponse error handling in:\n"
-            f"  {INDEX_PATH}",
+            f"  {index_path}",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -71,12 +71,12 @@ def main():
         sys.exit(1)
 
     # Backup
-    backup = INDEX_PATH + ".bak"
-    shutil.copy2(INDEX_PATH, backup)
+    backup = index_path + ".bak"
+    shutil.copy2(index_path, backup)
     print(f"Backup: {backup}")
 
     patched = content.replace(OLD, NEW)
-    with open(INDEX_PATH, "w") as f:
+    with open(index_path, "w") as f:
         f.write(patched)
 
     print("vtsls patched successfully.")

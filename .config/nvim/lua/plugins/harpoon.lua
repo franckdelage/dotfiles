@@ -1,8 +1,36 @@
+local function list() return require("harpoon"):list() end
+
 return {
   "ThePrimeagen/harpoon",
-  lazy = false, -- Load immediately to ensure proper persistence
   branch = "harpoon2",
   dependencies = { "nvim-lua/plenary.nvim" },
+  keys = {
+    {
+      "<leader>m",
+      function()
+        local harpoon_list = list()
+        harpoon_list:add()
+        vim.notify(
+          ("✓ Added to Harpoon: %s (slot %d)"):format(vim.fn.expand "%:t", harpoon_list:length()),
+          vim.log.levels.INFO
+        )
+      end,
+      desc = "Mark file to Harpoon",
+    },
+    {
+      "<leader>vh",
+      function()
+        local harpoon = require "harpoon"
+        harpoon.ui:toggle_quick_menu(harpoon:list())
+      end,
+      desc = "Harpoon menu",
+    },
+    { "<leader>1", function() list():select(1) end, desc = "Harpoon file 1" },
+    { "<leader>2", function() list():select(2) end, desc = "Harpoon file 2" },
+    { "<leader>3", function() list():select(3) end, desc = "Harpoon file 3" },
+    { "<leader>4", function() list():select(4) end, desc = "Harpoon file 4" },
+    { "<leader>5", function() list():select(5) end, desc = "Harpoon file 5" },
+  },
   config = function()
     local harpoon = require "harpoon"
     harpoon:setup {
@@ -11,30 +39,6 @@ return {
         sync_on_ui_close = true,
       },
     }
-
-    -- Mark/add file to harpoon with notification
-    vim.keymap.set("n", "<leader>m", function()
-      local list = harpoon:list()
-      list:add()
-
-      -- Get the current file name and slot position
-      local filename = vim.fn.expand "%:t"
-      local slot = list:length()
-
-      -- Show notification
-      vim.notify(string.format("✓ Added to Harpoon: %s (slot %d)", filename, slot), vim.log.levels.INFO)
-    end, { desc = "Mark file to Harpoon" })
-
-    local harpoon_extensions = require "harpoon.extensions"
-    harpoon:extend(harpoon_extensions.builtins.highlight_current_file())
-    -- Harpoon quick menu
-    vim.keymap.set("n", "<leader>vh", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, { desc = "Harpoon menu" })
-
-    -- Quick jump to Harpoon slots 1-4
-    vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end, { desc = "Harpoon file 1" })
-    vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end, { desc = "Harpoon file 2" })
-    vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end, { desc = "Harpoon file 3" })
-    vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end, { desc = "Harpoon file 4" })
-    vim.keymap.set("n", "<leader>5", function() harpoon:list():select(5) end, { desc = "Harpoon file 5" })
+    harpoon:extend(require("harpoon.extensions").builtins.highlight_current_file())
   end,
 }

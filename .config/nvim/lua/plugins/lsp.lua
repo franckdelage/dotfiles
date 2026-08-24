@@ -31,7 +31,8 @@ return {
         pattern = 'MasonToolsUpdateCompleted',
         callback = function()
           local script = vim.fn.stdpath('config') .. '/scripts/patch-vtsls.py'
-          vim.system({ 'python3', script }, { text = true }, function(result)
+          local target = require('lsp.paths').vtsls_language_service_index()
+          vim.system({ 'python3', script, target }, { text = true }, function(result)
             if result.code ~= 0 then
               vim.schedule(function()
                 vim.notify('vtsls patch failed:\n' .. (result.stderr or ''), vim.log.levels.WARN)

@@ -15,7 +15,7 @@ M.servers = {
         },
         diagnostics = {
           -- Get the language server to recognize common globals
-          globals = { 'vim', 'Snacks', 'reload', 'describe', 'it', 'before_each', 'after_each' },
+          globals = { 'vim', 'Snacks', 'describe', 'it', 'before_each', 'after_each' },
           disable = {
             'missing-fields',
           },

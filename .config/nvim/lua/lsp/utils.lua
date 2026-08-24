@@ -1,96 +1,96 @@
 local M = {}
 
---- Helper function to find root directory by searching for pattern files
----@param patterns string[] List of file patterns to search for (e.g., {".git", "package.json"})
----@param start_path string|nil Optional starting path, defaults to current working directory
----@return string root_dir The found root directory or current working directory as fallback
+local missing_commands = {}
+
+--- Find a root directory by searching for marker files.
+---@param patterns string[]
+---@param start_path string|nil
+---@return string root_dir
+---@return boolean marker_found
 function M.find_root(patterns, start_path)
   local path = start_path or vim.fn.getcwd()
-
-  -- If start_path is a file, use its directory
   local stat = vim.uv.fs_stat(path)
-  if stat and stat.type == 'file' then
-    path = vim.fs.dirname(path)
-  end
+  if not stat or stat.type ~= "directory" then path = vim.fs.dirname(path) or vim.fn.getcwd() end
 
   for _, pattern in ipairs(patterns) do
     local found = vim.fs.find(pattern, { path = path, upward = true })
-    if #found > 0 then
-      return vim.fs.dirname(found[1])
-    end
+    if #found > 0 then return vim.fs.dirname(found[1]), true end
   end
-  return vim.fn.getcwd()
+
+  return path, false
 end
 
---- Function to start LSP server with proper configuration
----@param server_config table Server configuration table with fields: name, cmd, root_patterns, settings, init_options
----@param bufnr number Buffer number to attach the LSP server to
+local function command_available(cmd)
+  local executable = type(cmd) == "table" and cmd[1] or nil
+  if not executable or executable == "" then return false end
+  return vim.fn.executable(executable) == 1
+end
+
+local function warn_missing_command(server_name, cmd)
+  if missing_commands[server_name] then return end
+  missing_commands[server_name] = true
+  local executable = type(cmd) == "table" and cmd[1] or cmd
+  vim.notify(
+    ("LSP %s not started: command not found: %s"):format(server_name, tostring(executable)),
+    vim.log.levels.WARN
+  )
+end
+
+local function has_eslint_config(root_dir)
+  local configs = {
+    ".eslintrc.js",
+    ".eslintrc.json",
+    ".eslintrc.cjs",
+    ".eslintrc.yml",
+    ".eslintrc.yaml",
+    "eslint.config.js",
+    "eslint.config.mjs",
+  }
+  if #vim.fs.find(configs, { path = root_dir, upward = true }) > 0 then return true end
+
+  local package_json_path = vim.fs.find("package.json", { path = root_dir, upward = true })[1]
+  if not package_json_path then return false end
+
+  local ok, lines = pcall(vim.fn.readfile, package_json_path)
+  if not ok then return false end
+  local package_content = table.concat(lines, "\n")
+  return package_content:match '"eslint"' ~= nil or package_content:match '"eslintConfig"' ~= nil
+end
+
+--- Start one configured LSP server for a buffer.
+---@param server_config table
+---@param bufnr number
 function M.start_lsp_server(server_config, bufnr)
   local bufname = vim.api.nvim_buf_get_name(bufnr)
+  if bufname:match "^codediff://" or vim.bo[bufnr].buftype == "quickfix" then return end
 
-  if server_config.condition and not server_config.condition(bufname) then return end
-
-  -- Don't attach LSP to CodeDiff virtual buffers (codediff:// URIs cause URI parse errors)
-  if bufname:match("^codediff://") then return end
-
-  -- quickfix buffers are mutated by setqflist(); LSP incremental sync crashes on those edits.
-  if vim.bo[bufnr].buftype == 'quickfix' then return end
-
-  local root_dir = M.find_root(server_config.root_patterns, bufname ~= '' and bufname or nil)
-
-  -- Special handling for ESLint - only start if config files exist
-  if server_config.name == 'eslint' then
-    local eslint_configs = { '.eslintrc.js', '.eslintrc.json', '.eslintrc.cjs', 'eslint.config.js', 'eslint.config.mjs', '.eslintrc.yml', '.eslintrc.yaml' }
-    local has_eslint_config = false
-    for _, config_file in ipairs(eslint_configs) do
-      local found = vim.fs.find(config_file, { path = root_dir, upward = true })
-      if #found > 0 then
-        has_eslint_config = true
-        break
-      end
-    end
-
-    -- Also check for eslint in package.json
-    if not has_eslint_config then
-      local package_json_path = vim.fs.find('package.json', { path = root_dir, upward = true })[1]
-      if package_json_path then
-        local package_json = vim.fn.readfile(package_json_path)
-        local package_content = table.concat(package_json, '\n')
-        if package_content:match '"eslint"' or package_content:match '"eslintConfig"' then
-          has_eslint_config = true
-        end
-      end
-    end
-
-    if not has_eslint_config then
-      return -- Don't start ESLint if no config found
-    end
+  local root_dir, root_found =
+    M.find_root(server_config.root_patterns, bufname ~= "" and bufname or nil)
+  if server_config.workspace_required and not root_found then return end
+  if server_config.condition and not server_config.condition(bufname, root_dir, root_found) then
+    return
   end
+  if server_config.name == "eslint" and not has_eslint_config(root_dir) then return end
 
   local cmd = server_config.cmd
-  if type(cmd) == 'function' then
-    cmd = cmd(root_dir)
+  if type(cmd) == "function" then cmd = cmd(root_dir) end
+  if not command_available(cmd) then
+    warn_missing_command(server_config.name, cmd)
+    return
   end
 
   local settings = server_config.settings
-  if type(settings) == 'function' then
-    settings = settings(root_dir)
-  end
+  if type(settings) == "function" then settings = settings(root_dir) end
 
-  -- Get capabilities from blink.cmp
-  local capabilities = require('blink.cmp').get_lsp_capabilities()
-
-  local config = {
+  vim.lsp.start({
     name = server_config.name,
     cmd = cmd,
     root_dir = root_dir,
-    capabilities = capabilities,
+    capabilities = require("blink.cmp").get_lsp_capabilities(),
     settings = settings,
     init_options = server_config.init_options,
     get_language_id = server_config.get_language_id,
-  }
-
-  vim.lsp.start(config, { bufnr = bufnr })
+  }, { bufnr = bufnr })
 end
 
 return M
