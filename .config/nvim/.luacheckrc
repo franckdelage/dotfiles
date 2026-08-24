@@ -8,14 +8,13 @@ std = "luajit"
 globals = {
   "vim",      -- Neovim API
   "Snacks",   -- Snacks.nvim plugin
-  "reload",   -- Custom reload function
 }
 
 -- Ignore unused self warnings (common in OOP Lua)
 self = false
 
--- Maximum line length (matching your style guide)
-max_line_length = 200
+-- Maximum line length (matching repository style)
+max_line_length = 100
 
 -- Maximum cyclomatic complexity
 max_cyclomatic_complexity = 15

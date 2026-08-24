@@ -1,23 +1,25 @@
 return {
-  'stevearc/aerial.nvim',
+  "stevearc/aerial.nvim",
+  cmd = { "AerialOpen", "AerialCloseAll", "AerialNavToggle", "AerialToggle" },
   dependencies = {
-    'nvim-treesitter/nvim-treesitter',
-    'nvim-tree/nvim-web-devicons',
+    "nvim-treesitter/nvim-treesitter",
+    "nvim-tree/nvim-web-devicons",
   },
-  config = function()
-    require('aerial').setup {
-      filter_kind = false,
-      layout = {
-        default_direction = 'prefer_left',
-        min_width = 12,
-      },
-    }
-
-    vim.keymap.set('n', '<leader>ta', '<cmd>AerialOpen<cr>', { desc = 'Aerial Open' })
-    vim.keymap.set('n', '<leader>tn', '<cmd>AerialNavToggle<cr>', { desc = 'Aerial Open navigation' })
-    vim.keymap.set('n', '<leader>tt', function()
-      require('aerial').snacks_picker()
-    end, { desc = 'Aerial list symbols' })
-    vim.keymap.set('n', '<leader>tx', '<cmd>AerialCloseAll<cr>', { desc = 'Aerial Close all' })
-  end,
+  opts = {
+    filter_kind = false,
+    layout = {
+      default_direction = "prefer_left",
+      min_width = 12,
+    },
+  },
+  keys = {
+    { "<leader>ta", "<cmd>AerialOpen<cr>", desc = "Aerial Open" },
+    { "<leader>tn", "<cmd>AerialNavToggle<cr>", desc = "Aerial Open navigation" },
+    {
+      "<leader>tt",
+      function() require("aerial").snacks_picker() end,
+      desc = "Aerial list symbols",
+    },
+    { "<leader>tx", "<cmd>AerialCloseAll<cr>", desc = "Aerial Close all" },
+  },
 }

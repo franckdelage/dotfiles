@@ -1,7 +1,7 @@
 local M = {}
 
 local ts_inlay_hints = {
-  parameterNames = { enabled = 'all', suppressWhenArgumentMatchesName = false },
+  parameterNames = { enabled = "all", suppressWhenArgumentMatchesName = false },
   parameterTypes = { enabled = true },
   variableTypes = { enabled = true, suppressWhenTypeMatchesName = false },
   propertyDeclarationTypes = { enabled = true },
@@ -10,7 +10,7 @@ local ts_inlay_hints = {
 }
 
 local js_inlay_hints = {
-  parameterNames = { enabled = 'all', suppressWhenArgumentMatchesName = false },
+  parameterNames = { enabled = "all", suppressWhenArgumentMatchesName = false },
   parameterTypes = { enabled = true },
   variableTypes = { enabled = true, suppressWhenTypeMatchesName = false },
   propertyDeclarationTypes = { enabled = true },
@@ -22,39 +22,43 @@ local js_inlay_hints = {
 -- language service to hook in the same way it does inside VSCode.
 M.servers = {
   typescript = {
-    cmd = { 'vtsls', '--stdio' },
-    filetypes = { 'typescript', 'javascript', 'typescriptreact', 'javascriptreact' },
-    root_patterns = { 'nx.json', 'angular.json', 'package.json', 'tsconfig.json' },
-    name = 'vtsls',
+    cmd = { "vtsls", "--stdio" },
+    filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
+    root_patterns = { "nx.json", "angular.json", "package.json", "tsconfig.json" },
+    workspace_required = true,
+    name = "vtsls",
     condition = function(path)
       local start_path = vim.fn.isdirectory(path) == 1 and path or vim.fs.dirname(path)
-      local deno_config = vim.fs.find({ 'deno.json', 'deno.jsonc' }, {
+      local deno_config = vim.fs.find({ "deno.json", "deno.jsonc" }, {
         path = start_path,
         upward = true,
       })
       return #deno_config == 0
     end,
     init_options = {
-      hostInfo = 'neovim',
+      hostInfo = "neovim",
     },
     -- settings is a function so root_dir is available for the Angular plugin path
     settings = function(root_dir)
+      local angular_plugin_path = root_dir .. "/node_modules/@angular/language-service"
+      local global_plugins = {}
+      if vim.uv.fs_stat(angular_plugin_path) then
+        global_plugins = {
+          {
+            name = "@angular/language-service",
+            location = angular_plugin_path,
+            enableForWorkspaceTypeScriptVersions = true,
+            -- The Angular LS plugin reads completion settings from the 'ng' namespace.
+            configNamespace = "ng",
+          },
+        }
+      end
+
       return {
         vtsls = {
           autoUseWorkspaceTsdk = true,
           tsserver = {
-            globalPlugins = {
-              {
-                name = '@angular/language-service',
-                location = root_dir .. '/node_modules/@angular/language-service',
-                enableForWorkspaceTypeScriptVersions = true,
-                -- 'ng' namespace is required: the Angular LS plugin reads its configuration
-                -- (includeCompletionsWithSnippetText, etc.) from the 'ng' key, not 'ts'.
-                -- Using 'ts' causes template-specific features (especially control flow
-                -- blocks like @if/@for) to silently return empty responses.
-                configNamespace = 'ng',
-              },
-            },
+            globalPlugins = global_plugins,
             -- Disable experimental settings that can cause issues
             experimental = {
               enableProjectDiagnostics = false,
@@ -67,9 +71,9 @@ M.servers = {
             completeFunctionCalls = true,
           },
           preferences = {
-            importModuleSpecifierPreference = 'project-relative',
-            includePackageJsonAutoImports = 'auto',
-            quoteStyle = 'single',
+            importModuleSpecifierPreference = "project-relative",
+            includePackageJsonAutoImports = "auto",
+            quoteStyle = "single",
             preferTypeOnlyAutoImports = true,
           },
           preferGoToSourceDefinition = true,
@@ -80,8 +84,8 @@ M.servers = {
             completeFunctionCalls = true,
           },
           preferences = {
-            importModuleSpecifierPreference = 'non-relative',
-            includePackageJsonAutoImports = 'auto',
+            importModuleSpecifierPreference = "non-relative",
+            includePackageJsonAutoImports = "auto",
           },
         },
       }

@@ -162,7 +162,6 @@ return {
     },
     input = { enabled = true },
     image = { enabled = true },
-    lazygit = { enabled = true },
     notifier = { enabled = true },
     picker = {
       enabled = true,
@@ -292,13 +291,10 @@ return {
     { "<leader>glf", function() Snacks.picker.git_log_file() end, desc = "Git Log File" },
     { "<leader>gll", function() Snacks.picker.git_log() end, desc = "Git Log" },
     { "<leader>glL", function() Snacks.picker.git_log_line() end, desc = "Git Log Line" },
-    { "<leader>glo", function() Snacks.lazygit.log_file() end, desc = "Lazygit Log file" },
-    { "<leader>glO", function() Snacks.lazygit.log() end, desc = "Lazygit Log" },
     { "<leader>gs", function() Snacks.picker.git_status() end, desc = "Git Status" },
     { "<leader>gS", function() Snacks.picker.git_stash() end, desc = "Git Stash" },
     { "<leader>gd", function() Snacks.picker.git_diff() end, desc = "Git Diff (Hunks)" },
     { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Git Browse", mode = { "n", "v" } },
-    { "<leader>gn", function() Snacks.lazygit() end, desc = "Lazygit" },
     -- gh
     { "<leader>gp", function() Snacks.picker.gh_pr() end, desc = "GitHub Pull Requests (open)" },
     { "<leader>gP", function() Snacks.picker.gh_pr { state = "all" } end, desc = "GitHub Pull Requests (all)" },

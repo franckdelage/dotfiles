@@ -53,8 +53,7 @@ end
 local check_vtsls_patch = function()
   vim.health.start 'vtsls patch'
 
-  local index_path = vim.fn.stdpath('data')
-    .. '/mason/packages/vtsls/node_modules/@vtsls/language-server/node_modules/@vtsls/language-service/dist/index.js'
+  local index_path = require('lsp.paths').vtsls_language_service_index()
   if vim.uv.fs_stat(index_path) == nil then
     vim.health.info('vtsls is not installed in Mason')
     return
@@ -80,7 +79,7 @@ local check_external_reqs = function()
   check_executables('Feature executables', { 'jq', 'stylua', 'luacheck', 'markdownlint', 'stylelint' }, 'info')
   check_executables('Flutter executables', { 'flutter', 'dart' }, 'info')
   check_executables('Supabase executables', { 'supabase', 'deno', 'docker', 'postgres-language-server' }, 'info')
-  check_executables('Optional Git UI executables', { 'gh', 'lazygit' }, 'info')
+  check_executables('Optional Git UI executables', { 'gh' }, 'info')
   check_executables('Optional AI/session/debug executables', { 'tmux', 'python3' }, 'info')
   check_vtsls_patch()
 

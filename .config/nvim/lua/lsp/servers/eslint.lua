@@ -23,6 +23,7 @@ M.servers = {
       'package.json',
     },
     name = 'eslint',
+    workspace_required = true,
     condition = function(path)
       local start_path = vim.fn.isdirectory(path) == 1 and path or vim.fs.dirname(path)
       local deno_config = vim.fs.find({ 'deno.json', 'deno.jsonc' }, {

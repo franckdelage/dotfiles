@@ -3,7 +3,6 @@ return {
   dependencies = {
     'lewis6991/async.nvim',
   },
-  lazy = false,
   keys = {
     -- Extract operations (visual mode)
     {

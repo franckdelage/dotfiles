@@ -26,7 +26,7 @@ Required for the normal editing path:
 Feature-specific tools:
 
 - Format/lint: `jq`, `stylua`, `luacheck`, `markdownlint`, `stylelint`
-- Git UI and GitHub: `lazygit`, `gh`
+- Git UI and GitHub: `gh`
 - AI/session/debug helpers: `tmux`, `python3`
 - Flutter/Dart: `flutter`, `dart`
 - Supabase: `supabase`, `deno`, and a Docker-compatible runtime
@@ -38,9 +38,9 @@ Run `:checkhealth personal` to verify the local environment.
 - Files/search: Snacks picker and explorer, Oil for filesystem edits.
 - Completion: blink.cmp with LSP, snippets, path, buffer, and ripgrep sources.
 - LSP: native Neovim LSP with vtsls, Angular LS, ESLint, Lua, HTML, CSS/SCSS, GraphQL, JSON, Markdown, Cucumber, Deno, and PostgreSQL; flutter-tools manages Dart LS.
-- Formatting: `<leader>lf` runs ESLint fix, TypeScript import cleanup, Stylelint formatting, then Conform formatting. It does not save.
-- Diagnostics/navigation: Snacks LSP pickers, Trouble, and Lspsaga.
-- Git: Gitsigns, Snacks git pickers, LazyGit, Neogit, Fugitive, and CodeDiff.
+- Formatting: `<leader>lf` runs ESLint fix, vtsls import additions/removals, Stylelint formatting, then Conform exactly once. It does not save.
+- Diagnostics/navigation: Snacks LSP pickers, Trouble lists, Aerial outline, and Lspsaga definition peek on `gd`.
+- Git: Gitsigns for hunks/blame, Neogit (`<leader>gg`) as the primary UI, CodeDiff, and Snacks Git/GitHub pickers.
 - Tests: neotest with Jest/Vitest adapters tuned for Nx projects plus Dart/Flutter tests.
 - Debugging: nvim-dap with JavaScript/TypeScript and Flutter/Dart launch configurations.
 - AI: Copilot and Sidekick integrations.
@@ -52,6 +52,7 @@ Run `:checkhealth personal` to verify the local environment.
 - `<leader>Fd` selects a device; `<leader>Fe` selects an emulator; `<leader>Fo` toggles widget outline; `<leader>Ft` starts DevTools; `<leader>FO` opens it.
 - Existing neotest mappings run Dart and Flutter tests through `neotest-dart`.
 - TypeScript under `deno.json` or `deno.jsonc` uses Deno LS instead of vtsls/ESLint.
+- vtsls requires a TypeScript project marker. Angular LS additionally requires an Angular/Nx marker and Angular dependency context; generic single-file servers retain cwd fallback.
 - SQL buffers use postgres-language-server; Treesitter covers Dart, SQL, and Supabase TOML files.
 - `supabase start` requires Rancher Desktop or another running Docker-compatible runtime.
 
@@ -65,9 +66,8 @@ Run `:checkhealth personal` to verify the local environment.
 
 ## Known Workarounds
 
-- vtsls is patched after Mason updates by `scripts/patch-vtsls.py` to avoid tsserver assertion crashes killing the LSP process.
+- vtsls is patched after Mason updates by `scripts/patch-vtsls.py` to avoid tsserver assertion crashes killing the LSP process. Remove the patch once upstream handles `TypeScriptServerError` without terminating the server.
 - `:checkhealth personal` checks whether that patch is present when Mason vtsls is installed.
-- `autocmds.lua` contains a which-key trigger cache workaround plus `:WKReset` as a manual escape hatch.
 - neotest-dart streaming output is normalized because the adapter can return failure text where Neotest expects an output file path.
 
 ## Useful Commands
@@ -75,5 +75,5 @@ Run `:checkhealth personal` to verify the local environment.
 - `:Lazy`: plugin manager UI.
 - `:Mason`: external LSP/tool installer UI.
 - `:checkhealth personal`: config-specific health checks.
-- `:WKReset`: reset which-key trigger cache.
-- `<leader>lf`: fix and format current buffer without saving.
+- `<leader>lf`: run the ordered fix/format pipeline without saving.
+- `<leader>Nn`: save the active AutoSession when one exists, then restart; restart directly when none exists.

@@ -4,14 +4,15 @@ function M.setup()
   -- Filter out angularls diagnostics for unknown elements (-998001).
   -- These are false positives in Nx monorepos where internal libs are not
   -- installed as real node_modules packages (path aliases only).
-  local orig_handler = vim.lsp.handlers['textDocument/publishDiagnostics']
-  vim.lsp.handlers['textDocument/publishDiagnostics'] = function(err, result, ctx, config)
+  local orig_handler = vim.lsp.handlers["textDocument/publishDiagnostics"]
+  vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
     if result and result.diagnostics then
       local client = vim.lsp.get_client_by_id(ctx.client_id)
-      if client and client.name == 'angularls' then
-        result.diagnostics = vim.tbl_filter(function(d)
-          return d.code ~= -998001 and d.code ~= -998002
-        end, result.diagnostics)
+      if client and client.name == "angularls" then
+        result.diagnostics = vim.tbl_filter(
+          function(d) return d.code ~= -998001 and d.code ~= -998002 end,
+          result.diagnostics
+        )
       end
     end
     orig_handler(err, result, ctx, config)
@@ -21,63 +22,21 @@ function M.setup()
   vim.diagnostic.config {
     severity_sort = true,
     float = {
-      border = 'rounded',
+      border = "rounded",
       source = true,
     },
     underline = { severity = vim.diagnostic.severity.WARN },
     signs = vim.g.have_nerd_font and {
       text = {
-        [vim.diagnostic.severity.ERROR] = '󰅚 ',
-        [vim.diagnostic.severity.WARN] = '󰀪 ',
-        [vim.diagnostic.severity.INFO] = '󰋽 ',
-        [vim.diagnostic.severity.HINT] = '󰌶 ',
+        [vim.diagnostic.severity.ERROR] = "󰅚 ",
+        [vim.diagnostic.severity.WARN] = "󰀪 ",
+        [vim.diagnostic.severity.INFO] = "󰋽 ",
+        [vim.diagnostic.severity.HINT] = "󰌶 ",
       },
     } or {},
     virtual_text = false,
-    virtual_lines = false,
+    virtual_lines = { current_line = true },
   }
-
-  -- Custom diagnostic display on cursor line
-  local ns = vim.api.nvim_create_namespace 'cursor_line_diagnostics'
-
-  local function format_diagnostic(diagnostic)
-    local diagnostic_message = {
-      [vim.diagnostic.severity.ERROR] = diagnostic.message,
-      [vim.diagnostic.severity.WARN] = diagnostic.message,
-      [vim.diagnostic.severity.INFO] = diagnostic.message,
-      [vim.diagnostic.severity.HINT] = diagnostic.message,
-    }
-    return diagnostic_message[diagnostic.severity] or diagnostic.message
-  end
-
-  local function show_line_diagnostics()
-    local bufnr = vim.api.nvim_get_current_buf()
-
-    if not vim.api.nvim_buf_is_valid(bufnr) or not vim.api.nvim_buf_is_loaded(bufnr) or vim.bo[bufnr].buftype ~= '' then
-      return
-    end
-
-    local cursor_line = vim.api.nvim_win_get_cursor(0)[1] - 1
-
-    vim.diagnostic.reset(ns, bufnr)
-
-    local diags = vim.diagnostic.get(bufnr, { lnum = cursor_line })
-
-    if #diags > 0 then
-      local formatted_diags = {}
-      for _, d in ipairs(diags) do
-        local copy = vim.deepcopy(d)
-        copy.message = format_diagnostic(copy)
-        table.insert(formatted_diags, copy)
-      end
-
-      vim.diagnostic.show(ns, bufnr, formatted_diags, { virtual_text = true })
-    end
-  end
-
-  vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
-    callback = show_line_diagnostics,
-  })
 end
 
 return M
