@@ -32,6 +32,11 @@ M.servers = {
       })
       return #deno_config == 0
     end,
+    -- ESLint recognizes Angular templates as HTML, not the custom htmlangular filetype.
+    get_language_id = function(_, filetype)
+      if filetype == 'htmlangular' then return 'html' end
+      return filetype
+    end,
     settings = {
       validate = 'on',
       packageManager = 'yarn',
