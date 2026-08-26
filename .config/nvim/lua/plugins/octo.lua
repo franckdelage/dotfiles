@@ -1,5 +1,7 @@
 return {
   'pwntester/octo.nvim',
+  -- This one is needed for Octo to be able to open PRs via gh-dash
+  lazy = false,
   -- commit = 'a6297cf215405c140c9e8f6a01b8e5d9aca794f2',
   dependencies = {
     'nvim-lua/plenary.nvim',
