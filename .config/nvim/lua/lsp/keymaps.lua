@@ -21,8 +21,19 @@ function M.setup()
       -- Hover documentation is handled globally by nvim-ufo's K mapping,
       -- which peeks folds first and falls back to vim.lsp.buf.hover().
 
-      -- Rename the variable under your cursor.
-      map("<leader>ln", vim.lsp.buf.rename, "Rename")
+      -- Keep TypeScript rename on plain vtsls. angularls still supplies Angular references,
+      -- but its rename handling can reject decorated component classes.
+      local rename = function()
+        local filetype = vim.bo[event.buf].filetype
+        local is_typescript = filetype == "typescript"
+          or filetype == "typescriptreact"
+          or filetype == "javascript"
+          or filetype == "javascriptreact"
+        local opts = is_typescript and { name = "vtsls" } or nil
+        vim.lsp.buf.rename(nil, opts)
+      end
+      map("grn", rename, "Rename")
+      map("<leader>ln", rename, "Rename")
 
       -- Execute a code action
       map("<leader>la", vim.lsp.buf.code_action, "Goto Code Action", { "n", "x" })
