@@ -18,8 +18,8 @@ local js_inlay_hints = {
 }
 
 -- vtsls — VSCode's TypeScript extension exposed as an LSP server.
--- Replaces ts_ls. Supports TypeScript plugins, which allows the Angular
--- language service to hook in the same way it does inside VSCode.
+-- Angular-aware features are owned by angularls; keeping vtsls plugin-free
+-- preserves native TypeScript rename behavior for Angular-decorated classes.
 M.servers = {
   typescript = {
     cmd = { "vtsls", "--stdio" },
@@ -38,58 +38,40 @@ M.servers = {
     init_options = {
       hostInfo = "neovim",
     },
-    -- settings is a function so root_dir is available for the Angular plugin path
-    settings = function(root_dir)
-      local angular_plugin_path = root_dir .. "/node_modules/@angular/language-service"
-      local global_plugins = {}
-      if vim.uv.fs_stat(angular_plugin_path) then
-        global_plugins = {
-          {
-            name = "@angular/language-service",
-            location = angular_plugin_path,
-            enableForWorkspaceTypeScriptVersions = true,
-            -- The Angular LS plugin reads completion settings from the 'ng' namespace.
-            configNamespace = "ng",
-          },
-        }
-      end
-
-      return {
-        vtsls = {
-          autoUseWorkspaceTsdk = true,
-          tsserver = {
-            globalPlugins = global_plugins,
-            -- Disable experimental settings that can cause issues
-            experimental = {
-              enableProjectDiagnostics = false,
-            },
+    settings = {
+      vtsls = {
+        autoUseWorkspaceTsdk = true,
+        tsserver = {
+          -- Disable experimental settings that can cause issues
+          experimental = {
+            enableProjectDiagnostics = false,
           },
         },
-        typescript = {
-          inlayHints = ts_inlay_hints,
-          suggest = {
-            completeFunctionCalls = true,
-          },
-          preferences = {
-            importModuleSpecifierPreference = "project-relative",
-            includePackageJsonAutoImports = "auto",
-            quoteStyle = "single",
-            preferTypeOnlyAutoImports = true,
-          },
-          preferGoToSourceDefinition = true,
+      },
+      typescript = {
+        inlayHints = ts_inlay_hints,
+        suggest = {
+          completeFunctionCalls = true,
         },
-        javascript = {
-          inlayHints = js_inlay_hints,
-          suggest = {
-            completeFunctionCalls = true,
-          },
-          preferences = {
-            importModuleSpecifierPreference = "non-relative",
-            includePackageJsonAutoImports = "auto",
-          },
+        preferences = {
+          importModuleSpecifierPreference = "project-relative",
+          includePackageJsonAutoImports = "auto",
+          quoteStyle = "single",
+          preferTypeOnlyAutoImports = true,
         },
-      }
-    end,
+        preferGoToSourceDefinition = true,
+      },
+      javascript = {
+        inlayHints = js_inlay_hints,
+        suggest = {
+          completeFunctionCalls = true,
+        },
+        preferences = {
+          importModuleSpecifierPreference = "non-relative",
+          includePackageJsonAutoImports = "auto",
+        },
+      },
+    },
   },
 }
 
