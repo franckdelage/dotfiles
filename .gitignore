@@ -3,3 +3,7 @@
 keyboard/backup-corne.vil
 .ralph/
 .config/nvim/scripts/__pycache__/
+
+# Pix Agent
+.pi/
+.pi-lens/
