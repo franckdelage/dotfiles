@@ -332,6 +332,7 @@ return {
     { "<leader>ly", function() Snacks.picker.lsp_type_definitions() end, desc = "Goto Type Definition" },
     { "<leader>ls", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
     { "<leader>lS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols" },
+    { "<leader>lc", function() Snacks.picker.lsp_config() end, desc = "LSP Config" },
     -- Other
     { "<leader>z", function() Snacks.zen() end, desc = "Toggle Zen Mode" },
     { "<leader>Z", function() Snacks.zen.zoom() end, desc = "Toggle Zoom" },
