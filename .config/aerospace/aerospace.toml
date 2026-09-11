@@ -194,11 +194,11 @@ W = 'benq'
 Y = 'benq'
 G = 'benq'
 
-B = 'asus'
-C = 'asus'
-D = 'asus'
-E = 'asus'
-X = 'asus'
+C = ['main', 'pl']
+B = 'pl'
+D = 'pl'
+E = 'pl'
+X = 'pl'
 
 [[on-window-detected]]
 if.app-id = 'com.github.wez.wezterm'
