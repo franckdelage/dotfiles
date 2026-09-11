@@ -22,6 +22,7 @@
       ]
     },
     "npm:@narumitw/pi-plan-mode",
-    "npm:@xynogen/pix-core"
+    "npm:@xynogen/pix-core",
+    "npm:@zosmaai/pi-llm-wiki"
   ]
 }
