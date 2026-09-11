@@ -270,3 +270,8 @@ name = "catppuccin-frappe-peach"
 ## The "workspace" mode is skipped when not in a workspace or workspaces = false.
 ## Default filter mode can be overridden with the filter_mode setting.
 filters = [ "workspace", "directory", "global", "host", "session" ]
+
+[tmux]
+enabled = true
+width = "80%"
+height = "60%"
