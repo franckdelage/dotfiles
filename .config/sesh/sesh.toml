@@ -39,6 +39,13 @@ preview_command = "eza --all --git --icons --color=always {}"
 windows = ["Graphql"]
 
 [[session]]
+name = "󰒍 BW-Servers UTE2"
+path = "~/Developer/bw-blueweb"
+startup_command = "tmux rename-window 'Application UTE2' && appstartute2"
+preview_command = "eza --all --git --icons --color=always {}"
+windows = ["Graphql UTE2"]
+
+[[session]]
 name = "󱂛 Api Requests"
 path = "~/Developer/bw-blueweb"
 startup_command = "tmux rename-window 'MitmProxy' && apirequests"
@@ -88,6 +95,10 @@ startup_script = "appstart"
 [[window]]
 name = "Graphql"
 startup_script = "gqlstart"
+
+[[window]]
+name = "Graphql UTE2"
+startup_script = "gqlstartute2"
 
 [[window]]
 name = "Mocks Engine"
