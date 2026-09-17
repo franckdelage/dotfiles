@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-09-16T09:21:04.712Z",
+  "pages": {
+    "sources/obs-2026-09-16-angular-tree-sitter-nested-call-parser-defect-confirmed": {
+      "type": "source",
+      "title": "Observation: Angular Tree-sitter nested-call parser defect confirmed",
+      "tags": [
+        "neovim",
+        "treesitter",
+        "angular",
+        "syntax-highlighting",
+        "parser"
+      ],
+      "status": "observation",
+      "slug": "obs-2026-09-16-angular-tree-sitter-nested-call-parser-defect-confirmed",
+      "relevance": "high",
+      "observed_at": "2026-09-16T09:18:53.341Z",
+      "source_context": "Investigating broken syntax colors in invoice-form.component.html line 48. Imported from project /Users/franckdelage/Developer/bw-blueweb; originally observed at 2026-09-16T08:46:24.104Z.",
+      "created": "2026-09-16",
+      "updated": "2026-09-16"
+    },
+    "sources/obs-2026-09-16-local-angular-tree-sitter-nested-call-patch-installed": {
+      "type": "source",
+      "title": "Observation: Local Angular Tree-sitter nested-call patch installed",
+      "tags": [
+        "neovim",
+        "treesitter",
+        "angular",
+        "local-patch",
+        "macos"
+      ],
+      "status": "observation",
+      "slug": "obs-2026-09-16-local-angular-tree-sitter-nested-call-patch-installed",
+      "relevance": "high",
+      "observed_at": "2026-09-16T09:21:04.708Z",
+      "source_context": "Implementing reversible local Tree-sitter parser patch. Imported from project /Users/franckdelage/Developer/bw-blueweb; originally observed at 2026-09-16T09:05:44.509Z.",
+      "created": "2026-09-16",
+      "updated": "2026-09-16"
+    }
+  }
+}
