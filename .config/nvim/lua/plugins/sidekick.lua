@@ -12,6 +12,12 @@ return {
           size = 0.25,
         },
       },
+      tools = {
+        pi_blueweb = {
+          cmd = { "pi" },
+          env = { WIKI_HOME = "/Users/franckdelage/Developer/bw-blueweb" },
+        },
+      },
     },
   },
   keys = {
@@ -52,8 +58,8 @@ return {
     },
     {
       "<leader>aa",
-      function() require("sidekick.cli").toggle({ name = "pi", focus = true }) end,
-      desc = "Sidekick Toggle Pi",
+      function() require("sidekick.cli").toggle({ name = "pi_blueweb", focus = true }) end,
+      desc = "Sidekick Toggle Pi Blueweb",
     },
     {
       "<leader>ao",
