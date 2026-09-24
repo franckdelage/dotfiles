@@ -12,21 +12,16 @@
     "gpt-6-luna"
   ],
   "packages": [
-    {
-      "source": "git:github.com/tmustier/pi-extensions",
-      "extensions": [
-        "pi-ralph-wiggum/index.ts"
-      ],
-      "skills": [
-        "pi-ralph-wiggum/SKILL.md"
-      ]
-    },
     "npm:@narumitw/pi-plan-mode",
     "npm:@xynogen/pix-core",
     "npm:@zosmaai/pi-llm-wiki",
     "npm:pi-tokyo-night",
-    "npm:pi-vim"
+    "npm:pi-vim",
+    "npm:pi-goal-x"
   ],
   "editorPaddingX": 3,
-  "tuiMode": "regular"
+  "tuiMode": "regular",
+  "llm-wiki": {
+    "trajectories": true
+  }
 }
