@@ -28,3 +28,5 @@ alias introspect='(cd apps/gql && npm run graphql:introspect)'
 alias nxr='clear && npm run nx -- run'
 
 alias mocksengine="mkdir -p ~/Developer/mitm/mocked-responses && mkdir -p ~/Developer/mitm/scripts && touch ~/Developer/mitm/scripts/save_responses.py && mitmdump -s ~/Developer/mitm/scripts/save_responses.py --listen-port 8081"
+
+alias pi-blueweb='WIKI_HOME=/Users/franckdelage/Developer/bw-blueweb pi'
