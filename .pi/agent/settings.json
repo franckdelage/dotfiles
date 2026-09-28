@@ -17,7 +17,7 @@
     "npm:@zosmaai/pi-llm-wiki",
     "npm:pi-tokyo-night",
     "npm:pi-vim",
-    "npm:pi-goal-x"
+    "npm:@lnilluv/pi-ralph-loop"
   ],
   "editorPaddingX": 3,
   "tuiMode": "regular",
