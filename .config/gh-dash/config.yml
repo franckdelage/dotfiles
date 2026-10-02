@@ -7,6 +7,8 @@ prSections:
     filters: is:open involves:@me -author:@me
   - title: Discuss
     filters: is:open label:bw-discuss
+  - title: Teammates
+    filters: is:open author:pasteichen_afklm author:noraji-ext_afklm author:thtricot-ext_afklm author:lubancroftrichardson_afklm
 issuesSections:
   - title: My Issues
     filters: is:open author:@me
