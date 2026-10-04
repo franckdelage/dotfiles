@@ -8,5 +8,7 @@ tmux list-panes -s -F "$pane_fmt" | awk '
 ' | while read -r pane_id; do
   # renew environment variables according to update-environment tmux option
   # also clear screen
+  # The shell in the pane must expand this command, not this script.
+  # shellcheck disable=SC2016
   tmux send-keys -t "$pane_id" 'Enter' 'eval "$(tmux show-env -s)"' 'Enter' 'C-l'
 done;

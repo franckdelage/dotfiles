@@ -1,0 +1,19 @@
+blacklist = [
+  "scratch",
+  "floax",
+]
+
+sort_order = [
+  "tmux",
+  "config",
+  "zoxide",
+]
+
+[[session]]
+name = "Home"
+path = "~/"
+
+[[session]]
+name = "Dotfiles"
+path = "~/dotfiles"
+startup_command = "nvim"

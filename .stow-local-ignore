@@ -23,5 +23,12 @@ archive
 # Keyboard configs (managed separately)
 keyboard
 
+# Active sesh profiles belong to each machine, not to Stow.
+^/\.config/sesh/sesh\.toml$
+
+# Tests and agent state do not belong in the home configuration.
+^/\.tmux/tests$
+^/\.pi$
+
 # Any markdown files in root
 .*\.md$
