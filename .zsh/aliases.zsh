@@ -1,23 +1,33 @@
 alias ec='$EDITOR $HOME/.zshrc'
 alias sc='source $HOME/.zshrc'
 
-alias cd='j'
-alias cdc='j ~ && clear'
+if (( $+commands[zoxide] )); then
+  alias cd='j'
+  alias cdc='j ~ && clear'
+fi
 
-alias vim='nvim'
-alias v='nvim'
+if (( $+commands[nvim] )); then
+  alias vim='nvim'
+  alias v='nvim'
+fi
 
-alias mux='tmuxinator start'
-alias bw='tmuxinator start aviato-workspace'
+if (( $+commands[tmuxinator] )); then
+  alias mux='tmuxinator start'
+  alias bw='tmuxinator start aviato-workspace'
+fi
 
-alias ls='eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions'
-alias ll='eza -l --icons -h'
-alias la='eza -l -a --icons -h'
+if (( $+commands[eza] )); then
+  alias ls='eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions'
+  alias ll='eza -l --icons -h'
+  alias la='eza -l -a --icons -h'
+fi
 
 alias com='git commit'
-alias gdiff='git diff | delta --side-by-side'
+(( $+commands[delta] )) && alias gdiff='git diff | delta --side-by-side'
 
 alias -g wch='--watch'
 alias -g noCov='--coverage false'
 
-alias zad='eza -D1 --icons=never | xargs -I {} zoxide add {}'
+if (( $+commands[eza] && $+commands[zoxide] )); then
+  alias zad='eza -D1 --icons=never | xargs -I {} zoxide add {}'
+fi

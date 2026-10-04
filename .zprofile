@@ -1,24 +1,25 @@
-# Homebrew
-if [[ -f "/opt/homebrew/bin/brew" ]]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
+typeset -U path PATH
+
+if [[ -f "$HOME/.zsh/env-login.zsh" ]]; then
+  source "$HOME/.zsh/env-login.zsh"
 fi
 
-# Login environment (generic env vars)
-source "$HOME/.zsh/env-login.zsh"
-
-# NVM
 export NVM_COMPLETION=true
-export NVM_SYMLINK_CURRENT="true"
+export NVM_SYMLINK_CURRENT=true
 export NVM_AUTO_USE=true
 export NVM_DIR="$HOME/.nvm"
 
-# Bun
 export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+[[ -d "$BUN_INSTALL/bin" ]] && path=("$BUN_INSTALL/bin" $path)
+[[ -s "$BUN_INSTALL/_bun" ]] && source "$BUN_INSTALL/_bun"
 
-# Deno
-export PATH="$HOME/.deno/bin:$PATH"
+[[ -d "$HOME/.deno/bin" ]] && path=("$HOME/.deno/bin" $path)
 
-# Rancher Desktop
-export PATH="/Users/franckdelage/.rd/bin:$PATH"
+case "$OSTYPE" in
+  darwin*)
+    [[ -f "$HOME/.zsh/env-macos.zsh" ]] && source "$HOME/.zsh/env-macos.zsh"
+    ;;
+  linux*)
+    [[ -f "$HOME/.zsh/env-linux.zsh" ]] && source "$HOME/.zsh/env-linux.zsh"
+    ;;
+esac

@@ -1,3 +1,3 @@
 autoload -Uz compinit && compinit
 
-zinit cdreplay -q
+(( $+functions[zinit] )) && zinit cdreplay -q

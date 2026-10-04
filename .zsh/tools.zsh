@@ -1,3 +1,7 @@
-eval "$(starship init zsh)"
+if (( $+commands[starship] )); then
+  eval "$(starship init zsh)"
+fi
 
-eval "$(zoxide init zsh --cmd j)"
+if (( $+commands[zoxide] )); then
+  eval "$(zoxide init zsh --cmd j)"
+fi

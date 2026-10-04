@@ -1,10 +1,6 @@
 export JIRA_URL="https://jira.devnet.klm.com"
 export JIRA_NAME="T206002"
 
-export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-
 alias nxg='npm run nx -- g'
 alias nxgm='npm run nx -- g module'
 alias nxgc='npm run nx -- g @ngneat/spectator:spectator-component'
@@ -29,4 +25,4 @@ alias nxr='clear && npm run nx -- run'
 
 alias mocksengine="mkdir -p ~/Developer/mitm/mocked-responses && mkdir -p ~/Developer/mitm/scripts && touch ~/Developer/mitm/scripts/save_responses.py && mitmdump -s ~/Developer/mitm/scripts/save_responses.py --listen-port 8081"
 
-alias pi-blueweb='WIKI_HOME=/Users/franckdelage/Developer/bw-blueweb pi'
+alias pi-blueweb='WIKI_HOME="$HOME/Developer/bw-blueweb" pi'
