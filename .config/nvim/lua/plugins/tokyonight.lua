@@ -1,6 +1,11 @@
+local omarchy_theme = require("omarchy_theme").current
+local use_tokyonight = omarchy_theme
+  and omarchy_theme.colorscheme:match("^tokyonight") ~= nil
+
 return {
   'folke/tokyonight.nvim',
-  lazy = true,
+  lazy = not use_tokyonight,
+  priority = use_tokyonight and 1000 or nil,
   config = function()
     require('tokyonight').setup {
       style = 'moon',

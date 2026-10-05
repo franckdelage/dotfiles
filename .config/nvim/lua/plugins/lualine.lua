@@ -4,9 +4,7 @@ return {
   config = function()
     require('lualine').setup {
       options = {
-        -- theme = 'catppuccin-frappe',
-        -- theme = 'tokyonight',
-        theme = 'kanagawa',
+        theme = 'auto',
         component_separators = '',
         section_separators = { left = '', right = '' },
       },

@@ -1,6 +1,11 @@
+local omarchy_theme = require("omarchy_theme").current
+local use_kanagawa = vim.uv.os_uname().sysname == "Darwin"
+  or not omarchy_theme
+  or omarchy_theme.colorscheme == "kanagawa"
+
 return {
   "rebelot/kanagawa.nvim",
-  lazy = false,
+  lazy = not use_kanagawa,
   priority = 1000,
   config = function()
     require("kanagawa").setup({
@@ -60,6 +65,8 @@ return {
       end,
     })
 
-    vim.cmd("colorscheme kanagawa")
+    if use_kanagawa then
+      vim.cmd("colorscheme kanagawa")
+    end
   end,
 }
