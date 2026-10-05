@@ -19,6 +19,5 @@ zinit light Aloxaf/fzf-tab
 zinit snippet OMZL::git.zsh
 zinit snippet OMZP::git
 zinit snippet OMZP::vi-mode
-zinit snippet OMZP::thefuck
 zinit snippet OMZP::colorize
 zinit snippet OMZP::command-not-found
