@@ -1,5 +1,8 @@
+local is_macos = vim.uv.os_uname().sysname == 'Darwin'
+
 return {
   'zbirenbaum/copilot.lua',
+  enabled = is_macos,
   dependencies = {
     "copilotlsp-nvim/copilot-lsp",
     init = function()
