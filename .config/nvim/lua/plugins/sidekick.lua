@@ -1,3 +1,5 @@
+local is_macos = vim.uv.os_uname().sysname == 'Darwin'
+
 return {
   "folke/sidekick.nvim",
   lazy = false,
@@ -10,12 +12,6 @@ return {
         create = "split",
         split = {
           size = 0.25,
-        },
-      },
-      tools = {
-        pi_blueweb = {
-          cmd = { "pi" },
-          env = { WIKI_HOME = "/Users/franckdelage/Developer/bw-blueweb" },
         },
       },
     },
@@ -32,21 +28,54 @@ return {
       expr = true,
       desc = "Goto/Apply Next Edit Suggestion",
     },
-    { "<leader>am", "<cmd>Sidekick nes update<cr>", mode = { "n" }, desc = "Update NES Suggestions" },
-    { "<leader>ax", "<cmd>Sidekick nes clear<cr>", mode = { "n", "i", "x", "t" }, desc = "Clear NES Suggestions" },
-    { "<c-g>", function() require("sidekick.cli").toggle({ filter = { installed = true } }) end, desc = "Sidekick Toggle", mode = { "n", "t", "i", "x" } },
-    { "<leader>as", function() require("sidekick.cli").select({ filter = { installed = true } }) end, desc = "Select CLI" },
-    { "<leader>ad", function() require("sidekick.cli").close() end, desc = "Detach a CLI Session" },
-    { "<leader>af", function() require("sidekick.cli").send({ msg = "{file}", filter = { installed = true } }) end, desc = "Send File" },
+    {
+      "<leader>am",
+      "<cmd>Sidekick nes update<cr>",
+      mode = { "n" },
+      desc = "Update NES Suggestions",
+    },
+    {
+      "<leader>ax",
+      "<cmd>Sidekick nes clear<cr>",
+      mode = { "n", "i", "x", "t" },
+      desc = "Clear NES Suggestions",
+    },
+    {
+      "<c-g>",
+      function() require("sidekick.cli").toggle({ filter = { installed = true } }) end,
+      desc = "Sidekick Toggle",
+      mode = { "n", "t", "i", "x" },
+    },
+    {
+      "<leader>as",
+      function() require("sidekick.cli").select({ filter = { installed = true } }) end,
+      desc = "Select CLI",
+    },
+    {
+      "<leader>ad",
+      function() require("sidekick.cli").close() end,
+      desc = "Detach a CLI Session",
+    },
+    {
+      "<leader>af",
+      function()
+        require("sidekick.cli").send({ msg = "{file}", filter = { installed = true } })
+      end,
+      desc = "Send File",
+    },
     {
       "<leader>at",
-      function() require("sidekick.cli").send({ msg = "{this}", filter = { installed = true } }) end,
+      function()
+        require("sidekick.cli").send({ msg = "{this}", filter = { installed = true } })
+      end,
       mode = { "x", "n" },
       desc = "Send This",
     },
     {
       "<leader>av",
-      function() require("sidekick.cli").send({ msg = "{selection}", filter = { installed = true } }) end,
+      function()
+        require("sidekick.cli").send({ msg = "{selection}", filter = { installed = true } })
+      end,
       mode = { "x" },
       desc = "Send Visual Selection",
     },
@@ -58,8 +87,14 @@ return {
     },
     {
       "<leader>aa",
-      function() require("sidekick.cli").toggle({ name = "pi_blueweb", focus = true }) end,
-      desc = "Sidekick Toggle Pi Blueweb",
+      function()
+        if is_macos then
+          require("sidekick.cli").toggle({ name = "copilot", focus = true })
+        else
+          require("sidekick.cli").toggle({ name = "pi", focus = true })
+        end
+      end,
+      desc = is_macos and "Sidekick Toggle Copilot" or "Sidekick Toggle Pi",
     },
     {
       "<leader>ao",
