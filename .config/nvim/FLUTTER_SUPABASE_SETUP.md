@@ -1,48 +1,27 @@
-# Remaining Flutter and Supabase Setup
+# Flutter and Supabase Development
 
-## Android target
+## Installed tools
 
-- Install Android SDK through Android Studio's first-launch setup.
-- Install Android SDK Platform.
-- Install Android SDK Build-Tools.
-- Install Android SDK Command-line Tools.
-- Install Android Emulator.
-- Create at least one Android Virtual Device with a system image.
-- Accept Android licenses:
+- Flutter uses the stable channel. Update it with `flutter upgrade`.
+- The Android SDK lives at `~/Android/Sdk`. Update its packages with `android sdk update`.
+- OpenJDK 17 comes from the `jdk17-openjdk` Arch package. Update it with system packages.
+- The `medium_phone` Android emulator profile is ready. Start it with `flutter emulators --launch medium_phone`.
+- This Omarchy supports Flutter for Android, web, and Linux desktop. Build iOS apps on macOS with Xcode.
 
-  ```sh
-  flutter doctor --android-licenses
-  ```
+## Local Supabase development
 
-## iOS and macOS targets
-
-- Install full Xcode from the App Store.
-- Install an iOS Simulator runtime.
-- Install Xcode first-launch components.
-- Select the Xcode developer directory.
-- Install Rosetta 2 if required by Apple Silicon tooling.
-
-## Supabase local development
-
-No additional package installation is required.
-
-- Start Rancher Desktop.
-- Run `supabase start` from a Supabase project.
-- The first start downloads the required Supabase Docker images.
+- The `supabase`, `docker`, `docker compose`, and `deno` commands are installed.
+- Run `supabase start` in an initialized Supabase project.
+- The first start downloads the required Docker images.
+- Supabase local development requires a running Docker service.
 
 ## Per-project dependencies
 
-- Fetch Flutter packages with `flutter pub get`.
-- Add the `supabase_flutter` package when required by the application.
-- Let Deno resolve dependencies used by Supabase Edge Functions.
-
-## Optional tooling
-
-- PostgreSQL client tools such as `psql`.
-- Additional Android SDK platforms and emulator system images.
-- Physical-device drivers and provisioning.
-- Apple Developer account and signing configuration for physical iOS devices or distribution.
+- Run `flutter pub get` in a Flutter project to fetch its packages.
+- Add `supabase_flutter` to projects that use Supabase.
+- Let Deno resolve dependencies for Supabase Edge Functions.
 
 ## Neovim
 
-No additional Neovim plugins or Mason tools are required.
+- `flutter-tools.nvim` provides Flutter commands and Dart tools.
+- Mason installs `postgres-language-server` for SQL files.

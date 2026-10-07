@@ -12,3 +12,5 @@ if [[ -d "$android_sdk" ]]; then
   [[ -d "$android_sdk/emulator" ]] && path=("$android_sdk/emulator" $path)
   [[ -d "$android_sdk/platform-tools" ]] && path=("$android_sdk/platform-tools" $path)
 fi
+
+export CHROME_EXECUTABLE="/usr/bin/google-chrome-stable"
