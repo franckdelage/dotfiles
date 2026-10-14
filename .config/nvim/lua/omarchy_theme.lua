@@ -47,6 +47,13 @@ local function load_current_theme()
       local applied, err = pcall(vim.cmd.colorscheme, colorscheme)
       if not applied then
         vim.notify("Could not apply Omarchy Neovim colorscheme: " .. err, vim.log.levels.WARN)
+        return
+      end
+
+      -- Rebuild lualine after applying the colorscheme so `auto` sees it.
+      local has_lualine, lualine = pcall(require, "lualine")
+      if has_lualine then
+        lualine.setup()
       end
     end,
   })
