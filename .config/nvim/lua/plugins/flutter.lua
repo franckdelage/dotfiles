@@ -21,6 +21,11 @@ return {
     },
     keys = {
       { "<leader>Fr", "<cmd>FlutterRun<cr>", desc = "Flutter run" },
+      {
+        "<leader>Fs",
+        "<cmd>FlutterRun --dart-define-from-file=env/development.json<cr>",
+        desc = "Flutter run with local Supabase config",
+      },
       { "<leader>Fd", "<cmd>FlutterDevices<cr>", desc = "Flutter devices" },
       { "<leader>Fe", "<cmd>FlutterEmulators<cr>", desc = "Flutter emulators" },
       { "<leader>Fl", "<cmd>FlutterReload<cr>", desc = "Flutter reload" },
@@ -33,6 +38,7 @@ return {
     },
     config = function()
       require("flutter-tools").setup {
+        flutter_lookup_cmd = "mise where flutter",
         debugger = {
           enabled = true,
           exception_breakpoints = {},
