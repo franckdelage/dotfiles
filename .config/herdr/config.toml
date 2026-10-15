@@ -35,10 +35,14 @@ last_pane = "prefix+;"
 
 # Keep Herdr's existing non-conflicting navigation bindings. Avoid Ctrl-h/j/k/l
 # because the tmux config passes those keys through to Vim.
-focus_pane_left = "ctrl+alt+left"
-focus_pane_down = "ctrl+alt+down"
-focus_pane_up = "ctrl+alt+up"
-focus_pane_right = "ctrl+alt+right"
+# focus_pane_left = "ctrl+alt+left"
+# focus_pane_down = "ctrl+alt+down"
+# focus_pane_up = "ctrl+alt+up"
+# focus_pane_right = "ctrl+alt+right"
+focus_pane_left = ""
+focus_pane_down = ""
+focus_pane_up = ""
+focus_pane_right = ""
 
 resize_mode = ["prefix+ctrl+left", "prefix+ctrl+down", "prefix+ctrl+up", "prefix+ctrl+right"]
 
@@ -70,6 +74,7 @@ close_workspace = "prefix+shift+k"
 previous_workspace = ["prefix+shift+p", "alt+up", "alt+k"]
 next_workspace = ["prefix+shift+n", "alt+down", "alt+j"]
 
+# herdr-nvim
 [[keys.command]]
 key = "prefix+e"
 type = "plugin_action"
@@ -81,6 +86,31 @@ key = "prefix+o"
 type = "plugin_action"
 command = "chmarax.herdr-nvim.pick-file"
 description = "open file from agent output"
+
+# vim-navigator
+[[keys.command]]
+key = "ctrl+h"
+type = "plugin_action"
+command = "local.vim-navigator.left"
+description = "Vim-aware pane left"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "plugin_action"
+command = "local.vim-navigator.down"
+description = "Vim-aware pane down"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "plugin_action"
+command = "local.vim-navigator.up"
+description = "Vim-aware pane up"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "plugin_action"
+command = "local.vim-navigator.right"
+description = "Vim-aware pane right"
 
 [ui]
 accent = "blue"
