@@ -75,7 +75,7 @@ return {
         { "<leader>l", group = "Language" },
         { "<leader>p", group = "Projectionist" },
         { "<leader>d", group = "Debug DAP" },
-        { "<leader>c", group = "Copilot" },
+        { "<leader>c", group = "Herdr" },
         { "<leader>t", group = "Aerial and Tabs" },
         { "<leader>tt", group = "Tabs (deprecated)" },
         { "<leader>k", group = "Neotest" },

@@ -54,23 +54,4 @@ return {
       -- copilot_model = 'claude-sonnet-4.5',
     }
   end,
-  keys = {
-    {
-      '<leader>cc',
-      '<cmd>Copilot enable<cr>',
-      desc = 'Copilot Start',
-    },
-    {
-      '<leader>cx',
-      '<cmd>Copilot disable<cr>',
-      desc = 'Copilot Stop',
-    },
-    {
-      '<leader>cp',
-      function()
-        require('copilot.panel').toggle()
-      end,
-      desc = 'Copilot Panel Toggle',
-    },
-  },
 }
