@@ -125,6 +125,13 @@ type = "plugin_action"
 command = "fedeya.herdr-sesh.last"
 description = "jump to previous workspace"
 
+# Floax
+[[keys.command]]
+key = "prefix+h"
+type = "plugin_action"
+command = "herdr-floax.toggle"
+description = "Toggle floating pane"
+
 [ui]
 accent = "blue"
 
