@@ -112,6 +112,18 @@ type = "plugin_action"
 command = "local.vim-navigator.right"
 description = "Vim-aware pane right"
 
+[[keys.command]]
+key = "prefix+shift+t"
+type = "plugin_action"
+command = "fullerzz.sesh.open-picker"
+description = "open Sesh picker"
+
+[[keys.command]]
+key = "prefix+shift+l"
+type = "plugin_action"
+command = "fullerzz.sesh.last"
+description = "switch to previous Sesh workspace"
+
 [ui]
 accent = "blue"
 
