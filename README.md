@@ -184,6 +184,9 @@ Modular split for maintainability:
 ### Development Workflow
 - **Auto version switching** - nvm, pyenv, rbenv with auto-load
 - **Git integration** - Delta for diffs, custom aliases
+- **gh-dash PR shortcuts** - `C` / `T` open code review / Actions in tmux;
+  `Alt+c` / `Alt+t` do the same in a new Herdr tab (requires `herdr` and `jq`,
+  with gh-dash running inside Herdr).
 - **Unified theme** - Catppuccin across all tools
 - **FZF everywhere** - File finding, history search, process management
 

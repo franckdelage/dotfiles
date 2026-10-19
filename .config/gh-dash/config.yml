@@ -1,14 +1,14 @@
 prSections:
-  - title: My Pull Requests
+  - title: Mine
     filters: is:open author:@me
+  - title: Teammates
+    filters: is:open author:pasteichen_afklm author:noraji-ext_afklm author:thtricot-ext_afklm author:lubancroftrichardson_afklm
+  - title: BW-Discuss
+    filters: is:open label:bw-discuss
   - title: Needs My Review
     filters: is:open review-requested:@me
   - title: Involved
     filters: is:open involves:@me -author:@me
-  - title: Discuss
-    filters: is:open label:bw-discuss
-  - title: Teammates
-    filters: is:open author:pasteichen_afklm author:noraji-ext_afklm author:thtricot-ext_afklm author:lubancroftrichardson_afklm
 issuesSections:
   - title: My Issues
     filters: is:open author:@me
@@ -76,6 +76,20 @@ keybindings:
         tmux new-window '
         gh enhance -R {{.RepoName}} {{.PrNumber}}
         '
+    - key: alt+c
+      name: Code Review (Herdr)
+      command: >-
+        tab=$(herdr tab create --workspace "${HERDR_WORKSPACE_ID:?Run gh-dash inside Herdr}"
+        --cwd "$PWD" --label "{{.RepoName}}" --focus) &&
+        pane=$(printf '%s' "$tab" | jq -er '.result.root_pane.pane_id') &&
+        herdr pane run "$pane" "nvim -c ':silent Octo pr edit {{.PrNumber}}'" >/dev/null
+    - key: alt+t
+      name: See Actions (Herdr)
+      command: >-
+        tab=$(herdr tab create --workspace "${HERDR_WORKSPACE_ID:?Run gh-dash inside Herdr}"
+        --cwd "$PWD" --label "{{.RepoName}}" --focus) &&
+        pane=$(printf '%s' "$tab" | jq -er '.result.root_pane.pane_id') &&
+        herdr pane run "$pane" "gh enhance -R {{.RepoName}} {{.PrNumber}}" >/dev/null
 repoPaths: {}
 theme:
   ui:
