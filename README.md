@@ -183,6 +183,14 @@ Modular split for maintainability:
 
 ### Development Workflow
 - **Auto version switching** - nvm, pyenv, rbenv with auto-load
+  NVM loads on the first `nvm`, `node`, `npm`, `npx`, `corepack`, `yarn`, or `pnpm`
+  command, or the first directory change. It then honors `.nvmrc` and automatically
+  switches versions as directories change. A missing project version is installed
+  when NVM loads or when entering that project, not during shell startup.
+  Run `nvm use` first if another globally installed Node command is not on `PATH`.
+  Python/Ruby initialization skips rehashing; run `pyenv rehash` or `rbenv rehash`
+  after installing executables if their shims need refreshing.
+  Homebrew's environment is initialized only once per shell.
 - **Git integration** - Delta for diffs, custom aliases
 - **gh-dash PR shortcuts** - `C` / `T` open code review / Actions in tmux;
   `Alt+c` / `Alt+t` do the same in a new Herdr tab (requires `herdr` and `jq`,

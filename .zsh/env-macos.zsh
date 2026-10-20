@@ -1,12 +1,17 @@
 # macOS-specific paths and SDK settings.
 typeset -U path PATH
 
-for brew_path in /opt/homebrew/bin/brew /usr/local/bin/brew; do
-  if [[ -x "$brew_path" ]]; then
-    eval "$("$brew_path" shellenv)"
-    break
-  fi
-done
+if [[ -z "${_dotfiles_brew_initialized-}" ]]; then
+  for brew_path in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+    if [[ -x "$brew_path" ]]; then
+      brew_shellenv="$("$brew_path" shellenv)" || return 1
+      eval "$brew_shellenv" || return 1
+      unset brew_shellenv
+      typeset -g _dotfiles_brew_initialized=1
+      break
+    fi
+  done
+fi
 
 if [[ -d "$HOME/.rd/bin" ]]; then
   path=("$HOME/.rd/bin" $path)
