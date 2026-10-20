@@ -145,6 +145,13 @@ type = "plugin_action"
 command = "rmarganti.herdr-pluck.open-url"
 description = "open visible URL"
 
+# Herdr plus
+[[keys.command]]
+key = "prefix+up"
+type = "plugin_action"
+command = "cloudmanic.herdr-plus.projects"
+description = "herdr-plus: projects"
+
 [ui]
 accent = "blue"
 
