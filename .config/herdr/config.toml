@@ -34,16 +34,12 @@ close_pane = ["prefix+x", "alt+esc"]
 zoom = "prefix+z"
 last_pane = "prefix+;"
 
-# Keep Herdr's existing non-conflicting navigation bindings. Avoid Ctrl-h/j/k/l
-# because the tmux config passes those keys through to Vim.
-# focus_pane_left = "ctrl+alt+left"
 # focus_pane_down = "ctrl+alt+down"
 # focus_pane_up = "ctrl+alt+up"
-# focus_pane_right = "ctrl+alt+right"
-focus_pane_left = ""
+focus_pane_left = "prefix+left"
+focus_pane_right = "prefix+right"
 focus_pane_down = ""
 focus_pane_up = ""
-focus_pane_right = ""
 
 resize_mode = ["prefix+ctrl+left", "prefix+ctrl+down", "prefix+ctrl+up", "prefix+ctrl+right"]
 
@@ -131,13 +127,6 @@ type = "plugin_action"
 command = "fedeya.herdr-sesh.last"
 description = "jump to previous workspace"
 
-# Floax
-[[keys.command]]
-key = "prefix+h"
-type = "plugin_action"
-command = "herdr-floax.toggle"
-description = "Toggle floating pane"
-
 # Pluck
 [[keys.command]]
 key = "prefix+y"
@@ -159,17 +148,20 @@ command = "cloudmanic.herdr-plus.projects"
 description = "herdr-plus: projects"
 
 [ui]
+sidebar_width = 30
+sidebar_collapsed_mode = "hidden"
+
 pane_borders = "always"
 pane_outer_borders = true
 pane_gaps = true
 
 tab_bar_position = "bottom"
 
-accent = "blue"
+accent = "cyan"
 
 tab_bar_right = [
 { type = "zoom" },
-{ type = "datetime", format = "%A, %B %m - %H:%M:%S" },
+{ type = "datetime", format = "%A, %B %d - %H:%M:%S" },
 { type = "command", command = "~/.config/herdr/status.sh", interval_seconds = 5, timeout_seconds = 2 },
 ]
 tab_bar_right_separator = " · "
@@ -177,8 +169,8 @@ tab_bar_right_separator = " · "
 # tmux had no scrollbar column beside its panes
 pane_scrollbars = false
 
-# kill-window and kill-session never asked
-confirm_close = false
+# kill-window and kill-session always asked
+confirm_close = true
 
 # automatic-rename gave windows a name without prompting
 prompt_new_tab_name = false
@@ -207,4 +199,4 @@ rows = [
 ]
 
 [ui.toast]
-delivery = "system"
+delivery = "herdr"
