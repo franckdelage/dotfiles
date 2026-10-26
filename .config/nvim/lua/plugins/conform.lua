@@ -137,10 +137,13 @@ end
 
 local function fix_and_format()
   local bufnr = vim.api.nvim_get_current_buf()
-  run_eslint(bufnr)
+  local is_typescript = is_typescript_buffer(bufnr)
+  if not is_typescript then run_eslint(bufnr) end
   run_typescript_actions(bufnr)
   run_stylelint(bufnr)
   run_conform(bufnr)
+  -- Keep the LSP formatter from overriding the project's ESLint style rules.
+  if is_typescript then run_eslint(bufnr) end
 end
 
 return {
