@@ -55,7 +55,8 @@ rename_pane = "prefix+shift+o"
 # Windows -> tabs
 new_tab = "prefix+c"
 rename_tab = "prefix+r"
-close_tab = "prefix+k"
+# Emptied because of the HerdrBar plugin
+close_tab = ""
 switch_tab = ["prefix+1..9", "alt+1..9"]
 previous_tab = ["prefix+p", "alt+left", "alt+h"]
 next_tab = ["prefix+n", "alt+right", "alt+l"]
@@ -67,7 +68,7 @@ move_tab_next = "alt+shift+right"
 # Sessions -> workspaces
 new_workspace = "prefix+shift+c"
 rename_workspace = "prefix+shift+r"
-close_workspace = "prefix+shift+k"
+close_workspace = "prefix+shift+q"
 previous_workspace = ["prefix+shift+p", "alt+up", "alt+k"]
 next_workspace = ["prefix+shift+n", "alt+down", "alt+j"]
 
@@ -146,6 +147,20 @@ key = "prefix+up"
 type = "plugin_action"
 command = "cloudmanic.herdr-plus.projects"
 description = "herdr-plus: projects"
+
+# Herdr customize
+[[keys.command]]
+key = "prefix+t"
+type = "plugin_action"
+command = "herdr-customize.open"
+description = "Herdr Customize"
+
+# Herdr bar
+[[keys.command]]
+key = "prefix+k"
+type = "plugin_action"
+command = "herdr-bar.open"
+description = "command bar"
 
 [ui]
 sidebar_width = 30
