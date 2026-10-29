@@ -4,7 +4,7 @@ onboarding = false
 
 [theme]
 # Follow each host terminal's palette (Kanagawa here, Omarchy on Omarchy).
-name = "kanagawa"
+name = "tokyo-night"
 
 auto_switch = false
 [theme.custom]
