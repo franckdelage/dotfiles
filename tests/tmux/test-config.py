@@ -9,8 +9,8 @@ import subprocess
 import tempfile
 import unittest
 
-TMUX_DIR = Path(__file__).resolve().parents[1]
-ROOT = TMUX_DIR.parent
+ROOT = Path(__file__).resolve().parents[2]
+TMUX_DIR = ROOT / "packages/tmux/.tmux"
 
 
 class ClipboardTests(unittest.TestCase):
@@ -124,9 +124,9 @@ class ConfigurationTests(unittest.TestCase):
     self.assertIn('"$HOME/.tmux/omarchy-theme.sh" -L default', hook)
 
   def test_active_sesh_config_is_local(self):
-    ignore = (ROOT / ".stow-local-ignore").read_text()
+    ignore = (ROOT / "packages/sesh/.stow-local-ignore").read_text()
     self.assertIn(r"^/\.config/sesh/sesh\.toml$", ignore)
-    self.assertTrue((ROOT / ".config/sesh/sesh-macos.toml").exists())
+    self.assertTrue((ROOT / "packages/sesh/.config/sesh/sesh-macos.toml").exists())
 
   def test_gum_binding_uses_shared_supported_options(self):
     bindings = (TMUX_DIR / "keybindings.conf").read_text()
@@ -142,13 +142,13 @@ class ConfigurationTests(unittest.TestCase):
 
   def test_macos_entrypoint(self):
     self.assertEqual(
-      (ROOT / ".tmux.conf").read_text().strip(),
+      (ROOT / "packages/tmux/.tmux.conf").read_text().strip(),
       "source-file ~/.tmux/tmux.conf",
     )
 
   def test_linux_session_template(self):
     import tomllib
-    config = tomllib.loads((ROOT / ".config/sesh/sesh-linux.toml").read_text())
+    config = tomllib.loads((ROOT / "packages/sesh/.config/sesh/sesh-linux.toml").read_text())
     self.assertEqual([session["name"] for session in config["session"]],
                      ["Home", "Dotfiles"])
     self.assertEqual(config["blacklist"], ["scratch", "floax"])
@@ -156,32 +156,41 @@ class ConfigurationTests(unittest.TestCase):
 
 
 class StowTests(unittest.TestCase):
-  def test_stow_preserves_local_profiles_and_excludes_tests(self):
+  def test_clean_package_folds_config_directory(self):
     with tempfile.TemporaryDirectory() as temp:
       root = Path(temp)
-      package = root / "packages" / "dotfiles"
+      package = root / "packages" / "tmux"
       target = root / "home"
-      for directory in (package / ".config/sesh", package / ".tmux/tests",
-                        package / ".pi", target / ".config/sesh", target / ".tmux"):
-        directory.mkdir(parents=True, exist_ok=True)
-      shutil.copy(ROOT / ".stow-local-ignore", package / ".stow-local-ignore")
-      (package / ".config/sesh/sesh.toml").write_text("shared")
-      (package / ".config/sesh/sesh-macos.toml").write_text("template")
+      target.mkdir()
+      (package / ".tmux").mkdir(parents=True)
       (package / ".tmux/tmux.conf").write_text("config")
-      (package / ".tmux/tests/test-config.py").write_text("test")
-      (package / ".pi/lsp.json").write_text("{}")
-      local = target / ".config/sesh/sesh.toml"
+      result = subprocess.run(
+        ["stow", "--dir", str(package.parent), "--target", str(target), "tmux"],
+        capture_output=True, text=True, check=False,
+      )
+      self.assertEqual(result.returncode, 0, result.stderr)
+      self.assertTrue((target / ".tmux").is_symlink())
+      self.assertEqual((target / ".tmux/tmux.conf").read_text(), "config")
+
+  def test_local_files_prevent_folding_without_being_replaced(self):
+    with tempfile.TemporaryDirectory() as temp:
+      root = Path(temp)
+      package = root / "packages" / "tmux"
+      target = root / "home"
+      (package / ".tmux").mkdir(parents=True)
+      (target / ".tmux").mkdir(parents=True)
+      (package / ".tmux/tmux.conf").write_text("config")
+      local = target / ".tmux/local.conf"
       local.write_text("machine-local")
       result = subprocess.run(
-        ["stow", "--dir", str(package.parent), "--target", str(target), "dotfiles"],
+        ["stow", "--dir", str(package.parent), "--target", str(target), "tmux"],
         capture_output=True, text=True, check=False,
       )
       self.assertEqual(result.returncode, 0, result.stderr)
       self.assertEqual(local.read_text(), "machine-local")
       self.assertFalse(local.is_symlink())
+      self.assertFalse((target / ".tmux").is_symlink())
       self.assertTrue((target / ".tmux/tmux.conf").is_symlink())
-      self.assertFalse((target / ".tmux/tests").exists())
-      self.assertFalse((target / ".pi").exists())
 
 
 class ThemeTests(unittest.TestCase):

@@ -1,11 +1,13 @@
-.config/karabiner/automatic_backups/
+# Machine-local state and generated files are not managed configuration.
+packages/nvim/.config/nvim/scripts/__pycache__/
+tests/tmux/__pycache__/
+tests/tmux/*.pyc
 .zshrc.local
 keyboard/backup-corne.vil
+keyboard/corne-config.vil
 .ralph/
-.config/nvim/scripts/__pycache__/
 
 # Pix Agent
 .pi/
 .pi-lens/
 .llm-wiki/
-keyboard/corne-config.vil

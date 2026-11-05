@@ -1,0 +1,2 @@
+# The live session file is machine-local; only the two examples are managed.
+^/\.config/sesh/sesh\.toml$

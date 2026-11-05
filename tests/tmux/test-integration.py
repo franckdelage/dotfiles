@@ -10,7 +10,8 @@ import time
 import unittest
 import uuid
 
-TMUX_DIR = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
+TMUX_DIR = ROOT / "packages/tmux/.tmux"
 
 
 class TmuxServerTests(unittest.TestCase):

@@ -6,6 +6,7 @@
 # =============================================================================
 
 set -e  # Exit on error
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd -P)"
 
 # -----------------------------------------------------------------------------
 # Colors and Formatting
@@ -159,13 +160,12 @@ preflight_checks() {
   fi
   log_success "Git is installed"
   
-  # Check if we're in the dotfiles directory
-  if [[ ! -f "Brewfile" ]] || [[ ! -d ".config" ]]; then
-    log_error "This script must be run from the dotfiles directory"
-    log_info "Expected files: Brewfile, .config/"
+  # Resolve paths relative to this installer, not the caller's directory.
+  if [[ ! -f "$SCRIPT_DIR/Brewfile" ]] || [[ ! -d "$SCRIPT_DIR/packages" ]] || [[ ! -x "$SCRIPT_DIR/dotfiles.sh" ]]; then
+    log_error "Installer files are incomplete in: $SCRIPT_DIR"
     exit 1
   fi
-  log_success "Running from dotfiles directory: $(pwd)"
+  log_success "Running from dotfiles directory: $SCRIPT_DIR"
   
   # Check if stow is installed
   if ! command_exists stow; then
@@ -259,8 +259,8 @@ install_packages_macos() {
     return 1
   fi
   
-  log_info "Running: brew bundle --file=Brewfile"
-  if brew bundle --file=Brewfile; then
+  log_info "Running: brew bundle --file=$SCRIPT_DIR/Brewfile"
+  if brew bundle --file="$SCRIPT_DIR/Brewfile"; then
     log_success "Homebrew packages installed"
   else
     log_warning "Some Homebrew packages may have failed to install"
@@ -451,40 +451,30 @@ install_tpm() {
 # -----------------------------------------------------------------------------
 
 symlink_dotfiles() {
-  log_step "STEP 4: Symlink Dotfiles with GNU Stow"
-  
-  if ! ask_yes_no "Create symlinks with GNU Stow" "y"; then
+  log_step "STEP 4: Symlink Selected GNU Stow Packages"
+
+  if ! ask_yes_no "Create symlinks with selected packages" "y"; then
     log_info "Skipping symlinking"
     return 0
   fi
-  
-  log_info "Running: stow --verbose=2 ."
-  
-  if stow --verbose=2 . 2>&1 | tee /tmp/stow-output.log; then
-    log_success "Dotfiles symlinked successfully"
-    
-    # Show what was linked
-    local linked_count=$(grep -c "LINK:" /tmp/stow-output.log 2>/dev/null || echo "0")
-    if [[ $linked_count -gt 0 ]]; then
-      log_success "Created $linked_count symlinks"
-      log_info "Key symlinks created:"
-      echo "  ~/.zshrc -> $(pwd)/.zshrc"
-      echo "  ~/.config -> $(pwd)/.config"
-      echo "  ~/.tmux -> $(pwd)/.tmux"
-      echo "  ~/.wezterm.lua -> $(pwd)/.wezterm.lua"
-    fi
+
+  "$SCRIPT_DIR/dotfiles.sh" list
+  local package_input
+  local -a selected_packages
+  echo ""
+  read -r -p "Package names to stow (space-separated): " package_input
+  read -r -a selected_packages <<< "$package_input"
+  if [[ ${#selected_packages[@]} -eq 0 ]]; then
+    log_info "No packages selected; skipping symlinking"
+    return 0
+  fi
+
+  if "$SCRIPT_DIR/dotfiles.sh" stow "${selected_packages[@]}"; then
+    log_success "Selected dotfiles packages activated"
   else
-    log_error "Stow failed. Check the output above for conflicts."
-    log_info "You may need to backup/remove conflicting files first."
-    
-    if ask_yes_no "Show stow conflicts" "y"; then
-      cat /tmp/stow-output.log
-    fi
-    
+    log_error "Package activation failed; resolve conflicts before retrying"
     return 1
   fi
-  
-  rm -f /tmp/stow-output.log
 }
 
 # -----------------------------------------------------------------------------
@@ -558,16 +548,16 @@ verify_installation() {
   
   local errors=0
   
-  # Check symlinks
+  # Stow may link either managed files or their conflict-free parent directory.
   local symlinks=(
     "$HOME/.zshrc"
-    "$HOME/.config/nvim"
-    "$HOME/.tmux"
+    "$HOME/.config/nvim/init.lua"
+    "$HOME/.tmux/tmux.conf"
   )
-  
-  log_info "Checking critical symlinks..."
+
+  log_info "Checking critical configuration links..."
   for link in "${symlinks[@]}"; do
-    if [[ -L "$link" ]]; then
+    if [[ -L "$link" ]] || [[ -L "$(dirname "$link")" ]]; then
       log_success "✓ $link"
     else
       log_warning "✗ $link (not a symlink)"
