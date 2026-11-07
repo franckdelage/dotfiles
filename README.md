@@ -29,9 +29,10 @@ with Linux and other Unix systems.
 GNU Stow creates symbolic links from repository packages into `$HOME`. Each tool
 has a package so machines can activate only the configurations they use.
 `dotfiles.sh` supplies the repository path and target.
-Stow links each app's configuration directory as one unit when it has no local conflicts,
-so files added to that directory appear immediately. Existing local content keeps its directory
-in place and Stow links only the managed files. Sesh stays file-linked to keep `sesh.toml` local.
+When the app config target is absent, Stow links its directory as one unit,
+so new files appear automatically. If the target exists, Stow preserves it
+and links managed files or conflict-free subdirectories. Sesh stays file-linked
+to keep the active `sesh.toml` local.
 
 - Version control configurations without linking unrelated repository files
 - Activate or remove individual tools independently
@@ -63,21 +64,22 @@ files.
 dotfiles/
 ├── packages/
 │   ├── zsh/                    # Zsh files, modules, and Oh-My-Zsh custom resources
-│   ├── tmux/                   # Tmux config, helpers, and excluded tests
+│   ├── tmux/                   # Tmux config and helpers
 │   ├── nvim/                   # Neovim config
 │   ├── herdr/                  # Herdr config and plugin notes
 │   ├── herdr-nvim/             # Herdr Neovim integration
 │   ├── wezterm/                # .wezterm.lua and XDG theme files
 │   ├── sesh/                   # Linux/macOS examples; active sesh.toml stays local
 │   ├── macos-aerospace/        # macOS-only
-│   ├── macos-karabiner/        # macOS-only; automatic backups excluded
+│   ├── macos-karabiner/        # macOS-only config; backups are archived
 │   ├── omarchy-hyprland/       # Omarchy-only personal overrides
 │   ├── omarchy-shell/          # Omarchy-only shell.json override
 │   └── …                       # One package per other tracked tool
 ├── packages/migration-map.tsv # Old-to-new source mapping and full tracked inventory
 ├── dotfiles.sh                # Package manager and legacy-link migration
 ├── install.sh                 # Optional interactive bootstrap
-├── archive/                   # Retained, not deployed
+├── archive/                   # Backups and Screens-owned baselines; not deployed
+├── tests/                     # Repository-only tests, including tmux/
 └── keyboard/                  # Retained, not deployed
 ```
 
@@ -201,12 +203,14 @@ Consistent **Catppuccin** theme across tools:
 
 Pass package names explicitly; there is no automatic "all Linux" or "all macOS"
 profile. Linux rejects `macos-*` packages. Omarchy packages require Omarchy Linux.
-Stow preflights and refreshes selected packages, folding conflict-free app directories into
-single symlinks. Packages with local content retain their directories; Sesh intentionally stays
-file-linked so machine-specific `~/.config/sesh/sesh.toml` remains outside the repository.
+Stow preflights, then activates selected packages. It does not tear down and
+recreate existing links. When an app target is absent, Stow links the directory
+as one symlink. If it exists, Stow preserves it and links managed files or
+conflict-free subdirectories. Sesh stays file-linked so the active
+`~/.config/sesh/sesh.toml` remains local.
 
-When the Omarchy Screens plugin is installed, Stow leaves `bindings.lua` and
-`monitors.lua` local; Screens generates and owns those files.
+Screens owns active `bindings.lua` and `monitors.lua`; their baselines are
+kept in `archive/omarchy-hyprland/` and are not deployed.
 
 ## Migrating the Existing Layout
 
@@ -234,8 +238,16 @@ Before updating, keep a terminal open, preserve local changes, note the old Git
 revision, and back up the repository and active configs. Old links may be briefly
 dangling between the update and migration.
 
-After the update, inspect `./dotfiles.sh migrate --dry-run`, then migrate and run
-`./dotfiles.sh check`. Do not enable Omarchy packages on macOS.
+After updating, inspect `./dotfiles.sh migrate --dry-run`. Run `migrate` only
+if its package selection matches the previously active configs. As a manual
+alternative, back up first and remove only verified old symlinks. Use `rmdir`
+only on empty directories. For each package, run
+`./dotfiles.sh stow --dry-run PACKAGE`, inspect the proposed links, then
+activate it with `./dotfiles.sh stow PACKAGE`. Manual Stow tries to activate
+the whole package; unlike `migrate`, it does not preserve partial packages.
+To get a whole-directory link, the target must be absent. Never delete real
+config directories or local files blindly. Do not enable Omarchy packages
+on macOS.
 
 For rollback, run `./dotfiles.sh rollback <backup-directory>` while the new checkout
 is present. Then restore the old revision so the old links resolve again.
@@ -255,16 +267,27 @@ Changes are immediately tracked by git.
 
 ## Adding New Configurations
 
-1. Add a file under its tool package, preserving its path relative to `$HOME`. For
-   example, use `packages/ghostty/.config/ghostty/config`.
-2. Preview and activate only that package:
+For an existing package, place each config file at the path it should have
+under `$HOME`. For example, `~/.config/ghostty/config` belongs at
+`packages/ghostty/.config/ghostty/config`. Add one row per managed file to
+`packages/migration-map.tsv`: old home-relative path, package source path,
+package name, and `managed` disposition. This lets `check` and `migrate`
+recognize the link and old layout.
 
-   ```bash
-   ./dotfiles.sh stow --dry-run ghostty
-   ./dotfiles.sh stow ghostty
-   ```
+For a new tool, create `packages/<name>/` with the same home-relative layout
+and add `<name>` to the `PACKAGES` array in `dotfiles.sh`. Use the `macos-` or
+`omarchy-` prefix for platform-specific packages. Add every managed file to
+the migration map as described above.
 
-3. Commit the package changes when ready.
+Preview and activate the package:
+
+```bash
+./dotfiles.sh stow --dry-run <name>
+./dotfiles.sh stow <name>
+```
+
+If an old link or local file occupies a target path, back it up and inspect it
+first. Stow preflights changes and does not adopt or overwrite unrelated files.
 
 ## Customization
 
@@ -272,7 +295,7 @@ Changes are immediately tracked by git.
 
 - **Add aliases**: Edit `.zsh/aliases.zsh`
 - **Add functions**: Create new files in `.zsh/`
-- **Environment variables**: Edit `.zsh/env.zsh`
+- **Environment variables**: Edit the relevant `.zsh/env-*.zsh` module
 - **Local overrides**: Use `.zshrc.local` (not tracked)
 
 ### Tmux
