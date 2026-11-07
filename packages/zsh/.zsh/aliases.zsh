@@ -11,6 +11,10 @@ if (( $+commands[nvim] )); then
   alias v='nvim'
 fi
 
+if (( $+commands[herdr] )); then
+  alias h='herdr'
+fi
+
 if (( $+commands[tmuxinator] )); then
   alias mux='tmuxinator start'
   alias bw='tmuxinator start aviato-workspace'
